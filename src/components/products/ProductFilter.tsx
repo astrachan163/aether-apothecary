@@ -121,7 +121,6 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
               <SelectValue placeholder="Select an ingredient" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Ingredients</SelectItem>
               {allIngredients.map(ing => (
                 <SelectItem key={ing} value={ing}>
                   <Leaf className="inline-block mr-2 h-4 w-4 text-muted-foreground" />{ing}
@@ -138,7 +137,6 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
               {allCategories.map(cat => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
               ))}
