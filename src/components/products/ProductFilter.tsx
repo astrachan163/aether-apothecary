@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { AilmentType, Product } from '@/lib/types';
@@ -23,7 +24,6 @@ const ailmentOptions: { value: AilmentType; label: string; icon: React.ElementTy
 ];
 
 const allIngredients = Array.from(new Set(mockIngredients.map(ing => ing.name)));
-const allCategories = Array.from(new Set(products.map(p => p.category)));
 
 
 export function ProductFilter({ products, onFilterChange }: ProductFilterProps) {
@@ -31,6 +31,8 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
   const [selectedAilments, setSelectedAilments] = React.useState<AilmentType[]>([]);
   const [selectedIngredient, setSelectedIngredient] = React.useState<string>('');
   const [selectedCategory, setSelectedCategory] = React.useState<string>('');
+
+  const allCategories = Array.from(new Set(products.map(p => p.category)));
 
   const handleAilmentChange = (ailment: AilmentType, checked: boolean) => {
     setSelectedAilments(prev => 
