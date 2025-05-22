@@ -8,7 +8,7 @@ export function Header() {
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-8">
         <Link href="/" className="flex items-center space-x-2">
           <Package className="h-6 w-6 text-accent" />
-          <span className="font-semibold text-lg tracking-tight text-foreground">Aether Apothecary</span>
+          <span className="font-semibold text-lg tracking-tight text-foreground">Victorious Herbal Elements LLC</span>
         </Link>
         <MainNav />
       </div>

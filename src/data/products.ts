@@ -33,8 +33,8 @@ export const mockProducts: Product[] = [
     name: 'All Natural Herbal Black Soap', // Was "Lavender Dream Soap"
     shortDescription: 'Purifying and cleansing herbal black soap.', // Adjusted
     description: 'Authentic African black soap, renowned for its deep cleansing and purifying properties. Traditionally made with natural ingredients like plantain skins, cocoa pod ash, and palm oil to gently exfoliate and improve skin texture.', // Adjusted
-    imageUrl: '/images/products/AllNaturalHerbalBlackSoap.JPG', // Matched to image name
-    dataAiHint: 'black soap bar', // Adjusted
+    imageUrl: '/images/products/AllNaturalHerbalBlackSoap.JPG',
+    dataAiHint: 'black soap bar',
     price: '$9.00',
     category: 'Soaps', // Kept as Soaps
     ailments: ['physical'],
@@ -150,7 +150,7 @@ export const mockProducts: Product[] = [
     name: 'Spearmint 5-in-1 Toothpaste (Boxed)',
     shortDescription: 'Refreshing spearmint toothpaste for complete oral care, boxed.',
     description: 'Enjoy the cool, refreshing taste of spearmint in this 5-in-1 toothpaste, presented in a box. Designed for comprehensive oral hygiene, it cleans, freshens, and supports gum health.',
-    imageUrl: '/images/products/Spearmint5in1Toothpaste(box).JPG',
+    imageUrl: '/images/products/Spearmint5in1HerbalToothpaste.JPG',
     dataAiHint: 'spearmint toothpaste box',
     price: '$10.00',
     category: 'Oral Care',
