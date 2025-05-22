@@ -6,7 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Aether Apothecary',
+  title: 'Victorious Herbal Elements LLC',
   description: 'Herbal alternatives for holistic healing.',
 };
 

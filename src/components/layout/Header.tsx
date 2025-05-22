@@ -10,9 +10,9 @@ export function Header() {
           <Image 
             src="/images/products/Logo.JPG" 
             alt="Victorious Herbal Elements LLC Logo" 
-            width={36} // Adjusted for better visibility, can be tweaked
-            height={36} // Adjusted for better visibility, can be tweaked
-            className="rounded-sm" // Added a slight rounding to match icon style
+            width={36} 
+            height={36} 
+            className="rounded-full" // Changed from rounded-sm
           />
           <span className="font-semibold text-lg tracking-tight text-foreground">Victorious Herbal Elements LLC</span>
         </Link>
