@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -59,10 +60,9 @@ export default function CommunityPage() {
         />
         <Select value={selectedProduct} onValueChange={setSelectedProduct}>
           <SelectTrigger>
-            <SelectValue placeholder="Filter by product" />
+            <SelectValue placeholder="Filter by product (All Products)" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Products</SelectItem>
             {mockProducts.map(product => (
               <SelectItem key={product.id} value={product.id}>
                 {product.name}
