@@ -22,9 +22,9 @@ export default function ProductsPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleFilterChange = (newFilteredProducts: Product[]) => {
+  const handleFilterChange = React.useCallback((newFilteredProducts: Product[]) => {
     setFilteredProducts(newFilteredProducts);
-  };
+  }, []); // setFilteredProducts is stable, so dependencies can be empty
 
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
