@@ -17,28 +17,28 @@ export const mockProducts: Product[] = [
   },
   {
     id: '2',
-    name: 'Herbal Healing Oil',
-    shortDescription: 'Natural oil for skin repair and soothing irritations.',
-    description: 'A potent healing oil infused with calendula, comfrey, and lavender in a base of nourishing carrier oils. Promotes skin regeneration, soothes irritations, and supports recovery from minor wounds and burns.',
-    imageUrl: '/images/products/HealingOil.JPG',
-    dataAiHint: 'healing oil bottle',
+    name: 'Herbal Healing Oil', // Was "Herbal Healing Salve"
+    shortDescription: 'Natural oil for skin repair and soothing irritations.', // Adjusted
+    description: 'A potent healing oil infused with calendula, comfrey, and lavender in a base of nourishing carrier oils. Promotes skin regeneration, soothes irritations, and supports recovery from minor wounds and burns.', // Adjusted
+    imageUrl: '/images/products/HealingOil.JPG', // Matched to image name
+    dataAiHint: 'healing oil bottle', // Adjusted
     price: '$16.00',
-    category: 'Oils',
+    category: 'Oils', // Changed from 'Salves'
     ailments: ['physical'],
-    ingredients: ['Calendula Oil', 'Comfrey Oil', 'Lavender Essential Oil', 'Jojoba Oil', 'Vitamin E'],
+    ingredients: ['Calendula Oil', 'Comfrey Oil', 'Lavender Essential Oil', 'Jojoba Oil', 'Vitamin E'], // Kept relevant ingredients
     sku: 'AA-HHO-002',
   },
   {
     id: '3',
-    name: 'All Natural Herbal Black Soap',
-    shortDescription: 'Purifying and cleansing herbal black soap.',
-    description: 'Authentic African black soap, renowned for its deep cleansing and purifying properties. Traditionally made with natural ingredients like plantain skins, cocoa pod ash, and palm oil to gently exfoliate and improve skin texture.',
-    imageUrl: '/images/products/AllNaturalHerbalBlackSoap.JPG',
-    dataAiHint: 'black soap bar',
+    name: 'All Natural Herbal Black Soap', // Was "Lavender Dream Soap"
+    shortDescription: 'Purifying and cleansing herbal black soap.', // Adjusted
+    description: 'Authentic African black soap, renowned for its deep cleansing and purifying properties. Traditionally made with natural ingredients like plantain skins, cocoa pod ash, and palm oil to gently exfoliate and improve skin texture.', // Adjusted
+    imageUrl: '/images/products/AllNaturalHerbalBlackSoap.JPG', // Matched to image name
+    dataAiHint: 'black soap bar', // Adjusted
     price: '$9.00',
-    category: 'Soaps',
+    category: 'Soaps', // Kept as Soaps
     ailments: ['physical'],
-    ingredients: ['Plantain Skin Ash', 'Cocoa Pod Ash', 'Palm Kernel Oil', 'Shea Butter', 'Water'],
+    ingredients: ['Plantain Skin Ash', 'Cocoa Pod Ash', 'Palm Kernel Oil', 'Shea Butter', 'Water'], // Ingredients for black soap
     sku: 'AA-AHBS-003',
   },
   {
@@ -46,7 +46,7 @@ export const mockProducts: Product[] = [
     name: 'Spearmint 5-in-1 Herbal Toothpaste',
     shortDescription: 'Refreshing herbal mint toothpaste for complete oral care.',
     description: 'A natural herbal toothpaste featuring spearmint for fresh breath, combined with 5 beneficial elements for comprehensive oral hygiene. Gently cleans teeth, freshens breath, and supports gum health.',
-    imageUrl: '/images/products/Spearmint5in1HerbalToothpaste.JPG',
+    imageUrl: '/images/products/Spearmint5in1Toothpaste.JPG',
     dataAiHint: 'herbal toothpaste tube',
     price: '$10.50',
     category: 'Oral Care',
@@ -170,45 +170,6 @@ export const mockProducts: Product[] = [
     ailments: ['physical', 'emotional'],
     ingredients: ['Shea Butter', 'Raw Honey', 'Coconut Oil', 'Herbal Infusion (Victorious Blend)', 'Vitamin E'],
     sku: 'AA-VHEHSB-014',
-  },
-  {
-    id: '15',
-    name: 'Universal Healing Oil',
-    shortDescription: 'Multi-purpose oil for skin and hair.',
-    description: 'A versatile healing oil blend designed for both skin and hair. Nourishes, moisturizes, and promotes a healthy glow. Can be used for massage, as a daily moisturizer, or for hair treatment.',
-    imageUrl: '/images/products/UniversalHealingOil.JPG',
-    dataAiHint: 'healing oil universal',
-    price: '$19.00',
-    category: 'Oils',
-    ailments: ['physical', 'emotional'],
-    ingredients: ['Jojoba Oil', 'Argan Oil', 'Rosehip Seed Oil', 'Vitamin E', 'Essential Oil Blend'],
-    sku: 'AA-UHO-015',
-  },
-  {
-    id: '16',
-    name: 'Yoni Steam Herbs',
-    shortDescription: 'Herbal blend for yoni steaming rituals.',
-    description: 'A carefully selected blend of herbs traditionally used for yoni steaming. Promotes cleansing, balance, and reproductive health. Supports a gentle and restorative self-care practice.',
-    imageUrl: '/images/products/YoniSteam.JPG',
-    dataAiHint: 'herbs yoni steam',
-    price: '$15.00',
-    category: 'Herbal Blends',
-    ailments: ['spiritual', 'physical'],
-    ingredients: ['Rosemary', 'Mugwort', 'Calendula', 'Lavender', 'Rose Petals'],
-    sku: 'AA-YS-016',
-  },
-  {
-    id: '17',
-    name: 'Sage Smudge Stick',
-    shortDescription: 'Purifying white sage smudge stick.',
-    description: 'A traditional white sage smudge stick used for cleansing spaces, objects, and auras of negative energy. Promotes a peaceful and purified environment.',
-    imageUrl: '/images/products/SageSmudge.JPG',
-    dataAiHint: 'sage smudge stick',
-    price: '$8.00',
-    category: 'Incense & Smudge',
-    ailments: ['spiritual'],
-    ingredients: ['White Sage'],
-    sku: 'AA-SS-017',
   }
 ];
 
