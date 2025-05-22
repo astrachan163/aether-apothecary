@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/lib/types';
@@ -14,7 +15,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="flex flex-col overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
       <CardHeader className="p-0">
-        <Link href={`/products/${product.id}`} className="block">
+        <Link href={`/products/${product.id}`} className="block group">
           <div className="relative w-full h-60">
             <Image
               src={product.imageUrl}

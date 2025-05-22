@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -6,6 +7,7 @@ import { ProductFilter } from '@/components/products/ProductFilter';
 import { mockProducts } from '@/data/products';
 import type { Product } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { LayoutGrid } from 'lucide-react';
 
 export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
@@ -27,6 +29,7 @@ export default function ProductsPage() {
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
       <header className="mb-12 text-center">
+        <LayoutGrid className="h-16 w-16 text-accent mx-auto mb-4" />
         <h1 className="text-4xl font-bold tracking-tight text-foreground">Our Herbal Collection</h1>
         <p className="mt-2 text-lg text-muted-foreground">
           Explore natural remedies crafted with care for your holistic well-being.
