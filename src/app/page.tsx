@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -17,13 +18,13 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-primary via-secondary to-background">
         <Image 
-          src="https://placehold.co/1200x600.png" // Replace with a relevant, calming background image
+          src="/images/products/Banner.PNG" 
           alt="Aether Apothecary background"
           layout="fill"
           objectFit="cover"
           quality={80}
           className="opacity-20"
-          data-ai-hint="lavender field"
+          data-ai-hint="hero banner"
         />
         <div className="container mx-auto px-4 md:px-8 relative z-10 text-center">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
