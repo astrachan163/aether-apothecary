@@ -76,10 +76,10 @@ export const mockProducts: Product[] = [
     description: 'A comforting and balancing blend of traditional herbs designed to support overall well-being. Enjoy this universal herbal tea blend any time of day for a moment of calm and rejuvenation.',
     imageUrl: '/images/products/UniversalHerbalTeaBlend.JPG',
     dataAiHint: 'herbal tea leaves',
-    price: '$12.50',
+    price: '$25.00',
     category: 'Teas',
     ailments: ['mental', 'physical'],
-    ingredients: ['Chamomile', 'Lemon Balm', 'Peppermint', 'Rosehips'],
+    ingredients: ['Chamomile', 'Lemon Balm', 'Peppermint', 'Rosehips', 'Elderberries', 'Yarrow', 'Echinacea Purpurea', 'Turmeric', 'Ginger'],
     sku: 'AA-UHTB-006',
   },
   {
@@ -189,3 +189,4 @@ export const mockProducts: Product[] = [
 ];
 
 export const getProductById = (id: string): Product | undefined => mockProducts.find(p => p.id === id);
+
