@@ -17,28 +17,28 @@ export const mockProducts: Product[] = [
   },
   {
     id: '2',
-    name: 'Herbal Healing Oil', // Was "Herbal Healing Salve"
-    shortDescription: 'Natural oil for skin repair and soothing irritations.', // Adjusted
-    description: 'A potent healing oil infused with calendula, comfrey, and lavender in a base of nourishing carrier oils. Promotes skin regeneration, soothes irritations, and supports recovery from minor wounds and burns.', // Adjusted
-    imageUrl: '/images/products/HealingOil.JPG', // Matched to image name
-    dataAiHint: 'healing oil bottle', // Adjusted
+    name: 'Herbal Healing Oil',
+    shortDescription: 'Natural oil for skin repair and soothing irritations.',
+    description: 'A potent healing oil infused with calendula, comfrey, and lavender in a base of nourishing carrier oils. Promotes skin regeneration, soothes irritations, and supports recovery from minor wounds and burns.',
+    imageUrl: '/images/products/HealingOil.JPG',
+    dataAiHint: 'healing oil bottle',
     price: '$16.00',
-    category: 'Oils', // Changed from 'Salves'
+    category: 'Oils',
     ailments: ['physical'],
-    ingredients: ['Calendula Oil', 'Comfrey Oil', 'Lavender Essential Oil', 'Jojoba Oil', 'Vitamin E'], // Kept relevant ingredients
+    ingredients: ['Calendula Oil', 'Comfrey Oil', 'Lavender Essential Oil', 'Jojoba Oil', 'Vitamin E'],
     sku: 'AA-HHO-002',
   },
   {
     id: '3',
-    name: 'All Natural Herbal Black Soap', // Was "Lavender Dream Soap"
-    shortDescription: 'Purifying and cleansing herbal black soap.', // Adjusted
-    description: 'Authentic African black soap, renowned for its deep cleansing and purifying properties. Traditionally made with natural ingredients like plantain skins, cocoa pod ash, and palm oil to gently exfoliate and improve skin texture.', // Adjusted
+    name: 'All Natural Herbal Black Soap',
+    shortDescription: 'Purifying and cleansing herbal black soap.',
+    description: 'Authentic African black soap, renowned for its deep cleansing and purifying properties. Traditionally made with natural ingredients like plantain skins, cocoa pod ash, and palm oil to gently exfoliate and improve skin texture.',
     imageUrl: '/images/products/AllNaturalHerbalBlackSoap.JPG',
     dataAiHint: 'black soap bar',
     price: '$9.00',
-    category: 'Soaps', // Kept as Soaps
+    category: 'Soaps',
     ailments: ['physical'],
-    ingredients: ['Plantain Skin Ash', 'Cocoa Pod Ash', 'Palm Kernel Oil', 'Shea Butter', 'Water'], // Ingredients for black soap
+    ingredients: ['Plantain Skin Ash', 'Cocoa Pod Ash', 'Palm Kernel Oil', 'Shea Butter', 'Water'],
     sku: 'AA-AHBS-003',
   },
   {
@@ -48,10 +48,25 @@ export const mockProducts: Product[] = [
     description: 'A natural herbal toothpaste featuring spearmint for fresh breath, combined with 5 beneficial elements for comprehensive oral hygiene. Gently cleans teeth, freshens breath, and supports gum health.',
     imageUrl: '/images/products/Spearmint5in1Toothpaste.JPG',
     dataAiHint: 'herbal toothpaste tube',
-    price: '$10.50',
+    price: '$9.00',
     category: 'Oral Care',
     ailments: ['physical'],
-    ingredients: ['Sorbitol', 'Silica', 'Peppermint Oil', 'Spearmint Oil', 'Neem Extract', 'Clove Oil'],
+    ingredients: [
+      'Sorbitol', 
+      'Silica', 
+      'Peppermint Oil', 
+      'Spearmint Oil', 
+      'Neem Extract', 
+      'Aloe Vera', 
+      'Basil', 
+      'Fennel Seed', 
+      'Wintergreen', 
+      'Ginger', 
+      'Clove', 
+      'Cardamom', 
+      'Baking Soda', 
+      'Zaffron'
+    ],
     sku: 'AA-S5HT-004',
   },
   {
@@ -174,5 +189,3 @@ export const mockProducts: Product[] = [
 ];
 
 export const getProductById = (id: string): Product | undefined => mockProducts.find(p => p.id === id);
-
-    
