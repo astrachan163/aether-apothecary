@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { mockIngredients } from '@/data/ingredients';
+import { ingredients } from '@/data/ingredients';
 import { Brain, Filter, Heart, Leaf, ShieldCheck, Sparkles } from 'lucide-react';
 import React from 'react';
 
@@ -23,7 +23,7 @@ const ailmentOptions: { value: AilmentType; label: string; icon: React.ElementTy
   { value: 'mental', label: 'Mental', icon: Brain },
 ];
 
-const allIngredients = Array.from(new Set(mockIngredients.map(ing => ing.name)));
+const allIngredients = Array.from(new Set(ingredients.map(ing => ing)));
 
 
 export function ProductFilter({ products, onFilterChange }: ProductFilterProps) {

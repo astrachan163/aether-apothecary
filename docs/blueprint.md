@@ -1,4 +1,4 @@
-# **App Name**: Aether Apothecary
+# **App Name**: Victorious Herbal Elements
 
 ## Core Features:
 

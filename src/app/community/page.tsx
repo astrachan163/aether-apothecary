@@ -46,7 +46,7 @@ export default function CommunityPage() {
         <Users className="h-16 w-16 text-accent mx-auto mb-4" />
         <h1 className="text-4xl font-bold tracking-tight text-foreground">Shared Journeys</h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Read inspiring testimonials from our community and their experiences with Aether Apothecary products.
+          Read inspiring testimonials from our community and their experiences with Victorious Herbal Elements products.
         </p>
       </header>
 

@@ -19,7 +19,7 @@ export default function HomePage() {
       <section className="relative py-20 md:py-32 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-primary via-secondary to-background">
         <Image 
           src="/images/products/Banner.PNG" 
-          alt="Aether Apothecary background"
+          alt="Victorious Herbal Elements background"
           layout="fill"
           objectFit="cover"
           quality={80}
@@ -31,7 +31,7 @@ export default function HomePage() {
             Discover Nature's Wisdom
           </h1>
           <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto mb-8">
-            Embark on a holistic healing journey with Aether Apothecary. Explore our curated collection of herbal alternatives and find personalized paths to well-being.
+            Embark on a holistic healing journey with Victorious Herbal Elements. Explore our curated collection of herbal alternatives and find personalized paths to well-being.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
             <Link href="/products">

@@ -9,12 +9,12 @@ export function Header() {
         <Link href="/" className="flex items-center space-x-2">
           <Image 
             src="/images/products/Logo.JPG" 
-            alt="Victorious Herbal Elements LLC Logo" 
+            alt="Victorious Herbal Elements Logo" 
             width={36} 
             height={36} 
             className="rounded-full" // Changed from rounded-sm
           />
-          <span className="font-semibold text-lg tracking-tight text-foreground">Victorious Herbal Elements LLC</span>
+          <span className="font-semibold text-lg tracking-tight text-foreground">Victorious Herbal Elements</span>
         </Link>
         <MainNav />
       </div>
