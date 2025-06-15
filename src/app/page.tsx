@@ -7,7 +7,7 @@ import { ProductCard } from '@/components/products/ProductCard';
 import { StoryCard } from '@/components/community/StoryCard';
 import { mockProducts } from '@/data/products';
 import { mockStories } from '@/data/stories';
-import { ArrowRight, Leaf, Users, Wand2 } from 'lucide-react';
+import { ArrowRight, Leaf, Users } from 'lucide-react';
 
 export default function HomePage() {
   const featuredProducts = mockProducts.slice(0, 3);
@@ -56,37 +56,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Call to Action Sections */}
+      {/* Call to Action Section */}
       <section className="container mx-auto px-4 md:px-8">
-        <div className="grid md:grid-cols-2 gap-8">
-          <Card className="hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <Wand2 className="h-10 w-10 text-accent mb-2" />
-              <CardTitle className="text-2xl">Personalized Healing Path</CardTitle>
-              <CardDescription>
-                Let our AI guide help you find complementary products and spiritual services tailored to your unique needs.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                <Link href="/recommendations">Get Recommendations</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <Leaf className="h-10 w-10 text-accent mb-2" />
-              <CardTitle className="text-2xl">Wisdom of the Earth</CardTitle>
-              <CardDescription>
-                Delve into our Ingredient Glossary to understand the traditional uses and benefits of nature's remedies.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                <Link href="/ingredients">Explore Ingredients</Link>
-              </Button>
-            </CardContent>
-          </Card>
+        <div className="flex justify-center">
+            <Card className="hover:shadow-xl transition-shadow duration-300 md:w-1/2">
+                <CardHeader>
+                <Leaf className="h-10 w-10 text-accent mb-2" />
+                <CardTitle className="text-2xl">Wisdom of the Earth</CardTitle>
+                <CardDescription>
+                    Delve into our Ingredient Glossary to understand the traditional uses and benefits of nature's remedies.
+                </CardDescription>
+                </CardHeader>
+                <CardContent>
+                <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                    <Link href="/ingredients">Explore Ingredients</Link>
+                </Button>
+                </CardContent>
+            </Card>
         </div>
       </section>
       
