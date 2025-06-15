@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StoryCard } from '@/components/community/StoryCard';
-import { ArrowLeft, Leaf, Package, ShoppingCart, Sparkles, Users, Wand2 } from 'lucide-react';
+import { ArrowLeft, Leaf, Package, ShoppingCart, Sparkles, Users } from 'lucide-react';
 
 interface ProductDetailPageProps {
   params: { id: string };
@@ -43,8 +43,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <Image
             src={product.imageUrl}
             alt={product.name}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
             data-ai-hint={product.dataAiHint || "product image"}
           />
         </div>
@@ -92,11 +92,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
           </Button>
           
-          <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary/10" asChild>
-            <Link href={`/recommendations?product=${encodeURIComponent(product.name)}`}>
-              <Wand2 className="mr-2 h-5 w-5" /> Get Personalized Recommendations
-            </Link>
-          </Button>
         </div>
       </div>
 
