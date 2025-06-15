@@ -17,14 +17,14 @@ export default function HomePage() {
     <div className="space-y-16">
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-primary via-secondary to-background">
-        <Image 
-          src="/images/products/Banner.PNG" 
+        <Image
+          src="/images/products/Banner.PNG"
           alt="Victorious Herbal Elements background"
-          layout="fill"
-          objectFit="cover"
+          fill
           quality={80}
-          className="opacity-20"
+          className="opacity-20 object-cover"
           data-ai-hint="hero banner"
+          priority
         />
         <div className="container mx-auto px-4 md:px-8 relative z-10 text-center">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
