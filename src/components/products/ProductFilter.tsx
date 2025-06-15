@@ -1,13 +1,13 @@
 
 'use client';
 
-import type { AilmentType, Product } from '@/lib/types';
+import type { AilmentType, Product, Ingredient } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { ingredients } from '@/data/ingredients';
+import { ingredients as allIngredientsData } from '@/data/ingredients';
 import { Brain, Filter, Heart, Leaf, ShieldCheck, Sparkles } from 'lucide-react';
 import React from 'react';
 
@@ -23,7 +23,7 @@ const ailmentOptions: { value: AilmentType; label: string; icon: React.ElementTy
   { value: 'mental', label: 'Mental', icon: Brain },
 ];
 
-const allIngredients = Array.from(new Set(ingredients.map(ing => ing)));
+const allIngredients: Ingredient[] = Array.from(new Set(allIngredientsData));
 
 
 export function ProductFilter({ products, onFilterChange }: ProductFilterProps) {
@@ -122,8 +122,8 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
             </SelectTrigger>
             <SelectContent>
               {allIngredients.map(ing => (
-                <SelectItem key={ing} value={ing}>
-                  <Leaf className="inline-block mr-2 h-4 w-4 text-muted-foreground" />{ing}
+                <SelectItem key={ing.id} value={ing.name}>
+                  <Leaf className="inline-block mr-2 h-4 w-4 text-muted-foreground" />{ing.name}
                 </SelectItem>
               ))}
             </SelectContent>
