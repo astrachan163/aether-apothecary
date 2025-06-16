@@ -4,7 +4,8 @@ import { StoryCard } from './StoryCard';
 
 interface StoryListProps {
   stories: CommunityStory[];
-  onRemoveStory?: (storyId: string) => void;
+  // onRemoveStory is optional and typically only passed from admin views
+  onRemoveStory?: (storyId: string) => void; 
 }
 
 export function StoryList({ stories, onRemoveStory }: StoryListProps) {
@@ -19,6 +20,7 @@ export function StoryList({ stories, onRemoveStory }: StoryListProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
       {stories.map((story) => (
+        // Pass onRemoveStory if it exists (for admin scenarios)
         <StoryCard key={story.id} story={story} onRemove={onRemoveStory} />
       ))}
     </div>

@@ -4,39 +4,42 @@
 import React, { useState, useEffect } from 'react';
 import { StoryList } from '@/components/community/StoryList';
 import { AddStoryForm, type StoryFormData } from '@/components/community/AddStoryForm';
-import { mockStories as initialMockStories } from '@/data/stories';
-import { mockProducts } from '@/data/products';
-import type { CommunityStory } from '@/lib/types';
+import type { CommunityStory, Product } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Users } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from "@/hooks/use-toast";
+import { useData } from '@/contexts/DataContext'; // Use DataContext
+import { useAuth } from '@/contexts/AuthContext'; // Use AuthContext
 
 const ALL_PRODUCTS_FILTER_VALUE = "__ALL_PRODUCTS__";
 const NO_PRODUCT_STORY_VALUE = "__NO_PRODUCT_SELECTED__";
 
 
 export default function CommunityPage() {
-  const [allStories, setAllStories] = useState<CommunityStory[]>([]);
-  const [filteredStories, setFilteredStories] = useState<CommunityStory[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProductFilter, setSelectedProductFilter] = useState(''); // Empty string for initial placeholder
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { stories: allStoriesFromCtx, addStory, removeStory: removeStoryFromCtx, getStories, getProducts } = useData();
+  const { isAdmin } = useAuth(); // Get admin status
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Simulate data fetching for initial stories
-    const timer = setTimeout(() => {
-      setAllStories(initialMockStories);
-      setIsLoading(false);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
+  const [filteredStories, setFilteredStories] = useState<CommunityStory[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProductFilter, setSelectedProductFilter] = useState(ALL_PRODUCTS_FILTER_VALUE); 
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const currentProducts = getProducts();
+  const currentStories = getStories();
+
 
   useEffect(() => {
-    let stories = [...allStories];
+    // Data is now from context, set initial filtered stories
+    setFilteredStories(currentStories);
+    setIsLoading(false);
+  }, [currentStories]); // Depend on currentStories from context via getStories()
+
+  useEffect(() => {
+    let stories = [...currentStories]; // Use currentStories from context
     if (searchTerm) {
       stories = stories.filter(story => 
         story.story.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -47,7 +50,8 @@ export default function CommunityPage() {
       stories = stories.filter(story => story.productId === selectedProductFilter);
     }
     setFilteredStories(stories);
-  }, [searchTerm, selectedProductFilter, allStories]);
+  }, [searchTerm, selectedProductFilter, currentStories]);
+
 
   const handleStorySubmit = (data: StoryFormData) => {
     setIsSubmitting(true);
@@ -56,10 +60,10 @@ export default function CommunityPage() {
     let productNameForStory: string | undefined;
 
     if (data.productId && data.productId !== NO_PRODUCT_STORY_VALUE) {
-      const relatedProduct = mockProducts.find(p => p.id === data.productId);
+      const relatedProduct = currentProducts.find(p => p.id === data.productId);
       productNameForStory = relatedProduct?.name;
     } else {
-      productIdForStory = undefined; // Ensure no product ID if "None" was selected
+      productIdForStory = undefined; 
     }
 
     const newStory: CommunityStory = {
@@ -73,24 +77,32 @@ export default function CommunityPage() {
       // dataAiHint: 'person',
     };
 
-    // Simulate API call
-    setTimeout(() => {
-      setAllStories(prevStories => [newStory, ...prevStories]);
-      toast({
-        title: "Story Submitted!",
-        description: "Thank you for sharing your experience.",
-      });
-      setIsSubmitting(false);
-    }, 500);
+    addStory(newStory); // Add story via DataContext
+    toast({
+      title: "Story Submitted!",
+      description: "Thank you for sharing your experience.",
+    });
+    setIsSubmitting(false);
   };
 
-  const handleRemoveStory = (storyId: string) => {
-    setAllStories(prevStories => prevStories.filter(story => story.id !== storyId));
-    toast({
-      title: "Story Removed",
-      description: "The story has been removed from the list.",
-      variant: "destructive" 
-    });
+  // This function is for admin removal on the dashboard, 
+  // The public page won't directly call this now.
+  // Kept for potential future use if remove button was public.
+  const handleRemoveStoryPublic = (storyId: string) => {
+    if (isAdmin) { // Only admin can remove
+      removeStoryFromCtx(storyId);
+      toast({
+        title: "Story Removed",
+        description: "The story has been removed.",
+        variant: "destructive" 
+      });
+    } else {
+       toast({
+        title: "Permission Denied",
+        description: "You do not have permission to remove stories.",
+        variant: "destructive" 
+      });
+    }
   };
 
   return (
@@ -103,7 +115,7 @@ export default function CommunityPage() {
         </p>
       </header>
 
-      <AddStoryForm products={mockProducts} onStorySubmit={handleStorySubmit} isLoading={isSubmitting} />
+      <AddStoryForm products={currentProducts} onStorySubmit={handleStorySubmit} isLoading={isSubmitting} />
 
       <div className="grid md:grid-cols-2 gap-4 mb-8 p-6 bg-card rounded-lg shadow">
         <Input 
@@ -119,7 +131,7 @@ export default function CommunityPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={ALL_PRODUCTS_FILTER_VALUE}>All Products</SelectItem>
-            {mockProducts.map(product => (
+            {currentProducts.map(product => (
               <SelectItem key={product.id} value={product.id}>
                 {product.name}
               </SelectItem>
@@ -146,7 +158,9 @@ export default function CommunityPage() {
           ))}
         </div>
       ) : (
-        <StoryList stories={filteredStories} onRemoveStory={handleRemoveStory} />
+        // Pass isAdmin to StoryList if StoryCard needs to conditionally show remove button.
+        // For now, StoryCard's onRemove is optional and handled by AdminStoryManager.
+        <StoryList stories={filteredStories} />
       )}
     </div>
   );

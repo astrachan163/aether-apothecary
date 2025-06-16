@@ -1,33 +1,72 @@
+
+'use client'; // Needs to be client component to use useData and for dynamic data
+
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getProductById, mockProducts } from '@/data/products';
-import { mockStories } from '@/data/stories';
+import { notFound, useParams } from 'next/navigation'; // useParams for client component
+import { useData } from '@/contexts/DataContext';
+import type { Product, CommunityStory } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StoryCard } from '@/components/community/StoryCard';
-import { ArrowLeft, Leaf, Package, ShoppingCart, Sparkles, Users } from 'lucide-react';
+import { ArrowLeft, Leaf, Package, ShoppingCart, Sparkles, Users, Wand2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
-interface ProductDetailPageProps {
-  params: { id: string };
-}
+// Removed generateStaticParams as this page is now dynamic client-side
 
-export async function generateStaticParams() {
-  return mockProducts.map((product) => ({
-    id: product.id,
-  }));
-}
+export default function ProductDetailPage() {
+  const params = useParams();
+  const { getProducts, getStories } = useData();
+  const [product, setProduct] = useState<Product | null | undefined>(undefined); // undefined for loading state
+  const [relatedStories, setRelatedStories] = useState<CommunityStory[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const product = getProductById(params.id);
+  const productId = typeof params.id === 'string' ? params.id : undefined;
 
-  if (!product) {
-    notFound();
+  useEffect(() => {
+    if (productId) {
+      const products = getProducts();
+      const stories = getStories();
+      const foundProduct = products.find(p => p.id === productId);
+      
+      setProduct(foundProduct || null); // null if not found after check
+      
+      if (foundProduct) {
+        setRelatedStories(stories.filter(story => story.productId === foundProduct.id));
+      } else {
+        setRelatedStories([]);
+      }
+    }
+    setIsLoading(false);
+  }, [productId, getProducts, getStories]);
+
+
+  if (isLoading || product === undefined) { // Show skeleton while loading or if product is initially undefined
+    return (
+      <div className="container mx-auto px-4 md:px-8 py-8">
+        <Skeleton className="h-10 w-48 mb-8" />
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+          <Skeleton className="w-full aspect-square rounded-lg" />
+          <div>
+            <Skeleton className="h-10 w-3/4 mb-3" />
+            <Skeleton className="h-8 w-1/4 mb-4" />
+            <Skeleton className="h-6 w-1/2 mb-4" />
+            <Skeleton className="h-20 w-full mb-6" />
+            <Skeleton className="h-32 w-full mb-6" />
+            <Skeleton className="h-32 w-full mb-6" />
+            <Skeleton className="h-12 w-full mb-4" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  const relatedStories = mockStories.filter(story => story.productId === product.id);
+  if (!product) {
+    notFound(); // Call notFound if product is null (explicitly not found)
+  }
 
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
@@ -38,7 +77,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       </Button>
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-        {/* Product Image */}
         <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-lg">
           <Image
             src={product.imageUrl}
@@ -46,10 +84,10 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             fill
             className="object-cover"
             data-ai-hint={product.dataAiHint || "product image"}
+            priority={true} 
           />
         </div>
 
-        {/* Product Info */}
         <div>
           <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">{product.name}</h1>
           <p className="text-2xl font-semibold text-accent mb-4">{product.price}</p>
@@ -91,13 +129,11 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground mb-4">
             <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
           </Button>
-          
         </div>
       </div>
 
       <Separator className="my-12" />
 
-      {/* Related Community Stories */}
       {relatedStories.length > 0 && (
         <section>
           <h2 className="text-2xl font-semibold text-foreground mb-6 flex items-center">

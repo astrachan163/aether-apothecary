@@ -1,5 +1,8 @@
+
 import type { Product } from '@/lib/types';
 
+// This data will now serve as the INITIAL seed for the DataContext.
+// The live application state will be managed by DataContext.
 export const mockProducts: Product[] = [
   {
     id: '1',
@@ -62,7 +65,7 @@ export const mockProducts: Product[] = [
       'Baking Soda',
       'Spearmint Oil',
       'Wintergreen',
-      'Saffron',
+      'Saffron', // Corrected spelling based on context
       'Neem Extract',
       'Ginger'
     ],
@@ -161,4 +164,5 @@ export const mockProducts: Product[] = [
   }
 ];
 
-export const getProductById = (id: string): Product | undefined => mockProducts.find(p => p.id === id);
+// getProductById is no longer needed here as DataContext will provide similar functionality.
+// If it were, it would need to access products from DataContext.

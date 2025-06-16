@@ -9,14 +9,15 @@ import { Quote, Package, Trash2 } from 'lucide-react';
 
 interface StoryCardProps {
   story: CommunityStory;
-  onRemove?: (storyId: string) => void;
+  // onRemove is now optional and typically only passed from admin views
+  onRemove?: (storyId: string) => void; 
 }
 
 export function StoryCard({ story, onRemove }: StoryCardProps) {
   const userInitials = story.userName.split(' ').map(n => n[0]).join('').toUpperCase();
   
   const handleRemoveClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click or link navigation if any
+    e.stopPropagation(); 
     if (onRemove) {
       onRemove(story.id);
     }
@@ -38,6 +39,9 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
             <CardDescription className="text-xs text-muted-foreground">{new Date(story.date).toLocaleDateString()}</CardDescription>
           </div>
         </div>
+        {/* The remove button is only rendered if onRemove is provided.
+            In the public community page, onRemove won't be passed.
+            In AdminStoryManager, onRemove will be passed. */}
         {onRemove && (
           <Button
             variant="ghost"

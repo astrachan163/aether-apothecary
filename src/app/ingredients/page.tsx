@@ -3,12 +3,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { IngredientList } from '@/components/ingredients/IngredientList';
-import { ingredients as allIngredientsData } from '@/data/ingredients';
 import type { Ingredient } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Leaf } from 'lucide-react';
+import { useData } from '@/contexts/DataContext'; // Use DataContext
 
 export default function IngredientsPage() {
+  const { getIngredients } = useData();
+  const allIngredientsData = getIngredients(); // Get ingredients from context
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>(allIngredientsData);
 
@@ -16,10 +19,7 @@ export default function IngredientsPage() {
     const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = allIngredientsData.filter(ingredient =>
       ingredient.name.toLowerCase().includes(lowercasedFilter) ||
-      ingredient.description.toLowerCase().includes(lowercasedFilter) ||
-      ingredient.traditionalUses.toLowerCase().includes(lowercasedFilter) ||
-      ingredient.spiritualBenefits.toLowerCase().includes(lowercasedFilter) ||
-      ingredient.physicalBenefits.toLowerCase().includes(lowercasedFilter)
+      ingredient.description.toLowerCase().includes(lowercasedFilter) // Removed benefits fields as they are no longer displayed simply
     );
     setFilteredIngredients(filtered);
   }, [searchTerm, allIngredientsData]);

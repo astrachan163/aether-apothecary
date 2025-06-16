@@ -1,21 +1,27 @@
 
+'use client'; // Needs to be client component to use useData
+
+import React from 'react'; // Import React for JSX
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ProductCard } from '@/components/products/ProductCard';
 import { StoryCard } from '@/components/community/StoryCard';
-import { mockProducts } from '@/data/products';
-import { mockStories } from '@/data/stories';
 import { ArrowRight, Leaf, Users } from 'lucide-react';
+import { useData } from '@/contexts/DataContext'; // Use DataContext
 
 export default function HomePage() {
-  const featuredProducts = mockProducts.slice(0, 3);
-  const featuredStory = mockStories[0];
+  const { getProducts, getStories } = useData();
+  const allProducts = getProducts();
+  const allStories = getStories();
+
+  const featuredProducts = allProducts.slice(0, 3);
+  // Ensure there's at least one story before trying to access it
+  const featuredStory = allStories.length > 0 ? allStories[0] : null; 
 
   return (
     <div className="space-y-16">
-      {/* Hero Section */}
       <section className="relative py-20 md:py-32 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-primary via-secondary to-background">
         <Image
           src="/images/products/Banner.PNG"
@@ -41,14 +47,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Products Section */}
       <section className="container mx-auto px-4 md:px-8">
         <h2 className="text-3xl font-semibold tracking-tight text-center mb-10">Featured Elixirs & Remedies</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {featuredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-muted-foreground">No featured products available at the moment.</p>
+        )}
         <div className="text-center mt-10">
           <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent/10 hover:text-accent">
             <Link href="/products">View All Products</Link>
@@ -56,7 +65,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Call to Action Section */}
       <section className="container mx-auto px-4 md:px-8">
         <div className="flex justify-center">
             <Card className="hover:shadow-xl transition-shadow duration-300 md:w-1/2">
@@ -76,13 +84,23 @@ export default function HomePage() {
         </div>
       </section>
       
-      {/* Community Story Highlight */}
       {featuredStory && (
         <section className="container mx-auto px-4 md:px-8">
           <h2 className="text-3xl font-semibold tracking-tight text-center mb-10">From Our Community</h2>
           <div className="max-w-2xl mx-auto">
             <StoryCard story={featuredStory} />
           </div>
+          <div className="text-center mt-10">
+            <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent/10 hover:text-accent">
+              <Link href="/community">More Healing Journeys <Users className="ml-2 h-5 w-5" /></Link>
+            </Button>
+          </div>
+        </section>
+      )}
+       {(!featuredStory && allStories.length > 0) && ( // Fallback if first story was deleted but others exist
+        <section className="container mx-auto px-4 md:px-8">
+          <h2 className="text-3xl font-semibold tracking-tight text-center mb-10">From Our Community</h2>
+           <p className="text-center text-muted-foreground">Check out more stories on our community page!</p>
           <div className="text-center mt-10">
             <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent/10 hover:text-accent">
               <Link href="/community">More Healing Journeys <Users className="ml-2 h-5 w-5" /></Link>

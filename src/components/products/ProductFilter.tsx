@@ -7,12 +7,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { ingredients as allIngredientsData } from '@/data/ingredients';
+// import { ingredients as allIngredientsData } from '@/data/ingredients'; // Will get from DataContext
 import { Brain, Filter, Heart, Leaf, ShieldCheck, Sparkles } from 'lucide-react';
 import React from 'react';
+import { useData } from '@/contexts/DataContext';
 
 interface ProductFilterProps {
-  products: Product[];
+  products: Product[]; // These are all products from DataContext
   onFilterChange: (filteredProducts: Product[]) => void;
 }
 
@@ -23,13 +24,14 @@ const ailmentOptions: { value: AilmentType; label: string; icon: React.ElementTy
   { value: 'mental', label: 'Mental', icon: Brain },
 ];
 
-const allIngredients: Ingredient[] = Array.from(new Set(allIngredientsData));
-
 
 export function ProductFilter({ products, onFilterChange }: ProductFilterProps) {
+  const { getIngredients } = useData();
+  const allIngredients = getIngredients(); // Get ingredients from DataContext
+
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedAilments, setSelectedAilments] = React.useState<AilmentType[]>([]);
-  const [selectedIngredient, setSelectedIngredient] = React.useState<string>('');
+  const [selectedIngredient, setSelectedIngredient] = React.useState<string>(''); // Stores ingredient name
   const [selectedCategory, setSelectedCategory] = React.useState<string>('');
 
   const allCategories = Array.from(new Set(products.map(p => p.category)));
@@ -56,7 +58,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
       );
     }
 
-    if (selectedIngredient) {
+    if (selectedIngredient) { // selectedIngredient is the name of the ingredient
       filtered = filtered.filter(p => p.ingredients.includes(selectedIngredient));
     }
     
@@ -76,7 +78,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
     setSelectedAilments([]);
     setSelectedIngredient('');
     setSelectedCategory('');
-    onFilterChange(products);
+    onFilterChange(products); // Reset to all products from context
   };
 
   return (
@@ -121,8 +123,9 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
               <SelectValue placeholder="Select an ingredient" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="">All Ingredients</SelectItem> {/* Added an option for all */}
               {allIngredients.map(ing => (
-                <SelectItem key={ing.id} value={ing.name}>
+                <SelectItem key={ing.id} value={ing.name}> {/* Value should be ing.name */}
                   <Leaf className="inline-block mr-2 h-4 w-4 text-muted-foreground" />{ing.name}
                 </SelectItem>
               ))}
@@ -137,6 +140,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
+               <SelectItem value="">All Categories</SelectItem> {/* Added an option for all */}
               {allCategories.map(cat => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
               ))}

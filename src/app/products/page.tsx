@@ -4,27 +4,27 @@
 import React, { useState, useEffect } from 'react';
 import { ProductList } from '@/components/products/ProductList';
 import { ProductFilter } from '@/components/products/ProductFilter';
-import { mockProducts } from '@/data/products';
 import type { Product } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { LayoutGrid } from 'lucide-react';
+import { useData } from '@/contexts/DataContext'; // Use DataContext
 
 export default function ProductsPage() {
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
+  const { getProducts } = useData();
+  const allProducts = getProducts(); // Get current products from context
+
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(allProducts);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate data fetching
-    const timer = setTimeout(() => {
-      setFilteredProducts(mockProducts);
-      setIsLoading(false);
-    }, 500); // Adjust delay as needed
-    return () => clearTimeout(timer);
-  }, []);
+    // Data is from context, set initial filtered products
+    setFilteredProducts(allProducts);
+    setIsLoading(false);
+  }, [allProducts]); // Re-filter if allProducts from context changes
 
   const handleFilterChange = React.useCallback((newFilteredProducts: Product[]) => {
     setFilteredProducts(newFilteredProducts);
-  }, []); // setFilteredProducts is stable, so dependencies can be empty
+  }, []);
 
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
@@ -36,7 +36,8 @@ export default function ProductsPage() {
         </p>
       </header>
 
-      <ProductFilter products={mockProducts} onFilterChange={handleFilterChange} />
+      {/* Pass allProducts from context to ProductFilter */}
+      <ProductFilter products={allProducts} onFilterChange={handleFilterChange} />
       
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">

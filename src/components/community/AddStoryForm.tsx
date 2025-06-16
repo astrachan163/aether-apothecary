@@ -8,28 +8,28 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import type { Product } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquarePlus } from 'lucide-react';
+// Note: onStorySubmit will now typically come from DataContext via the parent page.
 
 const storyFormSchema = z.object({
   userName: z.string().min(2, { message: 'Name must be at least 2 characters.' }).max(50),
   story: z.string().min(10, { message: 'Story must be at least 10 characters.' }).max(1000),
-  productId: z.string().optional(),
+  productId: z.string().optional(), // Can be empty or NO_PRODUCT_VALUE
 });
 
 export type StoryFormData = z.infer<typeof storyFormSchema>;
 
 interface AddStoryFormProps {
-  products: Product[];
-  onStorySubmit: (data: StoryFormData) => void;
+  products: Product[]; // Products list passed from parent (which gets it from DataContext)
+  onStorySubmit: (data: StoryFormData) => void; // This will trigger adding to DataContext
   isLoading: boolean;
 }
 
-const NO_PRODUCT_VALUE = "__NO_PRODUCT_SELECTED__";
+const NO_PRODUCT_VALUE = "__NO_PRODUCT_SELECTED__"; // Ensure this matches usage
 
 export function AddStoryForm({ products, onStorySubmit, isLoading }: AddStoryFormProps) {
   const form = useForm<StoryFormData>({
@@ -37,12 +37,12 @@ export function AddStoryForm({ products, onStorySubmit, isLoading }: AddStoryFor
     defaultValues: {
       userName: '',
       story: '',
-      productId: '', // Keeps placeholder initially
+      productId: '', // Empty string for initial placeholder, Select component handles this
     },
   });
 
   const onSubmit = (data: StoryFormData) => {
-    onStorySubmit(data);
+    onStorySubmit(data); // Parent (CommunityPage) will handle adding to DataContext
     form.reset();
   };
 
@@ -91,7 +91,10 @@ export function AddStoryForm({ products, onStorySubmit, isLoading }: AddStoryFor
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Related Product (Optional)</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select 
+                    onValueChange={field.onChange} 
+                    defaultValue={field.value || ''} // Ensure default value is an empty string for placeholder
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a product" />
