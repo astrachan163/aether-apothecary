@@ -1,4 +1,7 @@
 
+'use client'; // Ensure this is a client component
+
+import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CommunityStory } from '@/lib/types';
@@ -14,6 +17,13 @@ interface StoryCardProps {
 }
 
 export function StoryCard({ story, onRemove }: StoryCardProps) {
+  const [formattedDate, setFormattedDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Format date on the client side after hydration
+    setFormattedDate(new Date(story.date).toLocaleDateString());
+  }, [story.date]); // Re-run if story.date changes
+
   const userInitials = story.userName.split(' ').map(n => n[0]).join('').toUpperCase();
   
   const handleRemoveClick = (e: React.MouseEvent) => {
@@ -36,7 +46,9 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
           </Avatar>
           <div>
             <CardTitle className="text-lg">{story.userName}</CardTitle>
-            <CardDescription className="text-xs text-muted-foreground">{new Date(story.date).toLocaleDateString()}</CardDescription>
+            <CardDescription className="text-xs text-muted-foreground">
+              {formattedDate || 'Loading date...'} {/* Display formatted date or a placeholder */}
+            </CardDescription>
           </div>
         </div>
         {/* The remove button is only rendered if onRemove is provided.
