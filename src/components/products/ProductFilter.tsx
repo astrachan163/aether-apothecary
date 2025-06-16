@@ -7,7 +7,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-// import { ingredients as allIngredientsData } from '@/data/ingredients'; // Will get from DataContext
 import { Brain, Filter, Heart, Leaf, ShieldCheck, Sparkles } from 'lucide-react';
 import React from 'react';
 import { useData } from '@/contexts/DataContext';
@@ -24,6 +23,7 @@ const ailmentOptions: { value: AilmentType; label: string; icon: React.ElementTy
   { value: 'mental', label: 'Mental', icon: Brain },
 ];
 
+const ALL_ITEMS_FILTER_VALUE = "__ALL_ITEMS__";
 
 export function ProductFilter({ products, onFilterChange }: ProductFilterProps) {
   const { getIngredients } = useData();
@@ -58,11 +58,11 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
       );
     }
 
-    if (selectedIngredient) { // selectedIngredient is the name of the ingredient
+    if (selectedIngredient && selectedIngredient !== ALL_ITEMS_FILTER_VALUE) { 
       filtered = filtered.filter(p => p.ingredients.includes(selectedIngredient));
     }
     
-    if (selectedCategory) {
+    if (selectedCategory && selectedCategory !== ALL_ITEMS_FILTER_VALUE) {
       filtered = filtered.filter(p => p.category === selectedCategory);
     }
 
@@ -78,7 +78,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
     setSelectedAilments([]);
     setSelectedIngredient('');
     setSelectedCategory('');
-    onFilterChange(products); // Reset to all products from context
+    onFilterChange(products); 
   };
 
   return (
@@ -123,9 +123,9 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
               <SelectValue placeholder="Select an ingredient" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Ingredients</SelectItem> {/* Added an option for all */}
+              <SelectItem value={ALL_ITEMS_FILTER_VALUE}>All Ingredients</SelectItem>
               {allIngredients.map(ing => (
-                <SelectItem key={ing.id} value={ing.name}> {/* Value should be ing.name */}
+                <SelectItem key={ing.id} value={ing.name}> 
                   <Leaf className="inline-block mr-2 h-4 w-4 text-muted-foreground" />{ing.name}
                 </SelectItem>
               ))}
@@ -140,7 +140,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
-               <SelectItem value="">All Categories</SelectItem> {/* Added an option for all */}
+               <SelectItem value={ALL_ITEMS_FILTER_VALUE}>All Categories</SelectItem>
               {allCategories.map(cat => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
               ))}
