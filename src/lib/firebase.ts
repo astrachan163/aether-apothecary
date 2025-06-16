@@ -4,27 +4,22 @@ import { getFirestore } from 'firebase-admin/firestore';
 let db: ReturnType<typeof getFirestore> | undefined;
 
 try {
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY;
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const projectId = process.env.FIREBASE_PROJECT_ID;
-
-  if (!privateKey || !clientEmail || !projectId) {
-    throw new Error('Firebase credentials are not fully set in environment variables.');
-  }
-
   const serviceAccount: ServiceAccount = {
-    projectId,
-    clientEmail,
-    privateKey: privateKey.replace(/
-/g, '
-'),
+    projectId: process.env.FIREBASE_PROJECT_ID!,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL!,
+    // Relying on the hosting environment (Vercel) to correctly handle the private key format.
+    // The problematic .replace() call has been removed.
+    privateKey: process.env.FIREBASE_PRIVATE_KEY!,
   };
+
+  if (!serviceAccount.privateKey) {
+    throw new Error('Firebase private key is not set in environment variables.');
+  }
 
   if (getApps().length === 0) {
     initializeApp({
       credential: cert(serviceAccount),
     });
-    console.log('Firebase initialized successfully.');
   }
   
   db = getFirestore();
