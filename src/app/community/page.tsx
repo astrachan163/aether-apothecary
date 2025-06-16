@@ -13,11 +13,15 @@ import { Users } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from "@/hooks/use-toast";
 
+const ALL_PRODUCTS_FILTER_VALUE = "__ALL_PRODUCTS__";
+const NO_PRODUCT_STORY_VALUE = "__NO_PRODUCT_SELECTED__";
+
+
 export default function CommunityPage() {
   const [allStories, setAllStories] = useState<CommunityStory[]>([]);
   const [filteredStories, setFilteredStories] = useState<CommunityStory[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProductFilter, setSelectedProductFilter] = useState('');
+  const [selectedProductFilter, setSelectedProductFilter] = useState(''); // Empty string for initial placeholder
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -39,7 +43,7 @@ export default function CommunityPage() {
         story.userName.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    if (selectedProductFilter) {
+    if (selectedProductFilter && selectedProductFilter !== ALL_PRODUCTS_FILTER_VALUE) {
       stories = stories.filter(story => story.productId === selectedProductFilter);
     }
     setFilteredStories(stories);
@@ -47,15 +51,25 @@ export default function CommunityPage() {
 
   const handleStorySubmit = (data: StoryFormData) => {
     setIsSubmitting(true);
-    const relatedProduct = mockProducts.find(p => p.id === data.productId);
+    
+    let productIdForStory: string | undefined = data.productId;
+    let productNameForStory: string | undefined;
+
+    if (data.productId && data.productId !== NO_PRODUCT_STORY_VALUE) {
+      const relatedProduct = mockProducts.find(p => p.id === data.productId);
+      productNameForStory = relatedProduct?.name;
+    } else {
+      productIdForStory = undefined; // Ensure no product ID if "None" was selected
+    }
+
     const newStory: CommunityStory = {
-      id: Date.now().toString(), // Simple ID generation for prototype
+      id: Date.now().toString(), 
       userName: data.userName,
       story: data.story,
-      productId: data.productId,
-      productName: relatedProduct?.name,
+      productId: productIdForStory,
+      productName: productNameForStory,
       date: new Date().toISOString(),
-      // userAvatarUrl: 'https://placehold.co/100x100.png', // Default placeholder or handle differently
+      // userAvatarUrl: 'https://placehold.co/100x100.png', 
       // dataAiHint: 'person',
     };
 
@@ -104,7 +118,7 @@ export default function CommunityPage() {
             <SelectValue placeholder="Filter by product (All Products)" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Products</SelectItem>
+            <SelectItem value={ALL_PRODUCTS_FILTER_VALUE}>All Products</SelectItem>
             {mockProducts.map(product => (
               <SelectItem key={product.id} value={product.id}>
                 {product.name}

@@ -29,13 +29,15 @@ interface AddStoryFormProps {
   isLoading: boolean;
 }
 
+const NO_PRODUCT_VALUE = "__NO_PRODUCT_SELECTED__";
+
 export function AddStoryForm({ products, onStorySubmit, isLoading }: AddStoryFormProps) {
   const form = useForm<StoryFormData>({
     resolver: zodResolver(storyFormSchema),
     defaultValues: {
       userName: '',
       story: '',
-      productId: '',
+      productId: '', // Keeps placeholder initially
     },
   });
 
@@ -96,7 +98,7 @@ export function AddStoryForm({ products, onStorySubmit, isLoading }: AddStoryFor
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">None</SelectItem>
+                      <SelectItem value={NO_PRODUCT_VALUE}>None</SelectItem>
                       {products.map((product) => (
                         <SelectItem key={product.id} value={product.id}>
                           {product.name}
