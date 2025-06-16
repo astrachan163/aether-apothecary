@@ -1,33 +1,47 @@
-
-import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import type { ServiceAccount } from 'firebase-admin/app';
 
-const serviceAccount: ServiceAccount = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  // The private key must be correctly formatted. The replace function ensures that the `
-` characters
-  // from the environment variable are converted into actual newlines for the Firebase SDK.
-  privateKey: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/
+const hasEnv = !!(
+  process.env.FIREBASE_PROJECT_ID &&
+  process.env.FIREBASE_CLIENT_EMAIL &&
+  process.env.FIREBASE_PRIVATE_KEY
+);
+
+let db: ReturnType<typeof getFirestore>;
+
+if (!hasEnv) {
+  console.warn(
+    'Firebase environment variables are not set. Skipping Firebase initialization.'
+  );
+  // In a non-server environment or if variables are missing,
+  // getFirestore might be used elsewhere. We create a dummy object
+  // or handle this case as appropriate for the app's architecture.
+  // For now, we allow it to fail later if actually used.
+} else {
+  const serviceAccount: ServiceAccount = {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    // This is the crucial part: correctly format the private key
+    // by replacing the literal `
+` strings with actual newline characters.
+    privateKey: (process.env.FIREBASE_PRIVATE_KEY as string).replace(/
 /g, '
 '),
-};
+  };
 
-// Initialize Firebase only if all credentials are provided
-if (serviceAccount.projectId && serviceAccount.clientEmail && process.env.FIREBASE_PRIVATE_KEY) {
-  if (!getApps().length) {
+  if (getApps().length === 0) {
     try {
       initializeApp({
         credential: cert(serviceAccount),
       });
-    } catch (error) {
-      console.error("Firebase Admin SDK initialization error:", error);
+      console.log('Firebase initialized successfully.');
+    } catch (e) {
+      console.error('Firebase initialization error', e);
     }
   }
-} else {
-  console.warn("Firebase Admin SDK credentials are not fully provided in environment variables. Firebase will not be initialized.");
+  db = getFirestore();
 }
 
-const db = getFirestore();
 
 export { db };
