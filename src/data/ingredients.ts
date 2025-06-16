@@ -11,6 +11,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?aloe-vera',
+    dataAiHint: 'aloe vera',
   },
   {
     id: '2',
@@ -21,6 +22,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?baking-soda',
+    dataAiHint: 'baking soda',
   },
   {
     id: '3',
@@ -31,6 +33,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?basil',
+    dataAiHint: 'basil',
   },
   {
     id: '4',
@@ -41,6 +44,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?bay-leaves',
+    dataAiHint: 'bay leaves',
   },
   {
     id: '5',
@@ -51,6 +55,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?black-seed-oil',
+    dataAiHint: 'black seed',
   },
   {
     id: '6',
@@ -61,6 +66,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?herbs',
+    dataAiHint: 'herbs',
   },
   {
     id: '7',
@@ -71,6 +77,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?mineral',
+    dataAiHint: 'mineral',
   },
   {
     id: '8',
@@ -81,6 +88,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?cardamon',
+    dataAiHint: 'cardamon',
   },
   {
     id: '9',
@@ -91,6 +99,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?oil',
+    dataAiHint: 'oil',
   },
   {
     id: '10',
@@ -101,6 +110,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?plant',
+    dataAiHint: 'plant',
   },
   {
     id: '11',
@@ -111,6 +121,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?chamomile',
+    dataAiHint: 'chamomile',
   },
   {
     id: '12',
@@ -121,6 +132,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?chamomile-flowers',
+    dataAiHint: 'chamomile flowers',
   },
   {
     id: '13',
@@ -131,6 +143,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?cinnamon',
+    dataAiHint: 'cinnamon',
   },
   {
     id: '14',
@@ -141,6 +154,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?clove',
+    dataAiHint: 'clove',
   },
   {
     id: '15',
@@ -151,6 +165,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?cocoa',
+    dataAiHint: 'cocoa',
   },
   {
     id: '16',
@@ -161,6 +176,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?coconut-oil',
+    dataAiHint: 'coconut oil',
   },
   {
     id: '17',
@@ -171,6 +187,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?salt',
+    dataAiHint: 'salt',
   },
   {
     id: '18',
@@ -181,6 +198,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?echinacea',
+    dataAiHint: 'echinacea',
   },
   {
     id: '19',
@@ -191,6 +209,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?elderberries',
+    dataAiHint: 'elderberries',
   },
   {
     id: '20',
@@ -201,6 +220,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?epsom-salt',
+    dataAiHint: 'epsom salt',
   },
   {
     id: '21',
@@ -211,6 +231,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?fennel-seed',
+    dataAiHint: 'fennel seed',
   },
   {
     id: '22',
@@ -221,6 +242,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?frankincense',
+    dataAiHint: 'frankincense',
   },
   {
     id: '23',
@@ -231,6 +253,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?ginger',
+    dataAiHint: 'ginger',
   },
   {
     id: '24',
@@ -241,6 +264,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?glycerin',
+    dataAiHint: 'glycerin',
   },
   {
     id: '25',
@@ -251,6 +275,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?herbal-infusion',
+    dataAiHint: 'herbal infusion',
   },
   {
     id: '26',
@@ -261,6 +286,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?silica',
+    dataAiHint: 'silica',
   },
   {
     id: '27',
@@ -271,6 +297,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?hyssop',
+    dataAiHint: 'hyssop',
   },
   {
     id: '28',
@@ -281,6 +308,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?lavender-buds',
+    dataAiHint: 'lavender buds',
   },
   {
     id: '29',
@@ -291,6 +319,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?lemon-balm',
+    dataAiHint: 'lemon balm',
   },
   {
     id: '30',
@@ -301,6 +330,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?mint',
+    dataAiHint: 'mint',
   },
   {
     id: '31',
@@ -311,6 +341,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?mint-flavor',
+    dataAiHint: 'mint flavor',
   },
   {
     id: '32',
@@ -321,6 +352,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?myrrh',
+    dataAiHint: 'myrrh',
   },
   {
     id: '33',
@@ -331,6 +363,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?neem',
+    dataAiHint: 'neem',
   },
   {
     id: '34',
@@ -341,6 +374,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?olive-oil',
+    dataAiHint: 'olive oil',
   },
   {
     id: '35',
@@ -351,6 +385,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?orange',
+    dataAiHint: 'orange',
   },
   {
     id: '36',
@@ -361,6 +396,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?palm-oil',
+    dataAiHint: 'palm oil',
   },
   {
     id: '37',
@@ -371,6 +407,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?peppermint',
+    dataAiHint: 'peppermint',
   },
   {
     id: '38',
@@ -381,6 +418,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?peppermint-leaf',
+    dataAiHint: 'peppermint leaf',
   },
   {
     id: '39',
@@ -391,6 +429,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?peppermint-oil',
+    dataAiHint: 'peppermint oil',
   },
   {
     id: '40',
@@ -401,6 +440,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?plantain',
+    dataAiHint: 'plantain',
   },
   {
     id: '41',
@@ -411,6 +451,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?raw-honey',
+    dataAiHint: 'raw honey',
   },
   {
     id: '42',
@@ -421,6 +462,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?rose-petals',
+    dataAiHint: 'rose petals',
   },
   {
     id: '43',
@@ -431,6 +473,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?rosehips',
+    dataAiHint: 'rosehips',
   },
   {
     id: '44',
@@ -441,6 +484,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?rosemary',
+    dataAiHint: 'rosemary',
   },
   {
     id: '45',
@@ -451,6 +495,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?saffron',
+    dataAiHint: 'saffron',
   },
   {
     id: '46',
@@ -461,6 +506,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?sea-moss',
+    dataAiHint: 'sea moss',
   },
   {
     id: '47',
@@ -471,6 +517,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?sea-moss-powder',
+    dataAiHint: 'sea moss',
   },
   {
     id: '48',
@@ -481,6 +528,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?shea-butter',
+    dataAiHint: 'shea butter',
   },
   {
     id: '49',
@@ -491,6 +539,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?mineral',
+    dataAiHint: 'mineral',
   },
   {
     id: '50',
@@ -501,6 +550,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?sweetener',
+    dataAiHint: 'sweetener',
   },
   {
     id: '51',
@@ -511,6 +561,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?spearmint-oil',
+    dataAiHint: 'spearmint oil',
   },
   {
     id: '52',
@@ -521,6 +572,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?stainless-steel',
+    dataAiHint: 'stainless steel',
   },
   {
     id: '53',
@@ -531,6 +583,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?turmeric',
+    dataAiHint: 'turmeric',
   },
   {
     id: '54',
@@ -541,6 +594,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?wintergreen',
+    dataAiHint: 'wintergreen',
   },
   {
     id: '55',
@@ -551,6 +605,7 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?xylitol',
+    dataAiHint: 'xylitol',
   },
   {
     id: '56',
@@ -561,5 +616,6 @@ export const ingredients: Ingredient[] = [
     spiritualBenefits: 'Spiritual benefits to be added.',
     physicalBenefits: 'Physical benefits to be added.',
     imageUrl: 'https://source.unsplash.com/100x100/?yarrow',
+    dataAiHint: 'yarrow',
   },
 ];

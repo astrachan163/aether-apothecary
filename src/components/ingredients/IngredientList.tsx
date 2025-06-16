@@ -1,6 +1,6 @@
+
 import type { Ingredient } from '@/lib/types';
 import { IngredientCard } from './IngredientCard';
-import { Accordion } from '@/components/ui/accordion';
 
 interface IngredientListProps {
   ingredients: Ingredient[];
@@ -12,10 +12,10 @@ export function IngredientList({ ingredients }: IngredientListProps) {
   }
 
   return (
-    <Accordion type="single" collapsible className="w-full space-y-4">
+    <div className="space-y-4">
       {ingredients.map((ingredient) => (
         <IngredientCard key={ingredient.id} ingredient={ingredient} />
       ))}
-    </Accordion>
+    </div>
   );
 }
