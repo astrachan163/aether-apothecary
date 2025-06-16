@@ -1,10 +1,10 @@
 
-'use client'; // Needs to be client component to use useData and for dynamic data
+'use client'; 
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound, useParams } from 'next/navigation'; // useParams for client component
+import { notFound, useParams } from 'next/navigation'; 
 import { useData } from '@/contexts/DataContext';
 import type { Product, CommunityStory } from '@/lib/types';
 import { Button } from '@/components/ui/button';
@@ -12,17 +12,32 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StoryCard } from '@/components/community/StoryCard';
-import { ArrowLeft, Leaf, Package, ShoppingCart, Sparkles, Users, Wand2 } from 'lucide-react';
+import { ArrowLeft, Leaf, Package, Sparkles, Users, CreditCard } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
-// Removed generateStaticParams as this page is now dynamic client-side
 
 export default function ProductDetailPage() {
   const params = useParams();
   const { getProducts, getStories } = useData();
-  const [product, setProduct] = useState<Product | null | undefined>(undefined); // undefined for loading state
+  const [product, setProduct] = useState<Product | null | undefined>(undefined); 
   const [relatedStories, setRelatedStories] = useState<CommunityStory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaying, setIsPaying] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
 
   const productId = typeof params.id === 'string' ? params.id : undefined;
 
@@ -32,7 +47,7 @@ export default function ProductDetailPage() {
       const stories = getStories();
       const foundProduct = products.find(p => p.id === productId);
       
-      setProduct(foundProduct || null); // null if not found after check
+      setProduct(foundProduct || null); 
       
       if (foundProduct) {
         setRelatedStories(stories.filter(story => story.productId === foundProduct.id));
@@ -43,8 +58,21 @@ export default function ProductDetailPage() {
     setIsLoading(false);
   }, [productId, getProducts, getStories]);
 
+  const handleSimulatedPayment = () => {
+    if (!product) return;
+    setIsPaying(true);
+    setTimeout(() => {
+      setIsPaying(false);
+      setIsDialogOpen(false);
+      toast({
+        title: "Payment Successful! (Simulation)",
+        description: `Your order for ${product.name} has been placed.`,
+      });
+    }, 2000); // Simulate network delay
+  };
 
-  if (isLoading || product === undefined) { // Show skeleton while loading or if product is initially undefined
+
+  if (isLoading || product === undefined) { 
     return (
       <div className="container mx-auto px-4 md:px-8 py-8">
         <Skeleton className="h-10 w-48 mb-8" />
@@ -65,7 +93,7 @@ export default function ProductDetailPage() {
   }
 
   if (!product) {
-    notFound(); // Call notFound if product is null (explicitly not found)
+    notFound(); 
   }
 
   return (
@@ -126,9 +154,55 @@ export default function ProductDetailPage() {
             </CardContent>
           </Card>
 
-          <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground mb-4">
-            <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground mb-4">
+                <CreditCard className="mr-2 h-5 w-5" /> Buy Now (Simulated)
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Simulated Checkout</DialogTitle>
+                <DialogDescription>
+                  This is a mock payment form. No real transaction will occur.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                   <Label className="col-span-4 text-sm font-medium">Product: {product.name}</Label>
+                   <Label className="col-span-4 text-lg font-semibold">Price: {product.price}</Label>
+                </div>
+                <Separator />
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="mock-card-number" className="text-right col-span-1">
+                    Card Number
+                  </Label>
+                  <Input id="mock-card-number" placeholder="**** **** **** ****" className="col-span-3" />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="mock-expiry" className="text-right col-span-1">
+                    Expiry
+                  </Label>
+                  <Input id="mock-expiry" placeholder="MM/YY" className="col-span-3" />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="mock-cvc" className="text-right col-span-1">
+                    CVC
+                  </Label>
+                  <Input id="mock-cvc" placeholder="***" className="col-span-3" />
+                </div>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                    <Button variant="outline" disabled={isPaying}>Cancel</Button>
+                </DialogClose>
+                <Button onClick={handleSimulatedPayment} disabled={isPaying} className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                  {isPaying ? 'Processing...' : `Pay ${product.price} (Simulated)`}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
         </div>
       </div>
 
@@ -149,3 +223,4 @@ export default function ProductDetailPage() {
     </div>
   );
 }
+
