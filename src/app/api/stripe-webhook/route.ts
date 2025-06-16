@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { db } from '@/lib/firebase';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2024-04-10',
+  apiVersion: '2024-06-20',
 });
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
@@ -22,12 +22,17 @@ export async function POST(req: NextRequest) {
       console.error(`Webhook signature verification failed: ${err.message}`);
       return NextResponse.json({ error: 'Webhook signature verification failed' }, { status: 400 });
     }
+    // Add a return for the case where err is not an Error instance
+    return NextResponse.json({ error: 'Webhook signature verification failed' }, { status: 400 });
   }
 
-  if (event!.type === 'checkout.session.completed') {
-    const session = event!.data.object as Stripe.Checkout.Session;
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session;
 
     try {
+      if (!db) {
+        throw new Error("Firestore database is not initialized.");
+      }
       // Save order to Firestore
       await db.collection('orders').add({
         checkoutSessionId: session.id,

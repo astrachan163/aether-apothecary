@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { Product } from '@/lib/types';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2024-04-10',
+  apiVersion: '2024-06-20',
 });
 
 export async function POST(req: NextRequest) {

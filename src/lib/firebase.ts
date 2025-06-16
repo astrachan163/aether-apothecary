@@ -1,22 +1,23 @@
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import type { ServiceAccount } from 'firebase-admin/app';
 
 let db: ReturnType<typeof getFirestore> | undefined;
 
 try {
-  const privateKey = (process.env.FIREBASE_PRIVATE_KEY || '').replace(/
-/g, '
-');
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const projectId = process.env.FIREBASE_PROJECT_ID;
 
-  if (!privateKey) {
-    throw new Error("FIREBASE_PRIVATE_KEY environment variable is not set.");
+  if (!privateKey || !clientEmail || !projectId) {
+    throw new Error('Firebase credentials are not fully set in environment variables.');
   }
 
   const serviceAccount: ServiceAccount = {
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: privateKey,
+    projectId,
+    clientEmail,
+    privateKey: privateKey.replace(/
+/g, '
+'),
   };
 
   if (getApps().length === 0) {
@@ -24,15 +25,12 @@ try {
       credential: cert(serviceAccount),
     });
     console.log('Firebase initialized successfully.');
-    db = getFirestore();
-  } else {
-    db = getFirestore(getApps()[0]);
   }
+  
+  db = getFirestore();
 
 } catch (error) {
   console.error('Firebase initialization failed:', error);
 }
 
-// Export a potentially undefined db object.
-// Code using this module should handle the case where db is not initialized.
 export { db };
