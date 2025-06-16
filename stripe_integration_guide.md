@@ -1,6 +1,6 @@
-# Stripe Integration Guide
+# Stripe Integration and Deployment Guide
 
-Follow these steps to integrate Stripe payments into your application.
+Follow these steps to integrate Stripe payments and deploy your application.
 
 ## 1. Get Stripe API Keys
 
@@ -13,7 +13,7 @@ Follow these steps to integrate Stripe payments into your application.
 *   **Webhook Secret:**
     *   Go to [Stripe Webhooks](https://dashboard.stripe.com/webhooks).
     *   Click "Add endpoint".
-    *   For the "Endpoint URL", you will need the URL of your deployed application followed by `/api/stripe-webhook`. For local testing, you can use the Stripe CLI. I will provide more instructions on this later.
+    *   For the "Endpoint URL", you will need the URL of your deployed application followed by `/api/stripe-webhook`. You can fill this in after you deploy. For now, you can leave it blank or use the Stripe CLI for local testing.
     *   Select the `checkout.session.completed` event.
     *   Click "Add endpoint".
     *   On the next page, you will see a "Signing secret". Click to reveal it.
@@ -52,13 +52,57 @@ FIREBASE_PRIVATE_KEY="your-firebase-private-key"
     *   `FIREBASE_PRIVATE_KEY` is the `private_key`.  **Important**: When you copy the private key, make sure it's on a single line. It should start with `-----BEGIN PRIVATE KEY-----` and end with `-----END PRIVATE KEY-----
 `.
 
-## 4. Deploy
+## 4. Deploy Your Application on Vercel
 
-Once the code changes are complete, you will need to deploy your application.
+We recommend using a platform like [Vercel](https://vercel.com) for deploying Next.js applications.
 
-## 5. Local Testing (Optional but Recommended)
+1.  **Sign up on Vercel:** Create an account on Vercel and connect it to your GitHub account.
+2.  **Import Project:** From your Vercel dashboard, click "Add New..." -> "Project". Find your `aether-apothecary` repository and click "Import".
+3.  **Configure Project:** Vercel will automatically detect that you have a Next.js project.
+4.  **Add Environment Variables:** In the project settings, go to "Environment Variables". Add the same keys and values from your `.env.local` file. This is a crucial step for your deployed application to have access to your Stripe and Firebase credentials.
+5.  **Deploy:** Click "Deploy". Vercel will build and deploy your application. Once it's done, you'll get a public URL (e.g., `aether-apothecary.vercel.app`).
 
-To test your webhook locally, you can use the Stripe CLI:
+## 5. Point Your Squarespace Domain (`victoriousherb.com`) to Vercel
+
+Once your application is deployed on Vercel, you need to connect your Squarespace domain to it.
+
+### Step 5.1: Add Your Domain to Vercel
+
+1.  In your Vercel project dashboard, go to the **Settings** tab and select **Domains**.
+2.  Enter `victoriousherb.com` and click **Add**.
+3.  Vercel will show you the DNS records you need to configure. It will typically be an **A record** (an IP address like `76.76.21.21`). Keep this page open.
+
+### Step 5.2: Configure DNS Records in Squarespace
+
+1.  Log in to your **Squarespace account**.
+2.  In the main dashboard, click on **Settings**, then go to **Domains**.
+3.  Click on your domain, `victoriousherb.com`.
+4.  Click on **DNS Settings**. You will see a list of your current DNS records. **Do not delete existing Squarespace records unless instructed.**
+5.  In the **Custom Records** section, you will add the record provided by Vercel:
+    *   **To point the root domain (`victoriousherb.com`):**
+        *   In a new row, select **A** from the **Type** dropdown.
+        *   In the **Host** column, enter **@**.
+        *   In the **Data** column, paste the IP address that Vercel gave you.
+        *   Click **Add**.
+    *   **To point the `www` subdomain (`www.victoriousherb.com`):**
+        *   In another row, select **CNAME** from the **Type** dropdown.
+        *   In the **Host** column, enter **www**.
+        *   In the **Data** column, enter `cname.vercel-dns.com`.
+        *   Click **Add**.
+
+### Step 5.3: Wait for Propagation and Verify
+
+*   DNS changes can take anywhere from a few minutes to 48 hours to take effect (though it's usually much faster).
+*   Vercel will automatically check the status and let you know when the domain is configured correctly. Once it's ready, visiting `victoriousherb.com` will show your deployed Vercel application.
+
+### Step 5.4: Update Your Stripe Webhook
+
+*   Once your domain is live, go back to your [Stripe Webhooks dashboard](https://dashboard.stripe.com/webhooks).
+*   Update your webhook's "Endpoint URL" to use your live domain: **`https://victoriousherb.com/api/stripe-webhook`**. This ensures you receive payment confirmations for real transactions.
+
+## 6. Local Testing (Optional)
+
+To test your webhook locally without deploying, use the Stripe CLI:
 
 1.  [Install the Stripe CLI](https://stripe.com/docs/stripe-cli).
 2.  Run `stripe login`.
