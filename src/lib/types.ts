@@ -5,9 +5,9 @@ export interface Product {
   name: string;
   description: string;
   shortDescription: string;
-  imageUrl: string;
+  image: string;
   dataAiHint?: string;
-  price: string; 
+  price: number; 
   category: string; 
   ailments: AilmentType[];
   ingredients: string[]; // Names of ingredients
