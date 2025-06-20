@@ -7,6 +7,8 @@ import type { Ingredient } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Leaf } from 'lucide-react';
 import { useData } from '@/contexts/DataContext'; // Use DataContext
+import { Accordion } from "@/components/ui/accordion"
+
 
 export default function IngredientsPage() {
   const { getIngredients } = useData();
@@ -19,7 +21,10 @@ export default function IngredientsPage() {
     const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = allIngredientsData.filter(ingredient =>
       ingredient.name.toLowerCase().includes(lowercasedFilter) ||
-      ingredient.description.toLowerCase().includes(lowercasedFilter) // Removed benefits fields as they are no longer displayed simply
+      ingredient.description.toLowerCase().includes(lowercasedFilter) ||
+      ingredient.physicalBenefits.toLowerCase().includes(lowercasedFilter) ||
+      ingredient.spiritualBenefits.toLowerCase().includes(lowercasedFilter) ||
+      ingredient.traditionalUses.toLowerCase().includes(lowercasedFilter)
     );
     setFilteredIngredients(filtered);
   }, [searchTerm, allIngredientsData]);
@@ -44,7 +49,9 @@ export default function IngredientsPage() {
         />
       </div>
       
-      <IngredientList ingredients={filteredIngredients} />
+      <Accordion type="single" collapsible className="w-full space-y-4">
+        <IngredientList ingredients={filteredIngredients} />
+      </Accordion>
     </div>
   );
 }

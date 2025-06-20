@@ -12,10 +12,10 @@ export function IngredientList({ ingredients }: IngredientListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <>
       {ingredients.map((ingredient) => (
         <IngredientCard key={ingredient.id} ingredient={ingredient} />
       ))}
-    </div>
+    </>
   );
 }
