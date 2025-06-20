@@ -2,24 +2,11 @@
 /**
  * @fileOverview A flow for generating product descriptions.
  * - generateProductDescription - A function that generates a product description.
- * - GenerateProductDescriptionInput - The input type for the function.
- * - GenerateProductDescriptionOutput - The return type for the function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { GenerateProductDescriptionInputSchema, GenerateProductDescriptionOutputSchema, type GenerateProductDescriptionInput, type GenerateProductDescriptionOutput } from '@/ai/schemas/product-description';
 
-export const GenerateProductDescriptionInputSchema = z.object({
-  name: z.string().describe('The name of the herbal product.'),
-  shortDescription: z.string().describe('The short description of the product for context.'),
-  keywords: z.string().describe('Comma-separated keywords for the product (e.g., calming, soothing, lavender).'),
-});
-export type GenerateProductDescriptionInput = z.infer<typeof GenerateProductDescriptionInputSchema>;
-
-export const GenerateProductDescriptionOutputSchema = z.object({
-  description: z.string().describe('The full, detailed product description.'),
-});
-export type GenerateProductDescriptionOutput = z.infer<typeof GenerateProductDescriptionOutputSchema>;
 
 const prompt = ai.definePrompt({
   name: 'generateProductDescriptionPrompt',
