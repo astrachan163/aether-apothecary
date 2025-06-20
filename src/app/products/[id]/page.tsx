@@ -1,4 +1,3 @@
-
 'use client'; 
 
 import React, { useEffect, useState } from 'react';
@@ -118,7 +117,7 @@ export default function ProductDetailPage() {
 
         <div>
           <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">{product.name}</h1>
-          <p className="text-2xl font-semibold text-accent mb-4">{product.price}</p>
+          <p className="text-2xl font-semibold text-accent mb-4">{`$${product.price.toFixed(2)}`}</p>
           <div className="flex items-center space-x-2 mb-4">
             <Badge variant="secondary" className="capitalize bg-secondary text-secondary-foreground">{product.category}</Badge>
             {product.sku && <Badge variant="outline">SKU: {product.sku}</Badge>}
@@ -170,7 +169,7 @@ export default function ProductDetailPage() {
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                    <Label className="col-span-4 text-sm font-medium">Product: {product.name}</Label>
-                   <Label className="col-span-4 text-lg font-semibold">Price: {product.price}</Label>
+                   <Label className="col-span-4 text-lg font-semibold">{`Price: $${product.price.toFixed(2)}`}</Label>
                 </div>
                 <Separator />
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -197,7 +196,7 @@ export default function ProductDetailPage() {
                     <Button variant="outline" disabled={isPaying}>Cancel</Button>
                 </DialogClose>
                 <Button onClick={handleSimulatedPayment} disabled={isPaying} className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                  {isPaying ? 'Processing...' : `Pay ${product.price} (Simulated)`}
+                  {isPaying ? 'Processing...' : `Pay $${product.price.toFixed(2)} (Simulated)`}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -223,4 +222,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-

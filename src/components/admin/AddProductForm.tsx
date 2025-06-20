@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -23,7 +22,7 @@ const productFormSchema = z.object({
   description: z.string().min(20, 'Description must be at least 20 characters.'),
   imageUrl: z.string().url('Must be a valid URL (e.g., /images/products/new.png or https://placehold.co/600x400.png)'),
   dataAiHint: z.string().optional(),
-  price: z.string().regex(/^\$\d+(\.\d{2})?$/, 'Price must be in format $XX.YY (e.g., $10.00)'),
+  price: z.coerce.number().min(0.01, 'Price must be at least 0.01.'),
   category: z.string().min(2, 'Category is required.'),
   ailments: z.array(z.enum(ailmentOptions)).min(1, 'Select at least one ailment.'),
   ingredients: z.string().min(3, 'Enter at least one ingredient, comma-separated.'),
@@ -48,7 +47,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
       description: '',
       imageUrl: '',
       dataAiHint: '',
-      price: '$',
+      price: undefined,
       category: '',
       ailments: [],
       ingredients: '',
@@ -64,7 +63,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
       description: data.description,
       imageUrl: data.imageUrl,
       dataAiHint: data.dataAiHint,
-      price: parseFloat(data.price.replace('$', '')), // Convert string price to number
+      price: data.price, // Price is already a number
       category: data.category,
       ailments: data.ailments,
       ingredients: data.ingredients.split(',').map(s => s.trim()).filter(s => s), // Convert comma-separated string to array
@@ -146,7 +145,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
             render={({ field }) => (
                 <FormItem>
                 <FormLabel>Price</FormLabel>
-                <FormControl><Input placeholder="$19.99" {...field} /></FormControl>
+                <FormControl><Input type="number" step="0.01" placeholder="19.99" {...field} /></FormControl>
                 <FormMessage />
                 </FormItem>
             )}
