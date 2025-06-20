@@ -4,7 +4,6 @@
 
 - Product Showcase: Display product catalog with images and descriptions of herbal alternatives.
 - Ingredient Glossary: Provide detailed information on ingredients and their traditional uses, alongside spiritual and physical benefits.
-- Personalized Recommendation Tool: Implement a generative AI tool which suggests complementary products and spiritual service recommendations based on the selected product and user's specific needs, assisting them in a holistic healing journey.
 - Advanced Filtering: Enable users to filter products by ailment (spiritual, emotional, physical, mental) or ingredient.
 - Community Stories: Incorporate user testimonials and stories related to each product's impact on their healing process.
 

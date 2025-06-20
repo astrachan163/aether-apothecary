@@ -49,8 +49,7 @@ FIREBASE_PRIVATE_KEY="your-firebase-private-key"
 *   Open the JSON file you downloaded from Firebase.
     *   `FIREBASE_PROJECT_ID` is the `project_id`.
     *   `FIREBASE_CLIENT_EMAIL` is the `client_email`.
-    *   `FIREBASE_PRIVATE_KEY` is the `private_key`.  **Important**: When you copy the private key, make sure it's on a single line. It should start with `-----BEGIN PRIVATE KEY-----` and end with `-----END PRIVATE KEY-----
-`.
+    *   `FIREBASE_PRIVATE_KEY` is the `private_key`.  **Important**: Your hosting provider (Vercel) should handle the formatting of the private key correctly.
 
 ## 4. Deploy Your Application on Vercel
 
@@ -70,7 +69,7 @@ Once your application is deployed on Vercel, you need to connect your Squarespac
 
 1.  In your Vercel project dashboard, go to the **Settings** tab and select **Domains**.
 2.  Enter `victoriousherb.com` and click **Add**.
-3.  Vercel will show you the DNS records you need to configure. It will typically be an **A record** (an IP address like `76.76.21.21`). Keep this page open.
+3.  Vercel will show you the DNS records you need to configure. It will be an **A record** (an IP address like `76.76.21.21`) and a **CNAME record**. Keep this page open.
 
 ### Step 5.2: Configure DNS Records in Squarespace
 
@@ -78,16 +77,16 @@ Once your application is deployed on Vercel, you need to connect your Squarespac
 2.  In the main dashboard, click on **Settings**, then go to **Domains**.
 3.  Click on your domain, `victoriousherb.com`.
 4.  Click on **DNS Settings**. You will see a list of your current DNS records. **Do not delete existing Squarespace records unless instructed.**
-5.  In the **Custom Records** section, you will add the record provided by Vercel:
+5.  In the **Custom Records** section, you will add the records provided by Vercel:
     *   **To point the root domain (`victoriousherb.com`):**
         *   In a new row, select **A** from the **Type** dropdown.
-        *   In the **Host** column, enter **@**.
-        *   In the **Data** column, paste the IP address that Vercel gave you.
+        *   In the **Host** column, enter **@**. If Squarespace gives an error like "Custom record not saved," try entering your full domain name, **`victoriousherb.com`**, instead.
+        *   In the **Data** column, paste the IP address that Vercel gave you (e.g., `76.76.21.21`).
         *   Click **Add**.
     *   **To point the `www` subdomain (`www.victoriousherb.com`):**
         *   In another row, select **CNAME** from the **Type** dropdown.
-        *   In the **Host** column, enter **www**.
-        *   In the **Data** column, enter `cname.vercel-dns.com`.
+        *   In the **Host** column, enter **www**. If you get an error, try entering the full subdomain, **`www.victoriousherb.com`**.
+        *   In the **Data** column, enter **`cname.vercel-dns.com`**.
         *   Click **Add**.
 
 ### Step 5.3: Wait for Propagation and Verify
