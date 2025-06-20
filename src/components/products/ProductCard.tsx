@@ -21,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <Link href={`/products/${product.id}`} className="block group">
           <div className="relative w-full h-60">
             <Image
-              src={product.image}
+              src={product.imageUrl}
               alt={product.name}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -41,7 +41,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </CardDescription>
         <div className="mb-3">
           <span className="text-lg font-semibold text-accent">
-            {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.price)}
+            {`$${product.price.toFixed(2)}`}
           </span>
         </div>
         {product.category && (

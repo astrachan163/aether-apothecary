@@ -59,8 +59,16 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
   const onSubmit = (data: ProductFormData) => {
     const newProduct: Product = {
       id: Date.now().toString(), // Simple ID generation for prototype
-      ...data,
+      name: data.name,
+      shortDescription: data.shortDescription,
+      description: data.description,
+      imageUrl: data.imageUrl,
+      dataAiHint: data.dataAiHint,
+      price: parseFloat(data.price.replace('$', '')), // Convert string price to number
+      category: data.category,
+      ailments: data.ailments,
       ingredients: data.ingredients.split(',').map(s => s.trim()).filter(s => s), // Convert comma-separated string to array
+      sku: data.sku,
     };
     addProduct(newProduct);
     toast({
