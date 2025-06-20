@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,6 +13,9 @@ import { useData } from '@/contexts/DataContext';
 import type { AilmentType, Product } from '@/lib/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from "@/hooks/use-toast";
+import { Sparkles, Loader2 } from 'lucide-react';
+import { generateProductDescription } from '@/ai/flows/generate-product-description';
+
 
 const ailmentOptions: AilmentType[] = ['spiritual', 'emotional', 'physical', 'mental'];
 
@@ -38,6 +41,7 @@ interface AddProductFormProps {
 export default function AddProductForm({ onProductAdded }: AddProductFormProps) {
   const { addProduct } = useData();
   const { toast } = useToast();
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productFormSchema),
@@ -54,6 +58,40 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
       sku: '',
     },
   });
+
+  const handleGenerateDescription = async () => {
+    const { name, shortDescription, ingredients, ailments } = form.getValues();
+    if (!name || !shortDescription) {
+      toast({
+        title: "Cannot Generate Description",
+        description: "Please fill in the Product Name and Short Description first.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsGenerating(true);
+    try {
+      const keywords = [...new Set([...ingredients.split(','), ...ailments])].join(', ');
+      const result = await generateProductDescription({ name, shortDescription, keywords });
+      if (result.description) {
+        form.setValue('description', result.description, { shouldValidate: true });
+        toast({
+          title: "Description Generated!",
+          description: "The AI-powered description has been added.",
+        });
+      }
+    } catch (error) {
+      console.error("Error generating description:", error);
+      toast({
+        title: "Generation Failed",
+        description: "Could not generate a description at this time.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
 
   const onSubmit = (data: ProductFormData) => {
     const newProduct: Product = {
@@ -108,7 +146,13 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Description</FormLabel>
+               <div className="flex justify-between items-center">
+                <FormLabel>Full Description</FormLabel>
+                <Button type="button" variant="ghost" size="sm" onClick={handleGenerateDescription} disabled={isGenerating}>
+                  {isGenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4 text-accent" />}
+                  Generate with AI
+                </Button>
+              </div>
               <FormControl><Textarea placeholder="Detailed product information" {...field} rows={4} /></FormControl>
               <FormMessage />
             </FormItem>
