@@ -17,15 +17,14 @@ const generateProductImageFlow = ai.defineFlow(
   },
   async (input) => {
     // Construct the final prompt string
-    let promptText = `
-      INSTRUCTIONS:
-      You are a professional product photographer AI. Your task is to generate a single, realistic, studio-quality image for an herbal wellness product based on the provided details.
-
+    const promptText = `
+      Generate a single, realistic, studio-quality image for an herbal wellness product.
+      
       **Image Style Guidelines:**
-      - **Lighting:** Soft, natural lighting. Avoid harsh shadows.
-      - **Background:** Clean, minimalist background, often a soft, neutral color (like light gray, beige) or a subtle natural texture (like wood or stone).
-      - **Composition:** Elegant and well-balanced. The product should be the clear hero. Props like dried herbs, fresh ingredients, or simple ceramic dishes are acceptable but should not clutter the scene.
-      - **Mood:** Serene, calming, and trustworthy.
+      - Soft, natural lighting. Avoid harsh shadows.
+      - Clean, minimalist background, often a soft, neutral color (like light gray, beige) or a subtle natural texture (like wood or stone).
+      - Elegant and well-balanced. The product should be the clear hero. Props like dried herbs, fresh ingredients, or simple ceramic dishes are acceptable but should not clutter the scene.
+      - Mood: Serene, calming, and trustworthy.
 
       **Product Details:**
       - **Name:** ${input.name}
@@ -33,17 +32,15 @@ const generateProductImageFlow = ai.defineFlow(
     `;
     
     const generationPayload: any = {
-      model: 'googleai/gemini-2.0-flash-preview-image-generation',
-      prompt: [
-        { text: promptText }
-      ],
-      config: {
-        responseModalities: ['IMAGE'],
-      },
+      model: 'googleai/gemini-1.5-flash-latest',
+      prompt: promptText,
     };
 
     if (input.contextImage) {
-        generationPayload.prompt.push({ media: { url: input.contextImage } });
+        generationPayload.prompt = [
+            { text: promptText },
+            { media: { url: input.contextImage } }
+        ];
     }
 
     const {media, finishReason} = await ai.generate(generationPayload);
