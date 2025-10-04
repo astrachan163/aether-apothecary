@@ -10,7 +10,7 @@ import { GenerateProductDescriptionInputSchema, GenerateProductDescriptionOutput
 
 const prompt = ai.definePrompt({
   name: 'generateProductDescriptionPrompt',
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-2.0-flash-preview',
   input: {schema: GenerateProductDescriptionInputSchema},
   output: {schema: GenerateProductDescriptionOutputSchema},
   prompt: `You are an expert botanical copywriter specializing in herbal supplements and wellness products for an e-commerce store called "Victorious Herbal Elements". Your tone should be informative, trustworthy, and serene.
