@@ -8,29 +8,6 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { GenerateProductImagesInputSchema, type GenerateProductImagesInput, type GenerateProductImagesOutput } from '@/ai/schemas/product-images';
 
-const generationPromptTemplate = `
-    INSTRUCTIONS:
-    You are a professional product photographer AI. Your task is to generate a single, realistic, studio-quality image for an herbal wellness product based on the provided details.
-
-    **Image Style Guidelines:**
-    - **Lighting:** Soft, natural lighting. Avoid harsh shadows.
-    - **Background:** Clean, minimalist background, often a soft, neutral color (like light gray, beige) or a subtle natural texture (like wood or stone).
-    - **Composition:** Elegant and well-balanced. The product should be the clear hero. Props like dried herbs, fresh ingredients, or simple ceramic dishes are acceptable but should not clutter the scene.
-    - **Mood:** Serene, calming, and trustworthy.
-
-    **Product Details:**
-    - **Name:** {{name}}
-    - **Description:** {{description}}
-
-    {{#if contextImage}}
-    **Contextual Image:**
-    Use the following image as a strong reference for the product's shape, color, or packaging style. Do not simply copy it, but let it inspire the final product shot.
-    {{media url=contextImage}}
-    {{/if}}
-
-    Generate one unique image based on these instructions.
-`;
-
 
 const generateProductImageFlow = ai.defineFlow(
   {
@@ -40,7 +17,7 @@ const generateProductImageFlow = ai.defineFlow(
   },
   async (input) => {
     // Construct the final prompt string
-    let prompt = `
+    let promptText = `
       INSTRUCTIONS:
       You are a professional product photographer AI. Your task is to generate a single, realistic, studio-quality image for an herbal wellness product based on the provided details.
 
@@ -58,7 +35,7 @@ const generateProductImageFlow = ai.defineFlow(
     const generationPayload: any = {
       model: 'googleai/gemini-2.0-flash-preview-image-generation',
       prompt: [
-        { text: prompt }
+        { text: promptText }
       ],
       config: {
         responseModalities: ['IMAGE'],
@@ -69,7 +46,7 @@ const generateProductImageFlow = ai.defineFlow(
         generationPayload.prompt.push({ media: { url: input.contextImage } });
     }
 
-    const {media, finishReason, usage} = await ai.generate(generationPayload);
+    const {media, finishReason} = await ai.generate(generationPayload);
     
     if (finishReason === 'BLOCKED' || finishReason === 'SAFETY') {
         throw new Error('Image generation was blocked for safety reasons.');
