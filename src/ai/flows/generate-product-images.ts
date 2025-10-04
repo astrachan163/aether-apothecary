@@ -36,7 +36,7 @@ const generateProductImageFlow = ai.defineFlow(
     }
 
     const {media, finishReason} = await ai.generate({
-      model: 'googleai/gemini-2.5-flash-image-preview',
+      model: 'googleai/imagen-3.0-generate-002',
       prompt: promptParts,
       config: {
         responseModalities: ['TEXT', 'IMAGE'],

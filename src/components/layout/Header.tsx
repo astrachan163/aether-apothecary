@@ -13,6 +13,7 @@ export function Header() {
             width={36} 
             height={36} 
             className="rounded-full" // Changed from rounded-sm
+            style={{ height: 'auto' }} // Maintain aspect ratio
           />
           <span className="font-semibold text-lg tracking-tight text-foreground">Victorious Herbal Elements</span>
         </Link>
