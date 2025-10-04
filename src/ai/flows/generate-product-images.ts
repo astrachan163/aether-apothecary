@@ -16,7 +16,6 @@ const generateProductImageFlow = ai.defineFlow(
     outputSchema: z.string(), // Returns a single image data URI
   },
   async (input) => {
-    // Construct the final prompt string
     const promptText = `
       Generate a single, realistic, studio-quality image for an herbal wellness product.
       
@@ -31,19 +30,18 @@ const generateProductImageFlow = ai.defineFlow(
       - **Description:** ${input.description}
     `;
     
-    const generationPayload: any = {
-      model: 'googleai/gemini-1.5-flash-latest',
-      prompt: promptText,
-    };
-
+    const promptParts = [{ text: promptText }];
     if (input.contextImage) {
-        generationPayload.prompt = [
-            { text: promptText },
-            { media: { url: input.contextImage } }
-        ];
+        promptParts.push({ media: { url: input.contextImage } });
     }
 
-    const {media, finishReason} = await ai.generate(generationPayload);
+    const {media, finishReason} = await ai.generate({
+      model: 'googleai/gemini-2.5-flash-image-preview',
+      prompt: promptParts,
+      config: {
+        responseModalities: ['TEXT', 'IMAGE'],
+      },
+    });
     
     if (finishReason === 'BLOCKED' || finishReason === 'SAFETY') {
         throw new Error('Image generation was blocked for safety reasons.');
