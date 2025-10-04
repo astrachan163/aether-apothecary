@@ -1,4 +1,5 @@
 import type { Product } from '@/lib/types';
+import { Timestamp } from 'firebase/firestore';
 
 export const mockProducts: Product[] = [
   {
@@ -13,6 +14,10 @@ export const mockProducts: Product[] = [
     ailments: ['spiritual', 'emotional'],
     ingredients: ['Frankincense', 'Myrrh', 'Olive Oil', 'Blessed Herbs'],
     sku: 'AA-SAO-001',
+    inventory: 50,
+    active: true,
+    createdAt: new Date('2023-01-10'),
+    updatedAt: new Date('2023-01-10'),
   },
   {
     id: '2',
@@ -26,6 +31,10 @@ export const mockProducts: Product[] = [
     ailments: ['physical'],
     ingredients: ['Olive Oil', 'Peppermint Leaf', 'Rosemary', 'Turmeric'],
     sku: 'AA-HHO-002',
+    inventory: 35,
+    active: true,
+    createdAt: new Date('2023-01-15'),
+    updatedAt: new Date('2023-01-15'),
   },
   {
     id: '3',
@@ -39,6 +48,10 @@ export const mockProducts: Product[] = [
     ailments: ['physical'],
     ingredients: ['Plantain Skin Ash', 'Cocoa Pod Ash', 'Palm Kernel Oil', 'Shea Butter'],
     sku: 'AA-AHBS-003',
+    inventory: 120,
+    active: true,
+    createdAt: new Date('2023-02-01'),
+    updatedAt: new Date('2023-02-01'),
   },
   {
     id: '4',
@@ -67,6 +80,10 @@ export const mockProducts: Product[] = [
       'Ginger'
     ],
     sku: 'AA-S5HT-004',
+    inventory: 80,
+    active: true,
+    createdAt: new Date('2023-02-20'),
+    updatedAt: new Date('2023-02-20'),
   },
   {
     id: '6',
@@ -80,6 +97,10 @@ export const mockProducts: Product[] = [
     ailments: ['mental', 'physical'],
     ingredients: ['Chamomile', 'Lemon Balm', 'Peppermint', 'Rosehips', 'Ginger', 'Elderberries', 'Yarrow', 'Turmeric', 'Echinacea Purpurea'],
     sku: 'AA-UHTB-006',
+    inventory: 40,
+    active: true,
+    createdAt: new Date('2023-03-05'),
+    updatedAt: new Date('2023-03-05'),
   },
   {
     id: '7',
@@ -93,6 +114,10 @@ export const mockProducts: Product[] = [
     ailments: ['physical'],
     ingredients: ['Black Seed Oil', 'Calcium Carbonate', 'Sorbitol', 'Silica', 'Mint'],
     sku: 'AA-BSHT-007',
+    inventory: 75,
+    active: false,
+    createdAt: new Date('2023-03-10'),
+    updatedAt: new Date('2023-03-10'),
   },
   {
     id: '8',
@@ -106,6 +131,10 @@ export const mockProducts: Product[] = [
     ailments: [],
     ingredients: ['Stainless Steel'],
     sku: 'AA-HTS-008',
+    inventory: 200,
+    active: true,
+    createdAt: new Date('2023-01-05'),
+    updatedAt: new Date('2023-01-05'),
   },
   {
     id: '9',
@@ -119,6 +148,10 @@ export const mockProducts: Product[] = [
     ailments: ['emotional', 'physical'],
     ingredients: ['Epsom Salt', 'Dead Sea Salt', 'Lavender Buds', 'Chamomile Flowers', 'Rose Petals', 'Peppermint', 'Hyssop', 'Rosemary'],
     sku: 'AA-IMTHSB-009',
+    inventory: 60,
+    active: true,
+    createdAt: new Date('2023-04-01'),
+    updatedAt: new Date('2023-04-01'),
   },
   {
     id: '10',
@@ -132,6 +165,10 @@ export const mockProducts: Product[] = [
     ailments: ['spiritual', 'mental'],
     ingredients: ['Cinnamon', 'Bay Leaves', 'Orange', 'Carrier Oil Blend'],
     sku: 'AA-PAO-010',
+    inventory: 45,
+    active: true,
+    createdAt: new Date('2023-04-15'),
+    updatedAt: new Date('2023-04-15'),
   },
   {
     id: '12',
@@ -145,6 +182,10 @@ export const mockProducts: Product[] = [
     ailments: ['physical'],
     ingredients: ['Sea Moss Powder', 'Baking Soda', 'Glycerin', 'Peppermint Oil'],
     sku: 'AA-SMT-012',
+    inventory: 0,
+    active: true,
+    createdAt: new Date('2023-05-01'),
+    updatedAt: new Date('2023-05-01'),
   },
   {
     id: '14',
@@ -158,6 +199,10 @@ export const mockProducts: Product[] = [
     ailments: ['physical', 'emotional'],
     ingredients: ['Shea Butter', 'Raw Honey', 'Coconut Oil', 'Herbal Infusion (Victorious Blend)'],
     sku: 'AA-VHEHSB-014',
+    inventory: 90,
+    active: true,
+    createdAt: new Date('2023-05-20'),
+    updatedAt: new Date('2023-05-20'),
   }
 ];
 
