@@ -5,6 +5,7 @@
  */
 
 import {ai} from '@/ai/genkit';
+import {z} from 'genkit';
 import { GenerateProductImagesInputSchema, GenerateProductImagesOutputSchema, type GenerateProductImagesInput, type GenerateProductImagesOutput } from '@/ai/schemas/product-images';
 
 const generationPrompt = `
