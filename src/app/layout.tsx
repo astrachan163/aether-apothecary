@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { lora } from '@/lib/fonts';
 import './globals.css';
