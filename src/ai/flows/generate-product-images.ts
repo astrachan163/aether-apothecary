@@ -35,23 +35,30 @@ const generateProductImageFlow = ai.defineFlow(
         promptParts.push({ media: { url: input.contextImage } });
     }
 
-    const {media, finishReason} = await ai.generate({
-      model: 'googleai/imagen-3.0-generate-002',
-      prompt: promptParts,
-      config: {
-        responseModalities: ['TEXT', 'IMAGE'],
-      },
-    });
-    
-    if (finishReason === 'BLOCKED' || finishReason === 'SAFETY') {
-        throw new Error('Image generation was blocked for safety reasons.');
-    }
-    
-    if (!media || !media.url) {
-        throw new Error('Image generation failed to produce an image.');
-    }
+    try {
+        const {media, finishReason} = await ai.generate({
+        model: 'googleai/gemini-2.5-flash-image', // Corrected model based on documentation
+        prompt: promptParts,
+        config: {
+            responseModalities: ['TEXT', 'IMAGE'],
+        },
+        });
+        
+        if (finishReason === 'BLOCKED' || finishReason === 'SAFETY') {
+            throw new Error('Image generation was blocked for safety reasons.');
+        }
+        
+        if (!media || !media.url) {
+            throw new Error('Image generation failed to produce a valid media object.');
+        }
 
-    return media.url;
+        return media.url;
+    } catch (e: any) {
+        // Re-throw with a more detailed error for debugging
+        const specificError = e.message || 'An unknown error occurred during AI generation.';
+        console.error(`[generateProductImageFlow Error] ${specificError}`);
+        throw new Error(`AI generation failed: ${specificError}`);
+    }
   }
 );
 
@@ -59,15 +66,18 @@ const generateProductImageFlow = ai.defineFlow(
 export async function generateProductImages(input: GenerateProductImagesInput): Promise<GenerateProductImagesOutput> {
   try {
     const imageDataUris: string[] = [];
-    // Generate 4 images sequentially to avoid potential rate-limiting issues.
     for (let i = 0; i < 4; i++) {
+      // Added a log to show progress
+      console.log(`Generating image ${i + 1} of 4...`);
       const imageDataUri = await generateProductImageFlow(input);
       imageDataUris.push(imageDataUri);
     }
+    console.log("Successfully generated all 4 images.");
     return { images: imageDataUris };
-  } catch (error) {
-    console.error("Error in generateProductImages sequential execution:", error);
-    // Fallback or re-throw
-    throw new Error("Failed to generate one or more product images.");
+  } catch (error: any) {
+    // Log the specific error and re-throw a user-friendly one
+    const detailedError = error.message || "An unknown error occurred.";
+    console.error(`[generateProductImages Error] Failed to generate all images: ${detailedError}`);
+    throw new Error(`Failed to generate product images. Reason: ${detailedError}`);
   }
 }

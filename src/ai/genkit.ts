@@ -5,9 +5,8 @@ import {googleAI} from '@genkit-ai/googleai';
 export const ai = genkit({
   plugins: [
     googleAI({
-      // You can specify the API key here,
-      // but it is recommended to configure it in the environment
-      // (e.g. GOOGLE_API_KEY)
+      project: 'monospace-1', // Your Google Cloud project ID
+      location: 'us-central1',  // The location of your Vertex AI resources
     }),
   ],
 });
