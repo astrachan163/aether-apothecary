@@ -1,11 +1,11 @@
 // src/ai/genkit.ts
 import {genkit} from 'genkit';
-import {googleAI} from '@genkit-ai/googleai';
+import {vertexAI} from '@genkit-ai/google-cloud';
 
 export const ai = genkit({
   plugins: [
-    googleAI({
-      project: 'monospace-1', // Your Google Cloud project ID
+    vertexAI({
+      project: 'aether-apothecary', // Your Google Cloud project ID
       location: 'us-central1',  // The location of your Vertex AI resources
     }),
   ],
