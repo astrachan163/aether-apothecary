@@ -58,12 +58,15 @@ const generateProductImageFlow = ai.defineFlow(
 
 export async function generateProductImages(input: GenerateProductImagesInput): Promise<GenerateProductImagesOutput> {
   try {
-    // Generate 4 images in parallel
-    const imagePromises = Array(4).fill(null).map(() => generateProductImageFlow(input));
-    const imageDataUris = await Promise.all(imagePromises);
+    const imageDataUris: string[] = [];
+    // Generate 4 images sequentially to avoid potential rate-limiting issues.
+    for (let i = 0; i < 4; i++) {
+      const imageDataUri = await generateProductImageFlow(input);
+      imageDataUris.push(imageDataUri);
+    }
     return { images: imageDataUris };
   } catch (error) {
-    console.error("Error in generateProductImages parallel execution:", error);
+    console.error("Error in generateProductImages sequential execution:", error);
     // Fallback or re-throw
     throw new Error("Failed to generate one or more product images.");
   }
