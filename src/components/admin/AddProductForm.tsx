@@ -28,7 +28,10 @@ const productFormSchema = z.object({
   shortDescription: z.string().min(10, 'Short description must be at least 10 characters.').max(150, 'Too long'),
   description: z.string().min(20, 'Description must be at least 20 characters.'),
   imageUrl: z.string().min(1, 'Please generate and select an image.'), // Must be a non-empty string (data URI)
-  price: z.coerce.number().min(0.01, 'Price must be at least 0.01.'),
+  price: z.preprocess(
+    (val) => (val === '' ? 0 : Number(val)),
+    z.number().min(0.01, 'Price must be at least 0.01.')
+  ),
   category: z.string().min(2, 'Category is required.'),
   ailments: z.array(z.enum(ailmentOptions)).min(1, 'Select at least one ailment.'),
   ingredients: z.string().min(3, 'Enter at least one ingredient, comma-separated.'),
@@ -57,7 +60,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
       shortDescription: '',
       description: '',
       imageUrl: '',
-      price: undefined,
+      price: '' as any, // Initialize with empty string instead of undefined
       category: '',
       ailments: [],
       ingredients: '',
