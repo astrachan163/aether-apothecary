@@ -48,11 +48,11 @@ const generateProductImageFlow = ai.defineFlow(
             throw new Error('Image generation was blocked for safety reasons.');
         }
         
-        if (!media || !media.url) {
+        if (!media || !Array.isArray(media) || media.length === 0 || !media[0].url) {
             throw new Error('Image generation failed to produce a valid media object.');
         }
 
-        return media.url;
+        return media[0].url;
     } catch (e: any) {
         // Re-throw with a more detailed error for debugging
         const specificError = e.message || 'An unknown error occurred during AI generation.';
