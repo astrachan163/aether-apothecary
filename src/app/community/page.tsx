@@ -111,7 +111,7 @@ export default function CommunityPage() {
         <Users className="h-16 w-16 text-accent mx-auto mb-4" />
         <h1 className="text-4xl font-bold tracking-tight text-foreground">Shared Journeys</h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Read inspiring testimonials from our community and share your own experiences with Victorious Herbal Elements products.
+          Sample content. These notes are examples, not customer reviews.
         </p>
       </header>
 
@@ -120,13 +120,14 @@ export default function CommunityPage() {
       <div className="grid md:grid-cols-2 gap-4 mb-8 p-6 bg-card rounded-lg shadow">
         <Input 
           type="text"
+          aria-label="Search stories or names"
           placeholder="Search stories or users..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="text-base"
         />
         <Select value={selectedProductFilter} onValueChange={setSelectedProductFilter}>
-          <SelectTrigger>
+          <SelectTrigger aria-label="Filter stories by product" className="min-h-11">
             <SelectValue placeholder="Filter by product (All Products)" />
           </SelectTrigger>
           <SelectContent>

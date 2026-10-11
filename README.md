@@ -6,14 +6,14 @@
 
 A Next.js storefront demo for Victorious Herbal Elements. Shoppers can browse a sample catalog, read an ingredient glossary, and add community stories that stay in the browser.
 
-**Status:** Demo with sample data. The product page uses a simulated checkout, so this build does not charge a card. Catalog edits last until the tab is closed.
+**Status:** Demo with sample data. No products are sold, and checkout is turned off. Catalog edits last until the tab is closed.
 
 Live: [aether-apothecary.vercel.app](https://aether-apothecary.vercel.app) · [aether-apothecary.web.app](https://aether-apothecary.web.app) · Part of [Andrew Strachan's portfolio](https://www.nonartificialsi.com)
 
 ## What it does today
 
 - Shows the sample product catalog, with photos, prices, and categories, and filters it by category, ingredient text, and the tags stored on each product.
-- Product pages list ingredients and related sample stories. **Buy Now (Simulated)** opens a mock payment form and does not call Stripe.
+- Product pages list ingredients and related sample stories. The action button says **Demo only** and does not start a purchase.
 - The ingredient glossary and community page read `src/data`. Stories added on the community page stay in memory for the current visit.
 - The admin screen can add or remove products and stories for that same visit. The password is checked on the server against `ADMIN_PASSWORD`. This repository does not contain that password.
 - Optional admin buttons call server actions that draft a description or images. Those calls need Google Cloud credentials on the server. No API key is shipped here, so the buttons stay offline until a host provides credentials.
@@ -21,7 +21,7 @@ Live: [aether-apothecary.vercel.app](https://aether-apothecary.vercel.app) · [a
 ## Planned
 
 - Saving the catalog, stories, and orders in Firebase [planned]. `src/lib/firebase.ts` is a stub.
-- Connecting the product page to Stripe Checkout [planned]. `src/app/api/checkout/route.ts` can create a session, and the product page does not call it. The webhook route returns `{ received: true }` and does not verify a signature.
+- A live checkout [planned]. The product page does not start one.
 - A real admin session, instead of a browser flag set after the password check [planned].
 
 ## Screens
@@ -53,7 +53,7 @@ npm run dev
 
 The dev server listens on port 9002. Use Node.js 24 (`engines.node` is `24.x`). Leave `ADMIN_PASSWORD` blank if you only want the public catalog. The admin page will say that login is not configured. The catalog still builds when no environment variables are set.
 
-Firebase Hosting for `aether-apothecary` can serve the static export (no Cloud Functions). `npm run build:static` writes `out/`. That build has no server routes. Admin pages say "Admin is offline". The public catalog, glossary, community stories, and simulated checkout stay in the browser. `firebase.json` points hosting at `out/`.
+Firebase Hosting for `aether-apothecary` is the host (no Cloud Functions). `npm run build:static` writes `out/`. That build has no server routes and does not load Stripe. Admin pages say "Admin is offline". A password is not required. `firebase.json` points hosting at `out/`.
 
 ## Tests and checks
 

@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Leaf } from 'lucide-react';
+import { DisclaimerMark } from '@/components/DisclaimerMark';
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -41,15 +42,15 @@ export function IngredientCard({ ingredient }: IngredientCardProps) {
         <div className="space-y-4">
           <div>
             <h4 className="font-semibold text-md mb-1">Traditional Uses</h4>
-            <p className="text-sm text-muted-foreground">{ingredient.traditionalUses}</p>
+            <p className="text-sm text-muted-foreground">{ingredient.traditionalUses}<DisclaimerMark /></p>
           </div>
           <div>
             <h4 className="font-semibold text-md mb-1">Traditional spiritual use</h4>
-            <p className="text-sm text-muted-foreground">{ingredient.spiritualBenefits}</p>
+            <p className="text-sm text-muted-foreground">{ingredient.spiritualBenefits}<DisclaimerMark /></p>
           </div>
           <div>
             <h4 className="font-semibold text-md mb-1">Traditional physical use</h4>
-            <p className="text-sm text-muted-foreground">{ingredient.physicalBenefits}</p>
+            <p className="text-sm text-muted-foreground">{ingredient.physicalBenefits}<DisclaimerMark /></p>
           </div>
         </div>
       </AccordionContent>
