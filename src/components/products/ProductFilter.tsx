@@ -90,7 +90,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
           <Input 
             id="search-term"
             type="text" 
-            placeholder="e.g., Lavender, Healing" 
+            placeholder="e.g., Lavender, mint" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="mt-1"
@@ -98,7 +98,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
         </div>
 
         <div>
-          <Label className="text-sm font-medium mb-1 block">Filter by Ailment</Label>
+          <Label className="text-sm font-medium mb-1 block">Filter by Use</Label>
           <div className="space-y-2 mt-2">
             {ailmentOptions.map(opt => (
               <div key={opt.value} className="flex items-center space-x-2">

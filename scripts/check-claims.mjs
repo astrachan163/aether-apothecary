@@ -4,8 +4,8 @@
  * vendored UI (src/components/ui), and this file (it contains the patterns).
  *
  * Lines 1-4 are case-insensitive except the MD token, which is case-sensitive
- * so Tailwind's `md:` and `.md` do not match. Line 5 is case-sensitive so the
- * display spelling "MaQkrs" does not match.
+ * so Tailwind's `md:` and `.md` do not match. The spelling line is
+ * case-sensitive. This repo does not apply the MaQkrs spelling rule.
  */
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
@@ -15,10 +15,18 @@ const ROOT = join(import.meta.dirname, '..');
 
 const TEXT_EXT = new Set(['.md', '.mdx', '.ts', '.tsx', '.js', '.jsx', '.mjs', '.css', '.html']);
 
-/** Exact URL, path, repo slug, or ID strings removed before matching. */
+/** Exact strings removed before matching. The footer disclaimer names the
+ * words it disclaims, so it is not itself a product claim. */
 const ALLOW_EXACT = [
-  // No allow-listed slugs in this repo.
+  'These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.',
 ];
+
+const HEALTH_VERB = 'cures?|curing|cured|treats?|treating|treated|prevents?|preventing|prevented|fights?|fighting|fought';
+const DISEASE_WORD = 'diseases?|cancers?|tumou?rs?|infections?|illness(?:es)?|insomnia|wounds?|burns?|diabetes|heart disease|depression';
+const HEALTH_CLAIM = new RegExp(
+  `\\b(?:${HEALTH_VERB})\\b[^\\n]{0,60}\\b(?:${DISEASE_WORD})\\b|\\b(?:${DISEASE_WORD})\\b[^\\n]{0,60}\\b(?:${HEALTH_VERB})\\b`,
+  'i',
+);
 
 const CASE_INSENSITIVE = [
   /Doctor of Medicine|\bM\.D\.|M\.D\. Candidate|four years of medical school|medical school graduate/i,
@@ -29,7 +37,7 @@ const CASE_INSENSITIVE = [
 
 const CASE_SENSITIVE = [
   /\bMD\b/,
-  /Apple ID|\bGBA\b|Game ?Boy|Nintendo|\bMaqkrs\b(?![-/._a-zA-Z0-9])|MaQkRs/,
+  /Apple ID|\bGBA\b|Game ?Boy|Nintendo/,
 ];
 
 const SKIP_DIRS = new Set(['node_modules', '.next', '.git', 'ui']);
@@ -74,7 +82,7 @@ for (const file of targets()) {
   const lines = text.split(/\r?\n/);
   lines.forEach((line, index) => {
     const cleaned = scrub(line);
-    const matched = [...CASE_INSENSITIVE, ...CASE_SENSITIVE].some((pattern) => pattern.test(cleaned));
+    const matched = [...CASE_INSENSITIVE, ...CASE_SENSITIVE, HEALTH_CLAIM].some((pattern) => pattern.test(cleaned));
     if (matched) {
       hits.push(`${relative(ROOT, file)}:${index + 1}`);
     }

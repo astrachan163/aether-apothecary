@@ -21,7 +21,7 @@ export const mockStories: CommunityStory[] = [
     dataAiHint: 'man nature',
     productId: '2',
     productName: 'Herbal Healing Oil',
-    story: "I'm an avid gardener and often get minor cuts and scrapes. The Herbal Healing Salve is a lifesaver! It soothes irritation instantly and helps my skin heal much faster. I love that it's all-natural.",
+    story: "I keep the Herbal Healing Oil by the garden door. I enjoy the herbal scent after a long afternoon outside. It is part of my routine, and I like that it is simple.",
     date: '2023-11-02',
   },
   {
@@ -31,7 +31,7 @@ export const mockStories: CommunityStory[] = [
     dataAiHint: 'woman nature', // Added placeholder hint
     productId: '3', // Assuming this relates to product ID '3' (All Natural Herbal Black Soap)
     productName: 'All Natural Herbal Black Soap', // Updated to match
-    story: "The All Natural Herbal Black Soap has become a staple in my routine. The scent is incredibly calming, and it leaves my skin feeling soft. I've noticed a significant improvement in my skin's clarity.",
+    story: "The All Natural Herbal Black Soap has become a staple in my routine. The scent is incredibly calming, and I enjoy how soft my skin feels afterward.",
     date: '2023-09-20',
   },
 ];

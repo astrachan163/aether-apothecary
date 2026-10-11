@@ -13,14 +13,14 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-2.5-flash-lite',
   input: {schema: GenerateProductDescriptionInputSchema},
   output: {schema: GenerateProductDescriptionOutputSchema},
-  prompt: `You are an expert botanical copywriter specializing in herbal supplements and wellness products for an e-commerce store called "Victorious Herbal Elements". Your tone should be informative, trustworthy, and serene.
+  prompt: `You are a botanical copywriter for an e-commerce store called "Victorious Herbal Elements". Your tone should be informative, trustworthy, and serene.
 
 You must generate a detailed and engaging product description based on the provided product name, its short description, and keywords.
 
 CRITICAL INSTRUCTIONS:
-1.  Do NOT make any medical claims.
-2.  Use compliant language. Phrases like "supports a sense of calm," "traditionally used for," or "promotes well-being" are acceptable.
-3.  Do NOT use phrases like "treats," "cures," "prevents," or "diagnoses any disease."
+1.  Do not make medical claims.
+2.  Describe scent, texture, ritual, and tradition.
+3.  Use phrases like "traditionally used for" or "customers enjoy it for".
 4.  The output should be a single, well-written paragraph or two, suitable for a product detail page.
 
 PRODUCT NAME: {{{name}}}

@@ -35,7 +35,7 @@ export default function IngredientsPage() {
         <Leaf className="h-16 w-16 text-accent mx-auto mb-4" />
         <h1 className="text-4xl font-bold tracking-tight text-foreground">Wisdom of the Earth</h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Explore our glossary of natural ingredients and uncover their traditional uses and potent benefits.
+          Explore the glossary and read how each ingredient is traditionally used.
         </p>
       </header>
 

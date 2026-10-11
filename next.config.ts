@@ -1,7 +1,8 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Vercel runs `next build` the same way local does. These flags keep
+  // existing type and lint errors from failing that build.
   typescript: {
     ignoreBuildErrors: true,
   },

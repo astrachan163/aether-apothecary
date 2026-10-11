@@ -138,20 +138,22 @@ export default function ProductDetailPage() {
             </CardContent>
           </Card>
           
+          {product.ailments.length > 0 && (
           <Card className="mb-6 bg-background/50">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center"><Sparkles className="mr-2 h-5 w-5 text-accent" />Suited For</CardTitle>
+              <CardTitle className="text-lg flex items-center"><Sparkles className="mr-2 h-5 w-5 text-accent" />Traditional use</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
                 {product.ailments.map(ailment => (
-                  <Badge key={ailment} variant="outline" className="capitalize text-sm py-1 px-2.5 border-accent text-accent">
-                    {ailment} Healing
+                  <Badge key={ailment} variant="secondary" className="capitalize text-sm py-1 px-2.5">
+                    {ailment}
                   </Badge>
                 ))}
               </div>
             </CardContent>
           </Card>
+          )}
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>

@@ -33,7 +33,7 @@ const productFormSchema = z.object({
     z.number().min(0.01, 'Price must be at least 0.01.')
   ),
   category: z.string().min(2, 'Category is required.'),
-  ailments: z.array(z.enum(ailmentOptions)).min(1, 'Select at least one ailment.'),
+  ailments: z.array(z.enum(ailmentOptions)).min(1, 'Select at least one use.'),
   ingredients: z.string().min(3, 'Enter at least one ingredient, comma-separated.'),
   sku: z.string().optional(),
 });
@@ -187,7 +187,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
         <FormField control={form.control} name="name" render={({ field }) => (
             <FormItem>
               <FormLabel>Product Name</FormLabel>
-              <FormControl><Input placeholder="e.g., Healing Elixir" {...field} /></FormControl>
+              <FormControl><Input placeholder="e.g., Herbal oil" {...field} /></FormControl>
               <FormMessage />
             </FormItem>
         )}/>
@@ -302,7 +302,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
         <FormField control={form.control} name="ailments" render={() => (
             <FormItem>
               <div className="mb-2">
-                <FormLabel className="text-base">Targeted Ailments</FormLabel>
+                <FormLabel className="text-base">Traditional use</FormLabel>
                 <FormDescription>Select all that apply.</FormDescription>
               </div>
               {ailmentOptions.map((item) => (

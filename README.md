@@ -51,7 +51,7 @@ cp .env.example .env.local   # fill in your own values; never commit them
 npm run dev
 ```
 
-The dev server listens on port 9002. Leave `ADMIN_PASSWORD` blank if you only want the public catalog. The admin page will say that login is not configured.
+The dev server listens on port 9002. Use Node.js 20 (`engines.node` is `20.x`). Leave `ADMIN_PASSWORD` blank if you only want the public catalog. The admin page will say that login is not configured. The catalog still builds when no environment variables are set.
 
 ## Tests and checks
 
