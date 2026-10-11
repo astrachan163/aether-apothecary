@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { lora } from '@/lib/fonts';
 import './globals.css';
-import { DemoBanner } from '@/components/layout/DemoBanner';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster";
@@ -23,10 +22,7 @@ export default function RootLayout({
       <body className="antialiased">
         <AuthProvider>
           <DataProvider>
-            <div className="sticky top-0 z-50">
-              <DemoBanner />
-              <Header />
-            </div>
+            <Header />
             <main className="py-8 px-4 md:px-8">
               {children}
             </main>

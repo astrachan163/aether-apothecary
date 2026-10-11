@@ -6,14 +6,14 @@
 
 A Next.js storefront demo for Victorious Herbal Elements. Shoppers can browse a sample catalog, read an ingredient glossary, and add community stories that stay in the browser.
 
-**Status:** Demo with sample data. No products are sold, and checkout is turned off. Catalog edits last until the tab is closed.
+**Status:** Storefront with sample catalog data. Checkout is in the product page. Live card charges are not turned on yet. Catalog edits last until the tab is closed.
 
 Live: [aether-apothecary.vercel.app](https://aether-apothecary.vercel.app) · [aether-apothecary.web.app](https://aether-apothecary.web.app) · Part of [Andrew Strachan's portfolio](https://www.nonartificialsi.com)
 
 ## What it does today
 
 - Shows the sample product catalog, with photos, prices, and categories, and filters it by category, ingredient text, and the tags stored on each product.
-- Product pages list ingredients and related sample stories. The action button says **Demo only** and does not start a purchase.
+- Product pages list ingredients and related sample stories. **Buy Now** opens checkout. The Stripe route is in the repo for test mode; this button does not create a live charge yet.
 - The ingredient glossary and community page read `src/data`. Stories added on the community page stay in memory for the current visit.
 - The admin screen can add or remove products and stories for that same visit. The password is checked on the server against `ADMIN_PASSWORD`. This repository does not contain that password.
 - Optional admin buttons call server actions that draft a description or images. Those calls need Google Cloud credentials on the server. No API key is shipped here, so the buttons stay offline until a host provides credentials.
@@ -21,7 +21,7 @@ Live: [aether-apothecary.vercel.app](https://aether-apothecary.vercel.app) · [a
 ## Planned
 
 - Saving the catalog, stories, and orders in Firebase [planned]. `src/lib/firebase.ts` is a stub.
-- A live checkout [planned]. The product page does not start one.
+- Connecting **Buy Now** to the Stripe test-mode route, then to live payments when the owner turns that on [planned].
 - A real admin session, instead of a browser flag set after the password check [planned].
 
 ## Screens
