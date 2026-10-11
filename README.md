@@ -51,7 +51,9 @@ cp .env.example .env.local   # fill in your own values; never commit them
 npm run dev
 ```
 
-The dev server listens on port 9002. Use Node.js 20 (`engines.node` is `20.x`). Leave `ADMIN_PASSWORD` blank if you only want the public catalog. The admin page will say that login is not configured. The catalog still builds when no environment variables are set.
+The dev server listens on port 9002. Use Node.js 24 (`engines.node` is `24.x`). Leave `ADMIN_PASSWORD` blank if you only want the public catalog. The admin page will say that login is not configured. The catalog still builds when no environment variables are set.
+
+Firebase Hosting for `aether-apothecary` can serve the static export (no Cloud Functions). `npm run build:static` writes `out/`. That build has no server routes. Admin pages say "Admin is offline". The public catalog, glossary, community stories, and simulated checkout stay in the browser. `firebase.json` points hosting at `out/`.
 
 ## Tests and checks
 

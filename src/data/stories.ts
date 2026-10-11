@@ -20,8 +20,8 @@ export const mockStories: CommunityStory[] = [
     userAvatarUrl: 'https://placehold.co/100x100.png',
     dataAiHint: 'man nature',
     productId: '2',
-    productName: 'Herbal Healing Oil',
-    story: "I keep the Herbal Healing Oil by the garden door. I enjoy the herbal scent after a long afternoon outside. It is part of my routine, and I like that it is simple.",
+    productName: 'Calendula Botanical Oil',
+    story: "I keep the Calendula Botanical Oil by the garden door. I enjoy the herbal scent after a long afternoon outside. It is part of my routine, and I like that it is simple.",
     date: '2023-11-02',
   },
   {
