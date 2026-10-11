@@ -9,7 +9,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:claims": "node scripts/check-claims.mjs",
+    "check:emoji": "node scripts/check-emoji.mjs",
+    "check:secrets": "node scripts/check-client-secrets.mjs",
+    "check": "npm run check:claims && npm run check:emoji && npm run check:secrets"
   },
   "dependencies": {
     "@genkit-ai/google-cloud": "^1.20.0",

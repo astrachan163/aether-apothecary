@@ -4,18 +4,16 @@ import type { ReactNode } from 'react';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+export type AdminLoginResult = 'ok' | 'invalid' | 'unconfigured' | 'error';
+
 interface AuthContextType {
   isAdmin: boolean;
-  login: (password: string) => boolean;
+  login: (password: string) => Promise<AdminLoginResult>;
   logout: () => void;
   isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// Hardcoded admin credentials (NOT FOR PRODUCTION)
-const ADMIN_EMAIL = "amoultrie1983@gmail.com"; // Email not directly used for login in this simple version
-const ADMIN_PASSWORD = "Victorious1$";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -23,29 +21,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Check localStorage for persisted admin state
     try {
       const storedIsAdmin = localStorage.getItem('isAdminVHE');
       if (storedIsAdmin === 'true') {
         setIsAdmin(true);
       }
     } catch (error) {
-      console.error("Could not access localStorage:", error);
+      console.error('Could not access localStorage:', error);
     }
     setIsLoading(false);
   }, []);
 
-  const login = (password: string): boolean => {
-    if (password === ADMIN_PASSWORD) {
+  const login = async (password: string): Promise<AdminLoginResult> => {
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.status === 503) {
+        return 'unconfigured';
+      }
+      if (!response.ok) {
+        return 'invalid';
+      }
+
       setIsAdmin(true);
       try {
         localStorage.setItem('isAdminVHE', 'true');
       } catch (error) {
-         console.error("Could not access localStorage:", error);
+        console.error('Could not access localStorage:', error);
       }
-      return true;
+      return 'ok';
+    } catch (error) {
+      console.error('Admin login request failed:', error);
+      return 'error';
     }
-    return false;
   };
 
   const logout = () => {
@@ -53,9 +65,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.removeItem('isAdminVHE');
     } catch (error) {
-      console.error("Could not access localStorage:", error);
+      console.error('Could not access localStorage:', error);
     }
-    router.push('/'); // Redirect to home on logout
+    router.push('/');
   };
 
   return (

@@ -31,25 +31,21 @@ Follow these steps to integrate Stripe payments and deploy your application.
 
 ## 3. Configure Environment Variables
 
-Create a file named `.env.local` in the root of your project and add the following:
+Copy the blank template and fill in your own values in a file that stays on your machine. Do not commit that file, and do not paste keys into the repository.
 
-```
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-
-FIREBASE_PROJECT_ID="your-firebase-project-id"
-FIREBASE_CLIENT_EMAIL="your-firebase-client-email"
-FIREBASE_PRIVATE_KEY="your-firebase-private-key"
+```sh
+cp .env.example .env.local
 ```
 
-*   Replace `sk_test_...` with your Stripe Secret Key.
-*   Replace `whsec_...` with your Stripe Webhook Secret.
-*   Replace `pk_test_...` with your Stripe Publishable Key.
-*   Open the JSON file you downloaded from Firebase.
-    *   `FIREBASE_PROJECT_ID` is the `project_id`.
-    *   `FIREBASE_CLIENT_EMAIL` is the `client_email`.
-    *   `FIREBASE_PRIVATE_KEY` is the `private_key`.  **Important**: Your hosting provider (Vercel) should handle the formatting of the private key correctly.
+The names in `.env.example` are:
+
+*   `STRIPE_SECRET_KEY` — Stripe secret key. Use test mode for this demo.
+*   `STRIPE_WEBHOOK_SECRET` — webhook signing secret.
+*   `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — Stripe publishable key.
+*   `ADMIN_PASSWORD` — server-only admin gate. Never put this in a `NEXT_PUBLIC_` variable.
+*   `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY` — from the Firebase Admin SDK JSON (`project_id`, `client_email`, and `private_key`).
+
+Keep every value in `.env.example` blank. On Vercel, add the same names as environment variables. Vercel accepts the private key as a single environment value; do not commit the downloaded JSON file.
 
 ## 4. Deploy Your Application on Vercel
 

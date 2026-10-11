@@ -38,7 +38,11 @@ yarn-error.log*
 next-env.d.ts
 
 .genkit/*
-.env*
+
+# env files (keep the blank template tracked)
+.env
+.env.*
+!.env.example
 
 # firebase
 firebase-debug.log
