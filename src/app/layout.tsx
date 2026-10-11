@@ -9,7 +9,7 @@ import { DataProvider } from '@/contexts/DataContext';
 
 export const metadata: Metadata = {
   title: 'Victorious Herbal Elements LLC',
-  description: 'Herbal alternatives for holistic healing.',
+  description: 'Sample storefront for Victorious Herbal Elements.',
 };
 
 export default function RootLayout({

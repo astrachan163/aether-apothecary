@@ -17,7 +17,7 @@ const generateProductImageFlow = ai.defineFlow(
   },
   async (input) => {
     const promptText = `
-      Generate a single, realistic, studio-quality image for an herbal wellness product.
+      Generate a single, realistic, studio-quality image for an herbal product.
       
       **Image Style Guidelines:**
       - Soft, natural lighting. Avoid harsh shadows.

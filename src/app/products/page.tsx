@@ -32,7 +32,7 @@ export default function ProductsPage() {
         <LayoutGrid className="h-16 w-16 text-accent mx-auto mb-4" />
         <h1 className="text-4xl font-bold tracking-tight text-foreground">Our Herbal Collection</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Explore natural remedies crafted with care for your holistic well-being.
+          Browse the sample catalog of herbal products.
         </p>
       </header>
 

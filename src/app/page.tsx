@@ -37,7 +37,7 @@ export default function HomePage() {
             Discover Nature's Wisdom
           </h1>
           <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto mb-8">
-            Embark on a holistic healing journey with Victorious Herbal Elements. Explore our curated collection of herbal alternatives and find personalized paths to well-being.
+            Browse the Victorious Herbal Elements sample catalog. Explore herbal oils, soaps, and teas, and read how customers enjoy them.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
             <Link href="/products">
@@ -48,7 +48,7 @@ export default function HomePage() {
       </section>
 
       <section className="container mx-auto px-4 md:px-8">
-        <h2 className="text-3xl font-semibold tracking-tight text-center mb-10">Featured Elixirs & Remedies</h2>
+        <h2 className="text-3xl font-semibold tracking-tight text-center mb-10">Featured products</h2>
         {featuredProducts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
@@ -72,7 +72,7 @@ export default function HomePage() {
                 <Leaf className="h-10 w-10 text-accent mb-2" />
                 <CardTitle className="text-2xl">Wisdom of the Earth</CardTitle>
                 <CardDescription>
-                    Delve into our Ingredient Glossary to understand the traditional uses and benefits of nature's remedies.
+                    Open the ingredient glossary to read how these plants are traditionally used.
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -92,7 +92,7 @@ export default function HomePage() {
           </div>
           <div className="text-center mt-10">
             <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent/10 hover:text-accent">
-              <Link href="/community">More Healing Journeys <Users className="ml-2 h-5 w-5" /></Link>
+              <Link href="/community">More community stories <Users className="ml-2 h-5 w-5" /></Link>
             </Button>
           </div>
         </section>
@@ -103,7 +103,7 @@ export default function HomePage() {
            <p className="text-center text-muted-foreground">Check out more stories on our community page!</p>
           <div className="text-center mt-10">
             <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent/10 hover:text-accent">
-              <Link href="/community">More Healing Journeys <Users className="ml-2 h-5 w-5" /></Link>
+              <Link href="/community">More community stories <Users className="ml-2 h-5 w-5" /></Link>
             </Button>
           </div>
         </section>

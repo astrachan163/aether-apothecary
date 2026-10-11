@@ -3,12 +3,21 @@ import { NextResponse, NextRequest } from 'next/server';
 import Stripe from 'stripe';
 import type { CartItem } from '@/lib/types';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2024-06-20',
-});
+function getStripe(): Stripe | null {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) return null;
+  return new Stripe(key, {
+    apiVersion: '2024-06-20',
+  });
+}
 
 // This function handles the POST request to create a Stripe Checkout session.
 export async function POST(req: NextRequest) {
+  const stripe = getStripe();
+  if (!stripe) {
+    return NextResponse.json({ error: 'Checkout is not configured.' }, { status: 503 });
+  }
+
   try {
     const body = await req.json();
     const cartItems = body.cartItems as CartItem[];

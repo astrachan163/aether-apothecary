@@ -44,11 +44,11 @@ export function IngredientCard({ ingredient }: IngredientCardProps) {
             <p className="text-sm text-muted-foreground">{ingredient.traditionalUses}</p>
           </div>
           <div>
-            <h4 className="font-semibold text-md mb-1">Spiritual Benefits</h4>
+            <h4 className="font-semibold text-md mb-1">Traditional spiritual use</h4>
             <p className="text-sm text-muted-foreground">{ingredient.spiritualBenefits}</p>
           </div>
           <div>
-            <h4 className="font-semibold text-md mb-1">Physical Benefits</h4>
+            <h4 className="font-semibold text-md mb-1">Traditional physical use</h4>
             <p className="text-sm text-muted-foreground">{ingredient.physicalBenefits}</p>
           </div>
         </div>

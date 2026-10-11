@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "site": "aether-apothecary",
+    "public": "out",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true
+  }
+}
