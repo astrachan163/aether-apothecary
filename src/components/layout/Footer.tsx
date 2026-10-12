@@ -2,11 +2,11 @@ const FDA_DISCLAIMER =
   'These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.';
 
 const legalLinks = [
-  { href: '/privacy', label: 'Privacy' },
-  { href: '/terms', label: 'Terms' },
-  { href: '/accessibility', label: 'Accessibility' },
-  { href: '/ai-key-guide', label: 'AI' },
-  { href: '/credits', label: 'Credits' },
+  { href: 'https://www.nonartificialsi.com/privacy', label: 'Privacy' },
+  { href: 'https://www.nonartificialsi.com/terms', label: 'Terms' },
+  { href: 'https://www.nonartificialsi.com/accessibility', label: 'Accessibility' },
+  { href: 'https://www.nonartificialsi.com/ai', label: 'AI' },
+  { href: 'https://www.nonartificialsi.com/credits', label: 'Credits' },
 ];
 
 export function Footer() {

@@ -13,7 +13,7 @@ Live: [herbal.nonartificialsi.com](https://herbal.nonartificialsi.com) · [aethe
 ## What it does today
 
 - Shows the sample product catalog, with photos, prices, and categories, and filters it by category, ingredient text, and the tags stored on each product.
-- Product pages list ingredients and related sample stories. **Add to cart** keeps a browser cart. **Buy Now** starts Stripe test Checkout when a test publishable key is set. Otherwise the button is disabled and reads that checkout is off until the test account is connected.
+- Product pages list ingredients and related sample stories. **Add to cart** keeps a browser cart. **Buy Now** starts Stripe test Checkout when a test publishable key is set. Otherwise the button is disabled and reads: Checkout is off today: no orders, no charges, and no card details are collected.
 - The ingredient glossary and community page read `src/data`. Stories added on the community page stay in memory for the current visit.
 - The public pages do not link to admin. The sample catalog lives in `src/data` for the current visit.
 - Optional admin buttons call server actions that draft a description or images. Those calls need Google Cloud credentials on the server. No API key is shipped here, so the buttons stay offline until a host provides credentials.
@@ -22,7 +22,7 @@ Live: [herbal.nonartificialsi.com](https://herbal.nonartificialsi.com) · [aethe
 
 - Saving the catalog, stories, and orders in Firebase [planned]. `src/lib/firebase.ts` is a stub.
 - Connecting **Buy Now** to the Stripe test-mode route [planned].
-- A signed-in admin for the store [planned]. This branch does not turn on a public admin session.
+- A one-click store admin demo and an owner sign-in. There is no public account creation.
 
 ## Screens
 

@@ -201,7 +201,7 @@ exports.createCheckoutSession = onCall({ ...APP_CHECK, secrets: [stripeSecret] }
   try {
     assertSecretTestKey(key);
   } catch {
-    throw new HttpsError('failed-precondition', 'Checkout is off until the store Stripe test account is connected.');
+    throw new HttpsError('failed-precondition', 'Checkout is off today: no orders, no charges, and no card details are collected.');
   }
   const items = Array.isArray(request.data?.items) ? request.data.items : [];
   if (items.length === 0) throw new HttpsError('invalid-argument', 'Cart is empty.');

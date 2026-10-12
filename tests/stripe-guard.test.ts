@@ -32,7 +32,7 @@ describe('stripe test mode', () => {
   });
 
   it('names the disabled checkout label', () => {
-    expect(CHECKOUT_OFF_LABEL).toBe("Checkout is off until the store's Stripe test account is connected");
+    expect(CHECKOUT_OFF_LABEL).toBe('Checkout is off today: no orders, no charges, and no card details are collected.');
   });
 
   it('rejects a bad webhook signature', () => {
