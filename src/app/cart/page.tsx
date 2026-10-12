@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { httpsCallable } from 'firebase/functions';
 import { Button } from '@/components/ui/button';
 import { readCart } from '@/lib/cart';
-import { getFirebase } from '@/lib/firebase';
+import { ensureAppCheck, getFirebase } from '@/lib/firebase';
 import { CHECKOUT_OFF_LABEL, checkoutEnabled } from '@/lib/stripe-client';
 import { TEST_MODE_NOTICE } from '../../../shared/notices';
 import { useAuth } from '@/contexts/AuthContext';
@@ -17,6 +17,7 @@ export default function CartPage() {
 
   async function onCheckout() {
     const clients = getFirebase();
+    ensureAppCheck();
     if (!enabled || !clients) {
       setMessage(CHECKOUT_OFF_LABEL);
       return;

@@ -35,3 +35,8 @@ function runNextBuild() {
 await rm(join(root, '.next'), { recursive: true, force: true });
 await rm(join(root, 'out'), { recursive: true, force: true });
 await runNextBuild();
+await new Promise((resolve, reject) => {
+  const child = spawn(process.execPath, [join(root, 'scripts/apply-csp.mjs')], { cwd: root, stdio: 'inherit' });
+  child.on('error', reject);
+  child.on('exit', (code) => (code === 0 ? resolve() : reject(new Error(`csp exited ${code ?? 1}`))));
+});

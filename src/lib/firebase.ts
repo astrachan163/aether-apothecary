@@ -33,22 +33,26 @@ export function getFirebase(): FirebaseClients | null {
     return null;
   }
   const app = getApps()[0] ?? initializeApp(config);
-  const siteKey = process.env.NEXT_PUBLIC_FIREBASE_APP_CHECK_SITE_KEY;
-  let appCheck: AppCheck | null = null;
-  if (siteKey && typeof window !== 'undefined') {
-    appCheck = initializeAppCheck(app, {
-      provider: new ReCaptchaEnterpriseProvider(siteKey),
-      isTokenAutoRefreshEnabled: true,
-    });
-  }
   clients = {
     app,
     auth: getAuth(app),
     db: getFirestore(app),
     functions: getFunctions(app, 'us-central1'),
-    appCheck,
+    appCheck: null,
   };
   return clients;
+}
+
+export function ensureAppCheck(): AppCheck | null {
+  const ready = getFirebase();
+  if (!ready || ready.appCheck || typeof window === 'undefined') return ready?.appCheck ?? null;
+  const siteKey = process.env.NEXT_PUBLIC_FIREBASE_APP_CHECK_SITE_KEY;
+  if (!siteKey) return null;
+  ready.appCheck = initializeAppCheck(ready.app, {
+    provider: new ReCaptchaEnterpriseProvider(siteKey),
+    isTokenAutoRefreshEnabled: true,
+  });
+  return ready.appCheck;
 }
 
 export const db = undefined;

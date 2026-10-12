@@ -22,7 +22,7 @@ type Stored = {
   savedAt: number;
 };
 
-const STORAGE_KEY = 'maqkrs.byok.gemini.v1';
+const STORAGE_KEY = 'vhe.byok.gemini.v1';
 const ORIGIN = 'https://generativelanguage.googleapis.com';
 const listeners = new Set<(state: ByokState) => void>();
 let memory: Stored | null = null;

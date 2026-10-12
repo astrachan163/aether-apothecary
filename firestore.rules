@@ -60,7 +60,17 @@ service cloud.firestore {
 
       match /counters/{counterId} {
         allow read: if isDemoOwner(uid);
-        allow write: if false;
+        allow create: if false;
+        allow update: if isDemoOwner(uid)
+          && counterId == 'docs'
+          && request.resource.data.keys().hasOnly(['ids'])
+          && request.resource.data.ids is list
+          && request.resource.data.ids.size() <= 200
+          && request.resource.data.ids.size() != resource.data.ids.size()
+          && (request.resource.data.ids.size() == resource.data.ids.size() + 1
+            || request.resource.data.ids.size() == resource.data.ids.size() - 1)
+          && (request.resource.data.ids.size() == 0
+            || request.resource.data.ids[request.resource.data.ids.size() - 1] is string);
       }
 
       match /orders/{id} {
@@ -68,15 +78,123 @@ service cloud.firestore {
         allow write: if false;
       }
 
+      function counter() {
+        return /databases/$(database)/documents/sandboxes/$(uid)/counters/docs;
+      }
+
       match /catalog/{kind}/items/{id} {
+      function slot() {
+        return kind + '/' + id;
+      }
+      function textOk(value, max) {
+        return value is string && value.size() > 0 && value.size() <= max;
+      }
+      function textOptional(value, max) {
+        return value is string && value.size() <= max;
+      }
+      function imageOk(value) {
+        return textOk(value, 300)
+          && (value.matches('^/images/.+') || value.matches('^https://firebasestorage\\.googleapis\\.com/.+'));
+      }
+      function listAt(items, index, maxLen) {
+        return items.size() <= index || (items[index] is string && items[index].size() > 0 && items[index].size() <= maxLen);
+      }
+      function stringList(items, maxItems, maxLen) {
+        return items is list && items.size() <= maxItems
+          && listAt(items, 0, maxLen) && listAt(items, 1, maxLen) && listAt(items, 2, maxLen) && listAt(items, 3, maxLen)
+          && listAt(items, 4, maxLen) && listAt(items, 5, maxLen) && listAt(items, 6, maxLen) && listAt(items, 7, maxLen)
+          && listAt(items, 8, maxLen) && listAt(items, 9, maxLen) && listAt(items, 10, maxLen) && listAt(items, 11, maxLen)
+          && listAt(items, 12, maxLen) && listAt(items, 13, maxLen) && listAt(items, 14, maxLen) && listAt(items, 15, maxLen);
+      }
+      function useAt(items, index) {
+        return items.size() <= index || items[index].matches('^(spiritual|emotional|physical|mental)$');
+      }
+      function useList(items) {
+        return items is list && items.size() <= 4 && useAt(items, 0) && useAt(items, 1) && useAt(items, 2) && useAt(items, 3);
+      }
+      function priceOk(value) {
+        return value is number && value >= 0 && value <= 10000;
+      }
+      function inventoryOk(value) {
+        return value is int && value >= 0 && value <= 100000;
+      }
+      function idOk() {
+        return id.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$');
+      }
+      function kindOk() {
+        return kind.matches('^(products|ingredients|stories|faqs)$');
+      }
+      function productOk() {
+        return request.resource.data.keys().hasOnly(['id', 'name', 'shortDescription', 'description', 'imageUrl', 'price', 'category', 'uses', 'ingredients', 'sku', 'inventory', 'active', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.name, 120)
+          && textOk(request.resource.data.shortDescription, 180)
+          && textOk(request.resource.data.description, 2000)
+          && imageOk(request.resource.data.imageUrl)
+          && priceOk(request.resource.data.price)
+          && textOk(request.resource.data.category, 40)
+          && useList(request.resource.data.uses)
+          && stringList(request.resource.data.ingredients, 16, 80)
+          && textOptional(request.resource.data.sku, 40)
+          && inventoryOk(request.resource.data.inventory)
+          && request.resource.data.active is bool
+          && request.resource.data.published is bool;
+      }
+      function ingredientOk() {
+        return request.resource.data.keys().hasOnly(['id', 'slug', 'name', 'description', 'traditionalUses', 'spiritualBenefits', 'physicalBenefits', 'imageUrl', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.slug, 80)
+          && textOk(request.resource.data.name, 120)
+          && textOk(request.resource.data.description, 2000)
+          && textOk(request.resource.data.traditionalUses, 2000)
+          && textOk(request.resource.data.spiritualBenefits, 2000)
+          && textOk(request.resource.data.physicalBenefits, 2000)
+          && imageOk(request.resource.data.imageUrl)
+          && request.resource.data.published is bool;
+      }
+      function storyOk() {
+        return request.resource.data.keys().hasOnly(['id', 'userName', 'story', 'productId', 'productName', 'date', 'sample', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.userName, 80)
+          && textOk(request.resource.data.story, 2000)
+          && textOptional(request.resource.data.productId, 64)
+          && textOptional(request.resource.data.productName, 120)
+          && textOk(request.resource.data.date, 40)
+          && request.resource.data.sample is bool
+          && request.resource.data.published is bool;
+      }
+      function faqOk() {
+        return request.resource.data.keys().hasOnly(['id', 'question', 'answer', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.question, 200)
+          && textOk(request.resource.data.answer, 2000)
+          && request.resource.data.published is bool;
+      }
+      function itemOk() {
+        return kindOk() && idOk() && noClaimFields()
+          && ((kind == 'products' && productOk())
+            || (kind == 'ingredients' && ingredientOk())
+            || (kind == 'stories' && storyOk())
+            || (kind == 'faqs' && faqOk()));
+      }
+      function trackedCreate() {
+        return getAfter(counter()).data.ids.size() == get(counter()).data.ids.size() + 1
+          && getAfter(counter()).data.ids.size() <= 200
+          && slot() in getAfter(counter()).data.ids
+          && !(slot() in get(counter()).data.ids);
+      }
+      function trackedDelete() {
+        return getAfter(counter()).data.ids.size() == get(counter()).data.ids.size() - 1
+          && slot() in get(counter()).data.ids
+          && !(slot() in getAfter(counter()).data.ids);
+      }
+
         allow read: if isDemoOwner(uid);
-        allow delete: if isDemoOwner(uid);
-        allow create, update: if isDemoOwner(uid)
-          && noClaimFields()
-          && get(/databases/$(database)/documents/sandboxes/$(uid)/counters/docs).data.count < 200
-          && request.resource.data.keys().hasOnly(['id', 'name', 'description', 'shortDescription', 'price', 'imageUrl', 'category', 'ingredients', 'uses', 'sku', 'inventory', 'active', 'published', 'slug', 'traditionalUses', 'spiritualBenefits', 'physicalBenefits', 'story', 'userName', 'productId', 'productName', 'date', 'sample', 'question', 'answer'])
-          && (!('name' in request.resource.data) || (request.resource.data.name is string && request.resource.data.name.size() <= 120))
-          && (!('description' in request.resource.data) || (request.resource.data.description is string && request.resource.data.description.size() <= 2000));
+        allow create: if isDemoOwner(uid) && itemOk() && trackedCreate();
+        allow update: if isDemoOwner(uid) && itemOk()
+          && slot() in get(counter()).data.ids
+          && getAfter(counter()).data.ids.size() == get(counter()).data.ids.size();
+        allow delete: if isDemoOwner(uid) && kindOk() && idOk() && trackedDelete();
       }
     }
   }

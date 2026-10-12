@@ -51,7 +51,7 @@ describe('byok', () => {
     expect(byok.scrub('leak test-key-value-1234')).toBe('leak [redacted]');
     byok.clear();
     expect(byok.getState().hasKey).toBe(false);
-    expect(sessionStorage.getItem('maqkrs.byok.gemini.v1')).toBeNull();
-    expect(localStorage.getItem('maqkrs.byok.gemini.v1')).toBeNull();
+    expect(sessionStorage.getItem('vhe.byok.gemini.v1')).toBeNull();
+    expect(localStorage.getItem('vhe.byok.gemini.v1')).toBeNull();
   });
 });

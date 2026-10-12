@@ -7,13 +7,17 @@ const Stripe = require('stripe');
 const { createHash, randomBytes } = require('node:crypto');
 const { readFileSync, readdirSync } = require('node:fs');
 const { join } = require('node:path');
+const { validateCatalogItem, assertCheckoutItem, assertAllowlistedPrice } = require('./catalog-item');
+const { commitSandboxItem } = require('./sandbox-write');
 
-setGlobalOptions({ region: 'us-central1' });
+setGlobalOptions({ region: 'us-central1', maxInstances: 10 });
 
 const stripeSecret = defineSecret('STRIPE_SECRET_KEY_TEST');
 const webhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET_TEST');
 const geminiSecret = defineSecret('GEMINI_API_KEY');
 
+const PRICE_ALLOWLIST = new Set(JSON.parse(readFileSync(join(__dirname, 'stripe-price-allowlist.json'), 'utf8')));
+const APP_CHECK = { enforceAppCheck: true, consumeAppCheckToken: true };
 const ADMIN_EMAIL = 'strachan@uab.edu';
 const MODEL_OWNER = 'gemini-3.8-flash';
 const MODEL_HEAVY = 'gemini-3.1-pro-preview';
@@ -73,6 +77,7 @@ function assertCatalogFields(data) {
 async function copySeedToSandbox(uid) {
   const seed = loadSeed();
   const batch = db().batch();
+  const slots = [];
   let count = 0;
   for (const [kind, docs] of Object.entries(seed)) {
     if (!Array.isArray(docs) || kind === 'orders') continue;
@@ -80,6 +85,7 @@ async function copySeedToSandbox(uid) {
       if (!doc.id || count >= 200) continue;
       const ref = db().doc(`sandboxes/${uid}/catalog/${kind}/items/${doc.id}`);
       batch.set(ref, { ...doc, published: doc.published !== false });
+      slots.push(`${kind}/${doc.id}`);
       count += 1;
     }
   }
@@ -89,7 +95,7 @@ async function copySeedToSandbox(uid) {
   }
   const expiresAt = admin.firestore.Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000);
   batch.set(db().doc(`sandboxes/${uid}`), { aiCalls: 0, expiresAt });
-  batch.set(db().doc(`sandboxes/${uid}/counters/docs`), { count });
+  batch.set(db().doc(`sandboxes/${uid}/counters/docs`), { ids: slots });
   await batch.commit();
 }
 
@@ -153,27 +159,41 @@ exports.resetDemo = onSchedule({ schedule: '0 3 * * *', timeZone: 'America/Chica
   }
 });
 
-exports.saveCatalogItem = onCall(async (request) => {
+exports.saveCatalogItem = onCall(APP_CHECK, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Sign in required.');
   const token = request.auth.token || {};
   const kind = request.data?.kind;
   const id = request.data?.id;
   const data = request.data?.data;
-  if (!kind || !id || !data || typeof data !== 'object') {
-    throw new HttpsError('invalid-argument', 'Missing catalog item.');
+  let sanitized;
+  try {
+    sanitized = validateCatalogItem(kind, id, data);
+  } catch (error) {
+    throw new HttpsError('invalid-argument', error.message || 'Invalid catalog item.');
   }
-  assertCatalogFields(data);
+  assertCatalogFields(sanitized);
   if (isDemo(token)) {
     if (!request.auth.uid.startsWith('demo_')) throw new HttpsError('permission-denied', 'Demo only.');
-    await db().doc(`sandboxes/${request.auth.uid}/catalog/${kind}/items/${id}`).set({ ...data, id });
+    const header = request.rawRequest?.headers?.authorization || '';
+    const userToken = header.startsWith('Bearer ') ? header.slice('Bearer '.length) : '';
+    const status = await commitSandboxItem({
+      token: userToken,
+      projectId: process.env.GCLOUD_PROJECT || 'aether-apothecary',
+      uid: request.auth.uid,
+      kind,
+      id,
+      data: sanitized,
+      fetchImpl: fetch,
+    });
+    if (status !== 200) throw new HttpsError('permission-denied', 'Rules rejected the sandbox write.');
     return { ok: true, root: 'sandbox' };
   }
   if (!isAdmin(token)) throw new HttpsError('permission-denied', 'Admin only.');
-  await db().doc(`catalog/${kind}/items/${id}`).set({ ...data, id });
+  await db().doc(`catalog/${kind}/items/${id}`).set(sanitized);
   return { ok: true, root: 'catalog' };
 });
 
-exports.createCheckoutSession = onCall({ secrets: [stripeSecret] }, async (request) => {
+exports.createCheckoutSession = onCall({ ...APP_CHECK, secrets: [stripeSecret] }, async (request) => {
   if (isDemo(request.auth?.token)) {
     throw new HttpsError('permission-denied', 'Demo checkout is off.');
   }
@@ -186,21 +206,24 @@ exports.createCheckoutSession = onCall({ secrets: [stripeSecret] }, async (reque
   const items = Array.isArray(request.data?.items) ? request.data.items : [];
   if (items.length === 0) throw new HttpsError('invalid-argument', 'Cart is empty.');
   const lineItems = [];
-  for (const item of items) {
+  for (const raw of items) {
+    let item;
+    try {
+      item = assertCheckoutItem(raw);
+    } catch {
+      throw new HttpsError('invalid-argument', 'Bad item id or quantity.');
+    }
     const snap = await db().doc(`catalog/products/items/${item.id}`).get();
     if (!snap.exists || snap.data().published !== true) {
       throw new HttpsError('not-found', 'That product is not for sale.');
     }
-    const product = snap.data();
-    const qty = Math.max(1, Math.min(10, Number(item.qty) || 1));
-    lineItems.push({
-      quantity: qty,
-      price_data: {
-        currency: 'usd',
-        unit_amount: Math.round(Number(product.price) * 100),
-        product_data: { name: String(product.name) },
-      },
-    });
+    let priceId;
+    try {
+      priceId = assertAllowlistedPrice(snap.data().stripePriceId, PRICE_ALLOWLIST);
+    } catch {
+      throw new HttpsError('failed-precondition', 'That product has no allowlisted Stripe test price.');
+    }
+    lineItems.push({ quantity: item.qty, price: priceId });
   }
   const stripe = new Stripe(key, { apiVersion: '2024-06-20' });
   const session = await stripe.checkout.sessions.create({

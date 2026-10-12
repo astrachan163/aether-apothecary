@@ -5,7 +5,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged, signInWithCustomToken, signInWithEmailAndPassword, signOut, type User } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
-import { getFirebase } from '@/lib/firebase';
+import { ensureAppCheck, getFirebase } from '@/lib/firebase';
 
 export type EmailSignInResult = 'ok' | 'invalid' | 'unconfigured' | 'error';
 export type DemoStartResult = 'ok' | 'unconfigured' | 'capped' | 'error';
@@ -77,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const startStoreAdminDemo = async (): Promise<DemoStartResult> => {
     const clients = getFirebase();
     if (!clients) return 'unconfigured';
+    ensureAppCheck();
     try {
       const start = httpsCallable<{ role: string }, { token: string }>(clients.functions, 'startDemoSession');
       const result = await start({ role: 'store-admin' });

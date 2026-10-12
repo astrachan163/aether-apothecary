@@ -6,14 +6,7 @@ Project: `aether-apothecary`. Hosting site: `aether-apothecary`. Functions runti
 
 ## Commands, in order
 
-```sh
-firebase deploy --only firestore:rules --project aether-apothecary
-firebase deploy --only firestore:indexes --project aether-apothecary
-firebase deploy --only storage --project aether-apothecary
-firebase deploy --only functions:startDemoSession,functions:resetDemo,functions:saveCatalogItem,functions:createCheckoutSession,functions:stripeWebhook,functions:aiGenerate,functions:aiModels --project aether-apothecary
-npm run build:static
-firebase deploy --only hosting --project aether-apothecary
-```
+Follow `DEPLOY.md`. List functions first, deploy each function by name (`functions:herbal:<name>`), and remember that Firestore and Storage rules deploys are project-wide.
 
 `build:static` writes `out/`. Hosting serves that folder.
 
