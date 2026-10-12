@@ -99,11 +99,11 @@ export default function ProductDetailPage() {
                 <CreditCard className="mr-2 h-5 w-5" /> Buy Now
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]" aria-describedby="checkout-notice">
               <DialogHeader>
                 <DialogTitle>Checkout</DialogTitle>
               </DialogHeader>
-              <p>Checkout is not open yet. No order was placed and no charge was made.</p>
+              <p id="checkout-notice">Checkout is not open yet. No order was placed and no charge was made.</p>
             </DialogContent>
           </Dialog>
 
