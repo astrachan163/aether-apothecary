@@ -35,6 +35,17 @@ export function Footer() {
         >
           {FDA_DISCLAIMER}
         </p>
+        <a
+          href="https://www.nonartificialsi.com/"
+          className="inline-flex min-h-11 items-center"
+        >
+          <img
+            src="/brand/built_by_maqkrs_dark.svg"
+            width="120"
+            height="20"
+            alt="Built by MaQkrs"
+          />
+        </a>
       </div>
     </footer>
   );
