@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { AI_WARNING, DEMO_AI_LIMIT } from '../../../shared/notices';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AdminStoryManager from '@/components/admin/AdminStoryManager';
 import AdminProductManager from '@/components/admin/AdminProductManager';
@@ -11,23 +12,23 @@ import { LayoutDashboard, LogOut } from 'lucide-react';
 import { useData } from '@/contexts/DataContext';
 
 export default function AdminDashboardPage() {
-  const { isAdmin, logout, isLoading } = useAuth();
+  const { canUseAdmin, logout, isLoading, isDemo } = useAuth();
   const { getProducts } = useData();
   const router = useRouter();
   
   const [productCount, setProductCount] = useState(0);
 
   useEffect(() => {
-    if (!isLoading && !isAdmin) {
+    if (!isLoading && !canUseAdmin) {
       router.push('/admin/login');
     }
-  }, [isAdmin, isLoading, router]);
+  }, [canUseAdmin, isLoading, router]);
 
   useEffect(() => {
     setProductCount(getProducts().length);
   }, [getProducts]);
 
-  if (isLoading || !isAdmin) {
+  if (isLoading || !canUseAdmin) {
     return <div className="flex justify-center items-center h-screen"><p>Loading or redirecting...</p></div>;
   }
 
@@ -38,9 +39,17 @@ export default function AdminDashboardPage() {
           <LayoutDashboard className="h-10 w-10 text-accent" />
           <h1 className="text-4xl font-bold text-foreground">Admin Dashboard</h1>
         </div>
-        <Button variant="outline" onClick={logout}>
-          <LogOut className="mr-2 h-4 w-4" /> Logout
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" className="min-h-11" asChild>
+            <a href="/admin/settings">Settings</a>
+          </Button>
+          <Button variant="outline" className="min-h-11" asChild>
+            <a href="/products">Preview storefront with my changes</a>
+          </Button>
+          <Button variant="outline" className="min-h-11" onClick={logout}>
+            <LogOut className="mr-2 h-4 w-4" /> Logout
+          </Button>
+        </div>
       </header>
 
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
@@ -51,6 +60,12 @@ export default function AdminDashboardPage() {
         {/* Add more stat cards here later */}
        </div>
 
+      <div className="mb-6 space-y-2">
+        <p>{AI_WARNING}</p>
+        {isDemo ? <p>{DEMO_AI_LIMIT}</p> : null}
+        <p>You must be 18 or older to draft copy.</p>
+        <p>Test orders appear here after Stripe sends a signed webhook. Demo orders stay in the sandbox copy.</p>
+      </div>
       <Tabs defaultValue="products" className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:w-1/2 mx-auto">
           <TabsTrigger value="products">Manage Products</TabsTrigger>

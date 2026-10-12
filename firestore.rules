@@ -1,0 +1,197 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.admin == true
+        && request.auth.token.email == "strachan@uab.edu"
+        && request.auth.token.email_verified == true;
+    }
+    function isDemoOwner(uid) {
+      return signedIn()
+        && request.auth.token.demo == true
+        && request.auth.uid == uid
+        && request.auth.uid.matches('demo_.*');
+    }
+    function noClaimFields() {
+      return !request.resource.data.keys().hasAny(['role', 'admin', 'demo', 'claims']);
+    }
+
+    match /catalog/{kind}/items/{id} {
+      allow read: if (request.auth == null && resource.data.published == true) || isAdmin();
+      allow write: if false;
+    }
+
+    match /orders/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /org/{document=**} {
+      allow read, write: if isAdmin();
+    }
+
+    match /demo_seed/{document=**} {
+      allow read: if isAdmin() || (signedIn() && request.auth.token.demo == true);
+      allow write: if isAdmin();
+    }
+
+    match /demo_meta/{document=**} {
+      allow read, write: if false;
+    }
+
+    match /ai_usage/{day} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /sandboxes/{uid} {
+      allow read: if isDemoOwner(uid);
+      allow create: if isDemoOwner(uid)
+        && request.resource.data.keys().hasOnly(['aiCalls', 'expiresAt'])
+        && request.resource.data.aiCalls == 1;
+      allow update: if isDemoOwner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['aiCalls'])
+        && request.resource.data.aiCalls == resource.data.aiCalls + 1
+        && request.resource.data.aiCalls <= 10;
+
+      match /counters/{counterId} {
+        allow read: if isDemoOwner(uid);
+        allow create: if false;
+        allow update: if isDemoOwner(uid)
+          && counterId == 'docs'
+          && request.resource.data.keys().hasOnly(['count', 'kind', 'itemId'])
+          && request.resource.data.count is int
+          && request.resource.data.kind is string
+          && request.resource.data.itemId is string
+          && request.resource.data.count == resource.data.count + 1
+          && request.resource.data.count <= 200
+          && request.resource.data.kind.matches('^(products|ingredients|stories|faqs)$')
+          && request.resource.data.itemId.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$')
+          && existsAfter(/databases/$(database)/documents/sandboxes/$(uid)/catalog/$(request.resource.data.kind)/items/$(request.resource.data.itemId))
+          && !exists(/databases/$(database)/documents/sandboxes/$(uid)/catalog/$(request.resource.data.kind)/items/$(request.resource.data.itemId));
+      }
+
+      match /orders/{id} {
+        allow read: if isDemoOwner(uid);
+        allow write: if false;
+      }
+
+      function counter() {
+        return /databases/$(database)/documents/sandboxes/$(uid)/counters/docs;
+      }
+
+      match /catalog/{kind}/items/{id} {
+      function textOk(value, max) {
+        return value is string && value.size() > 0 && value.size() <= max;
+      }
+      function textOptional(value, max) {
+        return value is string && value.size() <= max;
+      }
+      function imageOk(value) {
+        return textOk(value, 300)
+          && (value.matches('^/images/.+') || value.matches('^https://firebasestorage\\.googleapis\\.com/.+'));
+      }
+      function listAt(items, index, maxLen) {
+        return items.size() <= index || (items[index] is string && items[index].size() > 0 && items[index].size() <= maxLen);
+      }
+      function stringList(items, maxItems, maxLen) {
+        return items is list && items.size() <= maxItems
+          && listAt(items, 0, maxLen) && listAt(items, 1, maxLen) && listAt(items, 2, maxLen) && listAt(items, 3, maxLen)
+          && listAt(items, 4, maxLen) && listAt(items, 5, maxLen) && listAt(items, 6, maxLen) && listAt(items, 7, maxLen)
+          && listAt(items, 8, maxLen) && listAt(items, 9, maxLen) && listAt(items, 10, maxLen) && listAt(items, 11, maxLen)
+          && listAt(items, 12, maxLen) && listAt(items, 13, maxLen) && listAt(items, 14, maxLen) && listAt(items, 15, maxLen);
+      }
+      function useAt(items, index) {
+        return items.size() <= index || items[index].matches('^(spiritual|emotional|physical|mental)$');
+      }
+      function useList(items) {
+        return items is list && items.size() <= 4 && useAt(items, 0) && useAt(items, 1) && useAt(items, 2) && useAt(items, 3);
+      }
+      function priceOk(value) {
+        return value is number && value >= 0 && value <= 10000;
+      }
+      function inventoryOk(value) {
+        return value is int && value >= 0 && value <= 100000;
+      }
+      function idOk() {
+        return id.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$');
+      }
+      function kindOk() {
+        return kind.matches('^(products|ingredients|stories|faqs)$');
+      }
+      function productOk() {
+        return request.resource.data.keys().hasOnly(['id', 'name', 'shortDescription', 'description', 'imageUrl', 'price', 'category', 'uses', 'ingredients', 'sku', 'inventory', 'active', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.name, 120)
+          && textOk(request.resource.data.shortDescription, 180)
+          && textOk(request.resource.data.description, 2000)
+          && imageOk(request.resource.data.imageUrl)
+          && priceOk(request.resource.data.price)
+          && textOk(request.resource.data.category, 40)
+          && useList(request.resource.data.uses)
+          && stringList(request.resource.data.ingredients, 16, 80)
+          && textOptional(request.resource.data.sku, 40)
+          && inventoryOk(request.resource.data.inventory)
+          && request.resource.data.active is bool
+          && request.resource.data.published is bool;
+      }
+      function ingredientOk() {
+        return request.resource.data.keys().hasOnly(['id', 'slug', 'name', 'description', 'traditionalUses', 'spiritualBenefits', 'physicalBenefits', 'imageUrl', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.slug, 80)
+          && textOk(request.resource.data.name, 120)
+          && textOk(request.resource.data.description, 2000)
+          && textOk(request.resource.data.traditionalUses, 2000)
+          && textOk(request.resource.data.spiritualBenefits, 2000)
+          && textOk(request.resource.data.physicalBenefits, 2000)
+          && imageOk(request.resource.data.imageUrl)
+          && request.resource.data.published is bool;
+      }
+      function storyOk() {
+        return request.resource.data.keys().hasOnly(['id', 'userName', 'story', 'productId', 'productName', 'date', 'sample', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.userName, 80)
+          && textOk(request.resource.data.story, 2000)
+          && textOptional(request.resource.data.productId, 64)
+          && textOptional(request.resource.data.productName, 120)
+          && textOk(request.resource.data.date, 40)
+          && request.resource.data.sample is bool
+          && request.resource.data.published is bool;
+      }
+      function faqOk() {
+        return request.resource.data.keys().hasOnly(['id', 'question', 'answer', 'published'])
+          && request.resource.data.id == id
+          && textOk(request.resource.data.question, 200)
+          && textOk(request.resource.data.answer, 2000)
+          && request.resource.data.published is bool;
+      }
+      function itemOk() {
+        return kindOk() && idOk() && noClaimFields()
+          && ((kind == 'products' && productOk())
+            || (kind == 'ingredients' && ingredientOk())
+            || (kind == 'stories' && storyOk())
+            || (kind == 'faqs' && faqOk()));
+      }
+      function trackedCreate() {
+        return existsAfter(/databases/$(database)/documents/sandboxes/$(uid)/catalog/$(kind)/items/$(id))
+          && getAfter(counter()).data.count is int
+          && getAfter(counter()).data.count == get(counter()).data.count + 1
+          && getAfter(counter()).data.count <= 200
+          && getAfter(counter()).data.kind == kind
+          && getAfter(counter()).data.itemId == id;
+      }
+
+        allow read: if isDemoOwner(uid);
+        allow create: if isDemoOwner(uid) && itemOk() && trackedCreate();
+        allow update: if isDemoOwner(uid) && itemOk()
+          && getAfter(counter()).data.count == get(counter()).data.count;
+        allow delete: if isDemoOwner(uid) && kindOk() && idOk()
+          && getAfter(counter()).data.count == get(counter()).data.count;
+      }
+    }
+  }
+}

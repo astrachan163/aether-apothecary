@@ -83,7 +83,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
 
   return (
     <div className="mb-8 p-6 bg-card rounded-lg shadow">
-      <h3 className="text-xl font-semibold mb-4 flex items-center"><Filter className="mr-2 h-5 w-5 text-accent" /> Filter Products</h3>
+      <h2 className="text-xl font-semibold mb-4 flex items-center"><Filter className="mr-2 h-5 w-5 text-accent" /> Filter Products</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div>
           <Label htmlFor="search-term" className="text-sm font-medium">Search by Name/Description</Label>

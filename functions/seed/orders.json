@@ -1,0 +1,8 @@
+[
+  {
+    "id": "sample-order",
+    "name": "Sample order",
+    "amountTotal": 0,
+    "sample": true
+  }
+]

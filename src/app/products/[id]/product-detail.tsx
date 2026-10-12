@@ -9,15 +9,9 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StoryCard } from '@/components/community/StoryCard';
-import { ArrowLeft, CreditCard, Leaf, Sparkles, Users } from 'lucide-react';
+import { ArrowLeft, Leaf, Sparkles, Users } from 'lucide-react';
 import { DisclaimerMark } from '@/components/DisclaimerMark';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { CheckoutActions } from '@/components/checkout/CheckoutActions';
 
 
 export default function ProductDetailPage() {
@@ -93,19 +87,7 @@ export default function ProductDetailPage() {
           </Card>
           )}
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="lg" className="mb-4 min-h-11 w-full bg-accent text-accent-foreground">
-                <CreditCard className="mr-2 h-5 w-5" /> Buy Now
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]" aria-describedby="checkout-notice">
-              <DialogHeader>
-                <DialogTitle>Checkout</DialogTitle>
-              </DialogHeader>
-              <p id="checkout-notice">Checkout is not open yet. No order was placed and no charge was made.</p>
-            </DialogContent>
-          </Dialog>
+          <CheckoutActions productId={product.id} name={product.name} />
 
         </div>
       </div>

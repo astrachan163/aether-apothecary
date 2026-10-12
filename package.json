@@ -17,8 +17,12 @@
     "check:claims": "node scripts/check-claims.mjs",
     "check:emoji": "node scripts/check-emoji.mjs",
     "check:secrets": "node scripts/check-client-secrets.mjs",
-    "check": "npm run check:claims && npm run check:emoji && npm run check:secrets",
-    "check:a11y": "node scripts/check-a11y.mjs"
+    "check:csp": "node scripts/check-committed-csp.mjs",
+    "check": "npm run check:claims && npm run check:emoji && npm run check:secrets && npm run check:csp",
+    "check:a11y": "node scripts/check-a11y.mjs",
+    "check:disease": "node scripts/check-disease-words.mjs",
+    "check:sentinel": "node scripts/check-sentinel.mjs",
+    "test": "vitest run"
   },
   "dependencies": {
     "@genkit-ai/google-cloud": "^1.20.0",
@@ -69,14 +73,17 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
+    "@firebase/rules-unit-testing": "^4.0.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint-config-next": "15.5.27",
+    "firebase-tools": "^14.22.0",
     "genkit-cli": "^1.8.0",
     "playwright": "1.64.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

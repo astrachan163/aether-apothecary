@@ -1,0 +1,297 @@
+[
+  {
+    "id": "1",
+    "name": "Sacred Anointing Oil (Victory)",
+    "shortDescription": "Blessed oil for spiritual clarity and protection.",
+    "description": "4 OZ. A carefully crafted blend of sacred herbs and oils, blessed to enhance spiritual connection, provide protection, and promote deep meditation. This Victory Anointing Oil is ideal for rituals and personal reflection.",
+    "imageUrl": "/images/products/VictoryAnointingOil.webp",
+    "dataAiHint": "anointing oil",
+    "price": 22,
+    "category": "Oils",
+    "uses": [
+      "spiritual",
+      "emotional"
+    ],
+    "ingredients": [
+      "Frankincense",
+      "Myrrh",
+      "Olive Oil",
+      "Blessed Herbs"
+    ],
+    "sku": "AA-SAO-001",
+    "inventory": 50,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "2",
+    "name": "Calendula Botanical Oil",
+    "shortDescription": "A calendula oil customers enjoy for everyday skin care.",
+    "description": "A botanical oil infused with calendula, comfrey, and lavender in a base of carrier oils. Customers enjoy it as a simple skin oil. 4.4 OZ",
+    "imageUrl": "/images/products/CalendulaBotanicalOil.webp",
+    "dataAiHint": "calendula oil bottle",
+    "price": 16,
+    "category": "Oils",
+    "uses": [
+      "physical"
+    ],
+    "ingredients": [
+      "Olive Oil",
+      "Peppermint Leaf",
+      "Rosemary",
+      "Turmeric"
+    ],
+    "sku": "AA-HHO-002",
+    "inventory": 35,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "3",
+    "name": "All Natural Herbal Black Soap",
+    "shortDescription": "Purifying and cleansing herbal black soap.",
+    "description": "Authentic African black soap, renowned for its deep cleansing and purifying properties. Traditionally made with natural ingredients like plantain skins, cocoa pod ash, and palm oil to gently exfoliate and improve skin texture. 7.9 OZ",
+    "imageUrl": "/images/products/AllNaturalHerbalBlackSoap.webp",
+    "dataAiHint": "black soap bar",
+    "price": 9,
+    "category": "Soaps",
+    "uses": [
+      "physical"
+    ],
+    "ingredients": [
+      "Plantain Skin Ash",
+      "Cocoa Pod Ash",
+      "Palm Kernel Oil",
+      "Shea Butter"
+    ],
+    "sku": "AA-AHBS-003",
+    "inventory": 120,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "4",
+    "name": "Spearmint 5-in-1 Herbal Toothpaste",
+    "shortDescription": "Refreshing herbal mint toothpaste for a daily clean.",
+    "description": "A herbal toothpaste featuring spearmint. Customers enjoy it for fresh breath and everyday brushing. WITH BENTONITE CLAY, ALOE VERA, BASIL, FENNEL SEED & WINTER GREEN",
+    "imageUrl": "/images/products/Spearmint5in1Toothpaste.webp",
+    "dataAiHint": "herbal toothpaste tube",
+    "price": 9,
+    "category": "Oral Care",
+    "uses": [
+      "physical"
+    ],
+    "ingredients": [
+      "Sorbitol",
+      "Silica",
+      "Aloe Vera",
+      "Basil",
+      "Clove",
+      "Cardamon",
+      "Peppermint Oil",
+      "Fennel Seed",
+      "Baking Soda",
+      "Spearmint Oil",
+      "Wintergreen",
+      "Saffron",
+      "Neem Extract",
+      "Ginger"
+    ],
+    "sku": "AA-S5HT-004",
+    "inventory": 80,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "6",
+    "name": "Universal Herbal Tea Blend",
+    "shortDescription": "A versatile herbal tea for a quiet cup.",
+    "description": "A comforting blend of traditional herbs. Customers enjoy this tea any time of day for a quiet cup. 4.0 OZ",
+    "imageUrl": "/images/products/UniversalHerbalTeaBlend.webp",
+    "dataAiHint": "herbal tea leaves",
+    "price": 25,
+    "category": "Teas",
+    "uses": [
+      "mental",
+      "physical"
+    ],
+    "ingredients": [
+      "Chamomile",
+      "Lemon Balm",
+      "Peppermint",
+      "Rosehips",
+      "Ginger",
+      "Elderberries",
+      "Yarrow",
+      "Turmeric",
+      "Echinacea Purpurea"
+    ],
+    "sku": "AA-UHTB-006",
+    "inventory": 40,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "7",
+    "name": "Black Seed Herbal Toothpaste",
+    "shortDescription": "Herbal toothpaste with black seed oil.",
+    "description": "Customers enjoy the traditional taste of black seed oil in this herbal toothpaste. It is meant for everyday brushing.",
+    "imageUrl": "/images/products/BlackSeedHerbalToothpaste.webp",
+    "dataAiHint": "black seed toothpaste tube",
+    "price": 11,
+    "category": "Oral Care",
+    "uses": [
+      "physical"
+    ],
+    "ingredients": [
+      "Black Seed Oil",
+      "Calcium Carbonate",
+      "Sorbitol",
+      "Silica",
+      "Mint"
+    ],
+    "sku": "AA-BSHT-007",
+    "inventory": 75,
+    "active": false,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "8",
+    "name": "Herbal Tea Strainer",
+    "shortDescription": "Stainless steel strainer for loose leaf teas.",
+    "description": "A durable stainless steel tea strainer, perfect for brewing your favorite loose leaf herbal teas. Easy to use and clean, ensuring a perfect cup every time.",
+    "imageUrl": "/images/products/HerbalTeaStrainer.webp",
+    "dataAiHint": "tea strainer metal",
+    "price": 7,
+    "category": "Accessories",
+    "uses": [],
+    "ingredients": [
+      "Stainless Steel"
+    ],
+    "sku": "AA-HTS-008",
+    "inventory": 200,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "9",
+    "name": "It's My Time Herbal Salt Bath",
+    "shortDescription": "Relaxing herbal salt bath for tranquility.",
+    "description": "Indulge in a moment of self-care with 'It's My Time' Herbal Salt Bath. A soothing blend of mineral-rich salts and calming herbs to relax the mind and body. 8.5 OZ",
+    "imageUrl": "/images/products/ItsMyTime_HerbalSaltBath.webp",
+    "dataAiHint": "bath salts herbs jar",
+    "price": 14,
+    "category": "Bath & Body",
+    "uses": [
+      "emotional",
+      "physical"
+    ],
+    "ingredients": [
+      "Epsom Salt",
+      "Dead Sea Salt",
+      "Lavender Buds",
+      "Chamomile Flowers",
+      "Rose Petals",
+      "Peppermint",
+      "Hyssop",
+      "Rosemary"
+    ],
+    "sku": "AA-IMTHSB-009",
+    "inventory": 60,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "10",
+    "name": "Prosperity Anointing Oil",
+    "shortDescription": "Anointing oil to attract abundance and success.",
+    "description": "4.4 OZ. Crafted with herbs and essences known to attract prosperity and abundance. Use this anointing oil in rituals or daily practice to set intentions for success and good fortune.",
+    "imageUrl": "/images/products/Prosperity.webp",
+    "dataAiHint": "prosperity oil bottle",
+    "price": 25,
+    "category": "Oils",
+    "uses": [
+      "spiritual",
+      "mental"
+    ],
+    "ingredients": [
+      "Cinnamon",
+      "Bay Leaves",
+      "Orange",
+      "Carrier Oil Blend"
+    ],
+    "sku": "AA-PAO-010",
+    "inventory": 45,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "12",
+    "name": "Sea Moss Toothpaste (Alternative)",
+    "shortDescription": "Sea moss toothpaste for everyday brushing.",
+    "description": "A gentle toothpaste made with sea moss. Customers enjoy it for everyday brushing. (This is an alternative Sea Moss Toothpaste)",
+    "imageUrl": "/images/products/SeaMossToothpaste.webp",
+    "dataAiHint": "sea moss tube white",
+    "price": 11.5,
+    "category": "Oral Care",
+    "uses": [
+      "physical"
+    ],
+    "ingredients": [
+      "Sea Moss Powder",
+      "Baking Soda",
+      "Glycerin",
+      "Peppermint Oil"
+    ],
+    "sku": "AA-SMT-012",
+    "inventory": 0,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  },
+  {
+    "id": "14",
+    "name": "Victorious Herbal Elements Honey Shea Butter",
+    "shortDescription": "Nourishing honey shea butter with victorious herbs.",
+    "description": "A luxurious body butter blending rich shea butter, moisturizing honey, and an infusion of victorious herbal elements. Deeply nourishes skin, leaving it soft, supple, and empowered. Hand crafted in Ghana. 7 OZ",
+    "imageUrl": "/images/products/VictoriousHerbalElementsHoneySheabutter.webp",
+    "dataAiHint": "shea butter jar label",
+    "price": 10,
+    "category": "Body Butters",
+    "uses": [
+      "physical",
+      "emotional"
+    ],
+    "ingredients": [
+      "Shea Butter",
+      "Raw Honey",
+      "Coconut Oil",
+      "Herbal Infusion (Victorious Blend)"
+    ],
+    "sku": "AA-VHEHSB-014",
+    "inventory": 90,
+    "active": true,
+    "createdAt": "2023-01-10",
+    "updatedAt": "2023-01-10",
+    "published": true
+  }
+]
