@@ -38,7 +38,7 @@ Captured from the local store with sample data. No real user data, keys, emails,
 
 ## How it's built
 
-- Next.js 15 (App Router), React 18, and TypeScript, styled with Tailwind. The shop's own colors in `src/app/globals.css` are soft lavender `#D0BFFF`, muted teal `#74C69D`, and light gray `#F0F0F0`.
+- Next.js 15 (App Router), React 18, and TypeScript, styled with Tailwind. The shop's own colors in `src/app/globals.css` are soft lavender `#D0BFFF`, deep teal `#1f6b45`, and light gray `#F0F0F0`.
 - Sample products, ingredients, and stories live in `src/data` and are held in React context. A refresh restores the sample set.
 - Stripe test configuration stays in server environment variables. It is not part of the browser bundle.
 - Description and image flows use Genkit on the server (`src/ai`). They do not run unless the host has Google Cloud credentials.

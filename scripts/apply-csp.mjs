@@ -40,8 +40,10 @@ if (!current.includes("script-src 'self'")) {
   console.error('csp: firebase.json has no script-src');
   process.exit(1);
 }
-const next = current.replace(/script-src [^;]*/g, scriptSrc);
-if (next.includes("'unsafe-inline'") && next.includes('script-src')) {
+let next = current.replace(/script-src [^;]*/g, scriptSrc);
+next = next.replace(/style-src-attr [^;]*;\s*/g, '');
+next = next.replace(/style-src [^;]*/g, "style-src 'self' 'unsafe-inline'");
+if (next.includes('script-src') ) {
   const scriptParts = [...next.matchAll(/script-src [^;]*/g)].map((match) => match[0]);
   if (scriptParts.some((part) => part.includes('unsafe-inline'))) {
     console.error('csp: unsafe-inline remains on script-src');

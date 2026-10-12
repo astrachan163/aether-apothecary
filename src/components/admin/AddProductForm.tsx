@@ -15,6 +15,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from "@/hooks/use-toast";
 import { Sparkles, Loader2, Image as ImageIcon, CheckCircle2 } from 'lucide-react';
 import { draftProductDescription } from '@/lib/admin-ai';
+import { protectedCallable } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -154,20 +155,40 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
     form.setValue('imageUrl', imageDataUri, { shouldValidate: true });
   };
 
-  const onSubmit = (data: ProductFormData) => {
+  const onSubmit = async (data: ProductFormData) => {
     const newProduct: Product = {
       id: Date.now().toString(),
       name: data.name,
       shortDescription: data.shortDescription,
       description: data.description,
       imageUrl: data.imageUrl,
-      dataAiHint: 'product image', // We can set a generic hint as it's AI generated
+      dataAiHint: 'product image',
       price: data.price,
       category: data.category,
       uses: data.uses,
       ingredients: data.ingredients.split(',').map(s => s.trim()).filter(s => s),
-      sku: data.sku,
+      sku: data.sku || '',
+      inventory: 1,
+      active: true,
     };
+    const save = protectedCallable<{ kind: string; id: string; data: Record<string, unknown> }, { ok: boolean }>('saveCatalogItem');
+    const hostedImage = newProduct.imageUrl.startsWith('/images/') || newProduct.imageUrl.startsWith('https://firebasestorage.googleapis.com/');
+    if (save && hostedImage) {
+      try {
+        await save({
+          kind: 'products',
+          id: newProduct.id,
+          data: { ...newProduct, published: true },
+        });
+      } catch {
+        toast({
+          title: 'Save was rejected',
+          description: 'The catalog rules did not accept this item.',
+          variant: 'destructive',
+        });
+        return;
+      }
+    }
     addProduct(newProduct);
     toast({
         title: "Product Added!",

@@ -38,6 +38,8 @@ npm run build:static
 firebase deploy --only hosting:aether-apothecary --project aether-apothecary
 ```
 
-`npm run build:static` writes `out/` and fills script hashes in `firebase.json`. Those rules commands change project-wide rules.
+`npm run build:static` writes `out/` and, only in that working tree, fills script hashes into `firebase.json`. Do not commit those hashes. The file in git keeps `script-src` without `sha256-` entries so a later build is not stuck with a stale list. `style-src` includes `'unsafe-inline'` for style tags from dropdowns and dialogs. Scripts never use `'unsafe-inline'`.
+
+Those rules commands change project-wide rules.
 
 Stripe test price IDs belong in `functions/stripe-price-allowlist.json`. Checkout refuses a price that is not on that list.

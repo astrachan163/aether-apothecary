@@ -39,7 +39,7 @@ describe('catalog validation', () => {
     const fetchImpl = async (url: string, init?: { headers?: Record<string, string> }) => {
       calls.push({ url, authorization: init?.headers?.authorization });
       if (String(url).endsWith('/counters/docs')) {
-        return { ok: true, status: 200, json: async () => ({ fields: { ids: { arrayValue: { values: [] } } } }) };
+        return { ok: true, status: 200, json: async () => ({ fields: { count: { integerValue: '3' } } }) };
       }
       return { ok: true, status: 200, json: async () => ({}) };
     };

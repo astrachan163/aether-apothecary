@@ -7,16 +7,22 @@ function firestoreValue(value) {
   throw new Error('nesting');
 }
 
+function readCount(body) {
+  const raw = body?.fields?.count?.integerValue;
+  if (raw === undefined) return 0;
+  const count = Number(raw);
+  if (!Number.isInteger(count)) return null;
+  return count;
+}
+
 async function commitSandboxItem({ token, projectId, uid, kind, id, data, fetchImpl }) {
   if (!token) throw new Error('missing-token');
   const base = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents`;
   const headers = { authorization: `Bearer ${token}` };
   const current = await fetchImpl(`${base}/sandboxes/${uid}/counters/docs`, { headers });
   if (!current.ok) return current.status;
-  const body = await current.json();
-  const ids = (body.fields?.ids?.arrayValue?.values || []).map((entry) => entry.stringValue).filter(Boolean);
-  const slot = `${kind}/${id}`;
-  if (ids.includes(slot) || ids.length >= 200) return 409;
+  const count = readCount(await current.json());
+  if (count === null || count >= 200) return 409;
   const fields = {};
   for (const [key, value] of Object.entries(data)) fields[key] = firestoreValue(value);
   const response = await fetchImpl(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:commit`, {
@@ -34,9 +40,12 @@ async function commitSandboxItem({ token, projectId, uid, kind, id, data, fetchI
           update: {
             name: `projects/${projectId}/databases/(default)/documents/sandboxes/${uid}/counters/docs`,
             fields: {
-              ids: { arrayValue: { values: [...ids, slot].map((entry) => ({ stringValue: entry })) } },
+              count: { integerValue: String(count + 1) },
+              kind: { stringValue: kind },
+              itemId: { stringValue: id },
             },
           },
+          updateMask: { fieldPaths: ['count', 'kind', 'itemId'] },
         },
       ],
     }),

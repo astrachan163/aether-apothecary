@@ -48,7 +48,7 @@ describe('firestore rules', () => {
     const uid = 'demo_store-admin_abcdabcdabcdabcd';
     await env.withSecurityRulesDisabled(async (context) => {
       await context.firestore().doc(`sandboxes/${uid}`).set({ aiCalls: 0, expiresAt: new Date() });
-      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ ids: [] });
+      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ count: 0 });
     });
     const demo = env.authenticatedContext(uid, { demo: true, role: 'store-admin' });
     await assertSucceeds(demo.firestore().doc(`sandboxes/${uid}`).update({ aiCalls: 1 }));
@@ -61,7 +61,7 @@ describe('firestore rules', () => {
   });
 
   it('counts sandbox items and checks every product field', async () => {
-    const uid = 'demo_store-admin_abcdabcdabcdabcd';
+    const uid = 'demo_store-admin_1111222233334444';
     const product = {
       id: '9',
       name: 'Oil',
@@ -78,23 +78,83 @@ describe('firestore rules', () => {
       published: true,
     };
     await env.withSecurityRulesDisabled(async (context) => {
-      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ ids: [] });
+      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ count: 0 });
     });
     const demo = env.authenticatedContext(uid, { demo: true, role: 'store-admin' });
     await assertFails(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/9`).set(product));
     const batch = demo.firestore().batch();
     batch.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/9`), product);
-    batch.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { ids: ['products/9'] });
+    batch.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { count: 1, kind: 'products', itemId: '9' });
     await assertSucceeds(batch.commit());
-    const nested = { ...product, id: '10', name: { nested: true } };
-    const bad = demo.firestore().batch();
-    bad.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/10`), nested);
-    bad.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { ids: ['products/9', 'products/10'] });
-    await assertFails(bad.commit());
-    const both = demo.firestore().batch();
-    both.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/11`), { ...product, id: '11' });
-    both.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/12`), { ...product, id: '12' });
-    both.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { ids: ['products/9', 'products/11'] });
-    await assertFails(both.commit());
+  });
+
+  it('rejects dropping the count and then creating an item', async () => {
+    const uid = 'demo_store-admin_2222333344445555';
+    const product = {
+      id: '2',
+      name: 'Oil',
+      shortDescription: 'A short note.',
+      description: 'A longer note about the bottle.',
+      imageUrl: '/images/products/oil.webp',
+      price: 12,
+      category: 'Oils',
+      uses: ['physical'],
+      ingredients: ['Olive'],
+      sku: 'VHE-2',
+      inventory: 3,
+      active: true,
+      published: true,
+    };
+    await env.withSecurityRulesDisabled(async (context) => {
+      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ count: 1 });
+      await context.firestore().doc(`sandboxes/${uid}/catalog/products/items/1`).set({ ...product, id: '1' });
+    });
+    const demo = env.authenticatedContext(uid, { demo: true, role: 'store-admin' });
+    const dropped = demo.firestore().batch();
+    dropped.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/2`), product);
+    dropped.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { count: 1, kind: 'products', itemId: '2' });
+    await assertFails(dropped.commit());
+    const lowered = demo.firestore().batch();
+    lowered.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/2`), product);
+    lowered.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { count: 0, kind: 'products', itemId: '2' });
+    await assertFails(lowered.commit());
+  });
+
+  it('rejects oversized and nested counter writes', async () => {
+    const uid = 'demo_store-admin_3333444455556666';
+    const product = {
+      id: '3',
+      name: 'Oil',
+      shortDescription: 'A short note.',
+      description: 'A longer note about the bottle.',
+      imageUrl: '/images/products/oil.webp',
+      price: 12,
+      category: 'Oils',
+      uses: ['physical'],
+      ingredients: ['Olive'],
+      sku: 'VHE-3',
+      inventory: 3,
+      active: true,
+      published: true,
+    };
+    await env.withSecurityRulesDisabled(async (context) => {
+      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ count: 200 });
+    });
+    const demo = env.authenticatedContext(uid, { demo: true, role: 'store-admin' });
+    const over = demo.firestore().batch();
+    over.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/3`), product);
+    over.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { count: 201, kind: 'products', itemId: '3' });
+    await assertFails(over.commit());
+    await env.withSecurityRulesDisabled(async (context) => {
+      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ count: 4 });
+    });
+    const jump = demo.firestore().batch();
+    jump.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/3`), product);
+    jump.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { count: 9, kind: 'products', itemId: '3' });
+    await assertFails(jump.commit());
+    const nested = demo.firestore().batch();
+    nested.set(demo.firestore().doc(`sandboxes/${uid}/catalog/products/items/3`), product);
+    nested.update(demo.firestore().doc(`sandboxes/${uid}/counters/docs`), { count: { value: 5 }, kind: 'products', itemId: '3' });
+    await assertFails(nested.commit());
   });
 });

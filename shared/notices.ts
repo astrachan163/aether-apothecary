@@ -1,5 +1,3 @@
-export const TEST_MODE_NOTICE = 'Test mode, use card 4242 4242 4242 4242, no real charges';
-
 export const CHECKOUT_OFF_LABEL = 'Checkout is off today: no orders, no charges, and no card details are collected.';
 
 export const MEDICAL_ADVICE_NOTICE = 'Nothing here is medical advice.';

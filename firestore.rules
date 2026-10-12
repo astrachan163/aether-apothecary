@@ -63,14 +63,16 @@ service cloud.firestore {
         allow create: if false;
         allow update: if isDemoOwner(uid)
           && counterId == 'docs'
-          && request.resource.data.keys().hasOnly(['ids'])
-          && request.resource.data.ids is list
-          && request.resource.data.ids.size() <= 200
-          && request.resource.data.ids.size() != resource.data.ids.size()
-          && (request.resource.data.ids.size() == resource.data.ids.size() + 1
-            || request.resource.data.ids.size() == resource.data.ids.size() - 1)
-          && (request.resource.data.ids.size() == 0
-            || request.resource.data.ids[request.resource.data.ids.size() - 1] is string);
+          && request.resource.data.keys().hasOnly(['count', 'kind', 'itemId'])
+          && request.resource.data.count is int
+          && request.resource.data.kind is string
+          && request.resource.data.itemId is string
+          && request.resource.data.count == resource.data.count + 1
+          && request.resource.data.count <= 200
+          && request.resource.data.kind.matches('^(products|ingredients|stories|faqs)$')
+          && request.resource.data.itemId.matches('^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$')
+          && existsAfter(/databases/$(database)/documents/sandboxes/$(uid)/catalog/$(request.resource.data.kind)/items/$(request.resource.data.itemId))
+          && !exists(/databases/$(database)/documents/sandboxes/$(uid)/catalog/$(request.resource.data.kind)/items/$(request.resource.data.itemId));
       }
 
       match /orders/{id} {
@@ -83,9 +85,6 @@ service cloud.firestore {
       }
 
       match /catalog/{kind}/items/{id} {
-      function slot() {
-        return kind + '/' + id;
-      }
       function textOk(value, max) {
         return value is string && value.size() > 0 && value.size() <= max;
       }
@@ -178,23 +177,20 @@ service cloud.firestore {
             || (kind == 'faqs' && faqOk()));
       }
       function trackedCreate() {
-        return getAfter(counter()).data.ids.size() == get(counter()).data.ids.size() + 1
-          && getAfter(counter()).data.ids.size() <= 200
-          && slot() in getAfter(counter()).data.ids
-          && !(slot() in get(counter()).data.ids);
-      }
-      function trackedDelete() {
-        return getAfter(counter()).data.ids.size() == get(counter()).data.ids.size() - 1
-          && slot() in get(counter()).data.ids
-          && !(slot() in getAfter(counter()).data.ids);
+        return existsAfter(/databases/$(database)/documents/sandboxes/$(uid)/catalog/$(kind)/items/$(id))
+          && getAfter(counter()).data.count is int
+          && getAfter(counter()).data.count == get(counter()).data.count + 1
+          && getAfter(counter()).data.count <= 200
+          && getAfter(counter()).data.kind == kind
+          && getAfter(counter()).data.itemId == id;
       }
 
         allow read: if isDemoOwner(uid);
         allow create: if isDemoOwner(uid) && itemOk() && trackedCreate();
         allow update: if isDemoOwner(uid) && itemOk()
-          && slot() in get(counter()).data.ids
-          && getAfter(counter()).data.ids.size() == get(counter()).data.ids.size();
-        allow delete: if isDemoOwner(uid) && kindOk() && idOk() && trackedDelete();
+          && getAfter(counter()).data.count == get(counter()).data.count;
+        allow delete: if isDemoOwner(uid) && kindOk() && idOk()
+          && getAfter(counter()).data.count == get(counter()).data.count;
       }
     }
   }

@@ -95,7 +95,7 @@ async function copySeedToSandbox(uid) {
   }
   const expiresAt = admin.firestore.Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000);
   batch.set(db().doc(`sandboxes/${uid}`), { aiCalls: 0, expiresAt });
-  batch.set(db().doc(`sandboxes/${uid}/counters/docs`), { ids: slots });
+  batch.set(db().doc(`sandboxes/${uid}/counters/docs`), { count: slots.length });
   await batch.commit();
 }
 
