@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
@@ -14,17 +13,11 @@ import { ArrowLeft, CreditCard, Leaf, Sparkles, Users } from 'lucide-react';
 import { DisclaimerMark } from '@/components/DisclaimerMark';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
 
 
 export default function ProductDetailPage() {
@@ -35,22 +28,6 @@ export default function ProductDetailPage() {
   const relatedStories = product
     ? getStories().filter((story) => story.productId === product.id)
     : [];
-  const [isPaying, setIsPaying] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { toast } = useToast();
-
-  const handleSimulatedPayment = () => {
-    if (!product) return;
-    setIsPaying(true);
-    window.setTimeout(() => {
-      setIsPaying(false);
-      setIsDialogOpen(false);
-      toast({
-        title: 'Payment recorded (test checkout)',
-        description: `The checkout form for ${product.name} closed. No live charge was made.`,
-      });
-    }, 400);
-  };
 
   if (!product) {
     notFound();
@@ -99,16 +76,16 @@ export default function ProductDetailPage() {
             </CardContent>
           </Card>
           
-          {product.ailments.length > 0 && (
+          {product.uses.length > 0 && (
           <Card className="mb-6 bg-background/50">
             <CardHeader>
               <CardTitle className="text-lg flex items-center"><Sparkles className="mr-2 h-5 w-5 text-accent" />Traditional use</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {product.ailments.map(ailment => (
-                  <Badge key={ailment} variant="secondary" className="capitalize text-sm py-1 px-2.5">
-                    {ailment}
+                {product.uses.map(useTag => (
+                  <Badge key={useTag} variant="secondary" className="capitalize text-sm py-1 px-2.5">
+                    {useTag}
                   </Badge>
                 ))}
               </div>
@@ -116,7 +93,7 @@ export default function ProductDetailPage() {
           </Card>
           )}
 
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <Dialog>
             <DialogTrigger asChild>
               <Button size="lg" className="mb-4 min-h-11 w-full bg-accent text-accent-foreground">
                 <CreditCard className="mr-2 h-5 w-5" /> Buy Now
@@ -125,35 +102,8 @@ export default function ProductDetailPage() {
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Checkout</DialogTitle>
-                <DialogDescription>
-                  Card details stay in this form. Stripe test mode is not connected yet, so this does not create a live charge.
-                </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <p className="text-sm font-medium">Product: {product.name}</p>
-                <p className="text-lg font-semibold">{`Price: $${product.price.toFixed(2)}`}</p>
-                <Separator />
-                <div className="grid gap-2">
-                  <Label htmlFor="checkout-card-number">Card number</Label>
-                  <Input id="checkout-card-number" name="card-number" autoComplete="cc-number" inputMode="numeric" className="min-h-11" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="checkout-expiry">Expiry</Label>
-                  <Input id="checkout-expiry" name="expiry" autoComplete="cc-exp" className="min-h-11" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="checkout-cvc">CVC</Label>
-                  <Input id="checkout-cvc" name="cvc" autoComplete="cc-csc" inputMode="numeric" className="min-h-11" />
-                </div>
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="outline" className="min-h-11" disabled={isPaying}>Cancel</Button>
-                </DialogClose>
-                <Button type="button" onClick={handleSimulatedPayment} disabled={isPaying} className="min-h-11 bg-accent text-accent-foreground">
-                  {isPaying ? 'Working...' : `Pay $${product.price.toFixed(2)}`}
-                </Button>
-              </DialogFooter>
+              <p>Checkout is not open yet. No order was placed and no charge was made.</p>
             </DialogContent>
           </Dialog>
 

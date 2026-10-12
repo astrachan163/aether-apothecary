@@ -4,16 +4,16 @@
 
 # Victorious Herbal Elements
 
-A Next.js storefront demo for Victorious Herbal Elements. Shoppers can browse a sample catalog, read an ingredient glossary, and add community stories that stay in the browser.
+The Victorious Herbal Elements store, built by Andrew Strachan. Shoppers can browse a sample catalog, read an ingredient glossary, and add community stories that stay in the browser.
 
-**Status:** Storefront with sample catalog data. Checkout is in the product page. Live card charges are not turned on yet. Catalog edits last until the tab is closed.
+**Status:** Store with sample catalog data. Checkout is not open yet. No order is placed and no charge is made from the product page. Catalog edits last until the tab is closed.
 
-Live: [aether-apothecary.vercel.app](https://aether-apothecary.vercel.app) · [aether-apothecary.web.app](https://aether-apothecary.web.app) · Part of [Andrew Strachan's portfolio](https://www.nonartificialsi.com)
+Live: [herbal.nonartificialsi.com](https://herbal.nonartificialsi.com) · [aether-apothecary.web.app](https://aether-apothecary.web.app) · Part of [Andrew Strachan's portfolio](https://www.nonartificialsi.com)
 
 ## What it does today
 
 - Shows the sample product catalog, with photos, prices, and categories, and filters it by category, ingredient text, and the tags stored on each product.
-- Product pages list ingredients and related sample stories. **Buy Now** opens checkout. The Stripe route is in the repo for test mode; this button does not create a live charge yet.
+- Product pages list ingredients and related sample stories. **Buy Now** opens a notice that checkout is not open yet. No order is placed and no charge is made. The Stripe route stays in the repo for test mode later.
 - The ingredient glossary and community page read `src/data`. Stories added on the community page stay in memory for the current visit.
 - The admin screen can add or remove products and stories for that same visit. The password is checked on the server against `ADMIN_PASSWORD`. This repository does not contain that password.
 - Optional admin buttons call server actions that draft a description or images. Those calls need Google Cloud credentials on the server. No API key is shipped here, so the buttons stay offline until a host provides credentials.
@@ -28,13 +28,13 @@ Live: [aether-apothecary.vercel.app](https://aether-apothecary.vercel.app) · [a
 
 | Home | Products |
 |---|---|
-| ![Home page of the Victorious Herbal Elements demo](docs/screens/home.webp) | ![Sample product catalog](docs/screens/products.webp) |
+| ![Home page of the Victorious Herbal Elements store](docs/screens/home.webp) | ![Sample product catalog](docs/screens/products.webp) |
 
 | Product | Community |
 |---|---|
 | ![Sample product page with simulated checkout](docs/screens/product.webp) | ![Community stories from sample data](docs/screens/community.webp) |
 
-Captured from the local demo with sample data. No real user data, keys, emails, or tokens appear in them.
+Captured from the local store with sample data. No real user data, keys, emails, or tokens appear in them.
 
 ## How it's built
 
@@ -71,7 +71,7 @@ No secrets are committed. Configuration comes from environment variables listed 
 
 ## Credits
 
-Storefront demo for Victorious Herbal Elements. Repository author: Andrew Strachan.
+The Victorious Herbal Elements store, built by Andrew Strachan.
 
 ## License
 

@@ -30,7 +30,7 @@ const HEALTH_CLAIM = new RegExp(
 
 // Standalone words from the herbal compliance gate. They fail even without a second term.
 const BANNED_HEALTH_WORD = new RegExp(
-  '\\b(?:treat(?:s|ed|ing|ment|ments)?|cures?|curing|cured|prevent(?:s|ed|ing|ion|ions)?|heals?|healed|healing|inflammations?|inflammatory|immune|immunity|anxiet(?:y|ies)|anxious|pains?|painful|diseases?|arthritis|infections?|cancers?|insomnia|wounds?|burns?)\\b',
+  '\\b(?:treat(?:s|ed|ing|ment|ments)?|cures?|curing|cured|prevent(?:s|ed|ing|ion|ions)?|heals?|healed|healing|inflammations?|inflammatory|immune|immunity|anxiet(?:y|ies)|anxious|pains?|painful|diseases?|arthritis|infections?|cancers?|insomnia|wounds?|burns?|depression|depressive|remedies|remedy|ailments?)\\b',
   'i',
 );
 
