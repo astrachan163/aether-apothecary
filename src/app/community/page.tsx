@@ -73,8 +73,6 @@ export default function CommunityPage() {
       productId: productIdForStory,
       productName: productNameForStory,
       date: new Date().toISOString(),
-      // userAvatarUrl: 'https://placehold.co/100x100.png', 
-      // dataAiHint: 'person',
     };
 
     addStory(newStory); // Add story via DataContext

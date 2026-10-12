@@ -34,7 +34,7 @@ export function IngredientCard({ ingredient }: IngredientCardProps) {
                 <Leaf className="mr-2 h-5 w-5 text-accent flex-shrink-0" />
                 {ingredient.name}
                 </h3>
-                <p className="text-sm text-foreground/80 leading-relaxed line-clamp-2">{ingredient.description}</p>
+                <p className="text-sm text-foreground leading-relaxed line-clamp-2">{ingredient.description}</p>
             </div>
         </div>
       </AccordionTrigger>

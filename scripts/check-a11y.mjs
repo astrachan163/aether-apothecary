@@ -4,13 +4,35 @@
  */
 
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { webkit } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 
 const root = join(import.meta.dirname, '..', 'out');
-const pages = ['/', '/products', '/products/1', '/ingredients', '/community', '/admin/login'];
+
+async function pages() {
+  const found = [];
+  async function walk(dir, prefix) {
+    const entries = await readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.name.startsWith('_') || entry.name === '404.html') continue;
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        await walk(full, `${prefix}/${entry.name}`);
+        continue;
+      }
+      if (!entry.name.endsWith('.html')) continue;
+      if (entry.name === 'index.html') {
+        found.push(prefix || '/');
+        continue;
+      }
+      found.push(`${prefix}/${entry.name.replace(/\.html$/, '')}`);
+    }
+  }
+  await walk(root, '');
+  return found.sort();
+}
 
 const types = {
   '.html': 'text/html; charset=utf-8',
@@ -19,7 +41,9 @@ const types = {
   '.json': 'application/json',
   '.webp': 'image/webp',
   '.png': 'image/png',
+  '.PNG': 'image/png',
   '.jpg': 'image/jpeg',
+  '.JPG': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
@@ -75,7 +99,8 @@ async function main() {
   try {
     const context = await browser.newContext({ viewport: { width: 430, height: 900 } });
     const page = await context.newPage();
-    for (const path of pages) {
+    const paths = await pages();
+    for (const path of paths) {
       const url = `http://127.0.0.1:${port}${path}`;
       const response = await page.goto(url, { waitUntil: 'networkidle' });
       const status = response ? response.status() : 0;

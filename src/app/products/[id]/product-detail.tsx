@@ -61,7 +61,7 @@ export default function ProductDetailPage() {
             {product.sku && <Badge variant="outline">SKU: {product.sku}</Badge>}
           </div>
           
-          <p className="text-foreground/80 leading-relaxed mb-6">{product.description}<DisclaimerMark /></p>
+          <p className="text-foreground leading-relaxed mb-6">{product.description}<DisclaimerMark /></p>
 
           <Card className="mb-6 bg-background/50">
             <CardHeader>

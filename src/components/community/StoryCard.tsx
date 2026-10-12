@@ -69,7 +69,7 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
       </CardHeader>
       <CardContent className="flex-grow pt-0">
         <Quote className="h-5 w-5 text-accent mb-2 transform -scale-x-100" />
-        <p className="text-sm text-foreground/90 leading-relaxed italic mb-3 min-h-[60px]">
+        <p className="text-sm text-foreground leading-relaxed italic mb-3 min-h-[60px]">
           {story.story}
         </p>
       </CardContent>
