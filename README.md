@@ -21,7 +21,7 @@ Live: [herbal.nonartificialsi.com](https://herbal.nonartificialsi.com) · [aethe
 ## Planned
 
 - Saving the catalog, stories, and orders in Firebase [planned]. `src/lib/firebase.ts` is a stub.
-- Connecting **Buy Now** to the Stripe test-mode route, then to live payments when the owner turns that on [planned].
+- Connecting **Buy Now** to the Stripe test-mode route [planned].
 - A signed-in admin for the store [planned]. This branch does not turn on a public admin session.
 
 ## Screens
