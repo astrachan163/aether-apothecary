@@ -9,6 +9,7 @@ const navItems = [
   { href: '/products', label: 'Products' },
   { href: '/ingredients', label: 'Ingredients' },
   { href: '/community', label: 'Community' },
+  { href: '/cart', label: 'Cart' },
 ];
 
 export function MainNav() {
@@ -21,7 +22,7 @@ export function MainNav() {
           key={item.href}
           href={item.href}
           className={cn(
-            'inline-flex min-h-6 items-center transition-colors hover:text-accent',
+            'inline-flex min-h-11 items-center transition-colors hover:text-accent',
             pathname === item.href ? 'text-accent' : 'text-foreground'
           )}
         >

@@ -46,7 +46,7 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
           </Avatar>
           <div>
             <CardTitle className="text-lg">{story.userName}</CardTitle>
-            <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Sample content</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Sample story</p>
             <CardDescription className="text-xs text-muted-foreground">
               {formattedDate || 'Date unavailable'}
             </CardDescription>

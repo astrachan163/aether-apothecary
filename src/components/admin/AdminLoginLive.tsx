@@ -1,22 +1,37 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth, type AdminLoginResult } from '@/contexts/AuthContext';
+import { useAuth, type DemoStartResult, type EmailSignInResult } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LogIn } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DEMO_AGE_NOTICE } from '../../../shared/notices';
 
-function messageFor(result: Exclude<AdminLoginResult, 'ok'>): string {
+function emailMessage(result: Exclude<EmailSignInResult, 'ok'>): string {
   switch (result) {
     case 'invalid':
-      return 'Invalid password.';
+      return 'That email or password was not accepted.';
     case 'unconfigured':
-      return 'Admin login is not configured. Set ADMIN_PASSWORD in .env.local.';
+      return 'Sign-in is not connected in this build.';
     case 'error':
-      return 'Could not reach the login service.';
+      return 'Could not reach the sign-in service.';
+    default: {
+      const exhaustive: never = result;
+      return exhaustive;
+    }
+  }
+}
+
+function demoMessage(result: Exclude<DemoStartResult, 'ok'>): string {
+  switch (result) {
+    case 'unconfigured':
+      return 'Demo sign-in needs the store function. It is not connected in this build.';
+    case 'capped':
+      return 'The demo cap for today has been reached.';
+    case 'error':
+      return 'The demo session did not start.';
     default: {
       const exhaustive: never = result;
       return exhaustive;
@@ -25,70 +40,59 @@ function messageFor(result: Exclude<AdminLoginResult, 'ok'>): string {
 }
 
 export default function AdminLoginPage() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, isAdmin, isLoading } = useAuth();
+  const { signInWithEmail, startStoreAdminDemo, canUseAdmin, isLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && isAdmin) {
-      router.push('/admin/dashboard');
-    }
-  }, [isAdmin, isLoading, router]);
+    if (!isLoading && canUseAdmin) router.push('/admin/dashboard');
+  }, [canUseAdmin, isLoading, router]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  async function onSignIn(event: React.FormEvent) {
     event.preventDefault();
-    setError('');
     setIsSubmitting(true);
-    const result = await login(password);
+    setError('');
+    const result = await signInWithEmail(email, password);
     setIsSubmitting(false);
-    if (result === 'ok') {
-      router.push('/admin/dashboard');
-      return;
-    }
-    setError(messageFor(result));
-  };
-
-  if (isLoading) {
-    return <div className="flex justify-center items-center h-screen"><p>Loading...</p></div>;
+    if (result !== 'ok') setError(emailMessage(result));
   }
-  if (isAdmin) {
-    return null;
+
+  async function onDemo() {
+    setIsSubmitting(true);
+    setError('');
+    const result = await startStoreAdminDemo();
+    setIsSubmitting(false);
+    if (result !== 'ok') setError(demoMessage(result));
   }
 
   return (
-    <div className="container mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] py-12">
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="text-center">
-          <LogIn className="h-12 w-12 text-accent mx-auto mb-3" />
-          <CardTitle className="text-3xl">Admin Login</CardTitle>
-          <CardDescription>Enter the admin password to open the dashboard.</CardDescription>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-3xl">Store admin</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={onSignIn} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="current-password">Password</Label>
-              <Input
-                id="current-password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                enterKeyHint="done"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-              />
+              <Label htmlFor="admin-email">Email</Label>
+              <Input id="admin-email" name="email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} className="min-h-11" required />
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button
-              type="submit"
-              className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Signing in...' : 'Sign in'}
-            </Button>
+            <div className="space-y-2">
+              <Label htmlFor="admin-password">Password</Label>
+              <Input id="admin-password" name="password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="min-h-11" required />
+            </div>
+            {error ? <p role="alert">{error}</p> : null}
+            <Button type="submit" className="min-h-11 w-full" disabled={isSubmitting}>Sign in</Button>
           </form>
+          <div className="mt-6 space-y-3">
+            <p>{DEMO_AGE_NOTICE}</p>
+            <Button type="button" variant="outline" className="min-h-11 w-full" disabled={isSubmitting} onClick={onDemo}>
+              Try the store admin demo
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

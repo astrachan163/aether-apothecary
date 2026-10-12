@@ -109,7 +109,7 @@ export default function CommunityPage() {
         <Users className="h-16 w-16 text-accent mx-auto mb-4" />
         <h1 className="text-4xl font-bold tracking-tight text-foreground">Shared Journeys</h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Sample content. These notes are examples, not customer reviews.
+          Sample story. These notes are examples, not customer reviews.
         </p>
       </header>
 

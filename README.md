@@ -4,16 +4,16 @@
 
 # Victorious Herbal Elements
 
-The Victorious Herbal Elements store, built by Andrew Strachan. Shoppers can browse a sample catalog, read an ingredient glossary, and add community stories that stay in the browser.
+The Victorious Herbal Elements store, built by Andrew Strachan. Shoppers can browse the catalog, read the ingredient glossary, and keep a cart in the browser.
 
-**Status:** Store with sample catalog data. Checkout is not open yet. No order is placed and no charge is made from the product page. Catalog edits last until the tab is closed.
+**Status:** Real product. One-click demo login with sample data, reset nightly. Checkout uses Stripe test mode when test keys are present, and stays off with a notice when they are not.
 
 Live: [herbal.nonartificialsi.com](https://herbal.nonartificialsi.com) · [aether-apothecary.web.app](https://aether-apothecary.web.app) · Part of [Andrew Strachan's portfolio](https://www.nonartificialsi.com)
 
 ## What it does today
 
 - Shows the sample product catalog, with photos, prices, and categories, and filters it by category, ingredient text, and the tags stored on each product.
-- Product pages list ingredients and related sample stories. **Buy Now** opens a notice that checkout is not open yet. No order is placed and no charge is made. The Stripe route stays in the repo for test mode later.
+- Product pages list ingredients and related sample stories. **Add to cart** keeps a browser cart. **Buy Now** starts Stripe test Checkout when a test publishable key is set. Otherwise the button is disabled and reads that checkout is off until the test account is connected.
 - The ingredient glossary and community page read `src/data`. Stories added on the community page stay in memory for the current visit.
 - The public pages do not link to admin. The sample catalog lives in `src/data` for the current visit.
 - Optional admin buttons call server actions that draft a description or images. Those calls need Google Cloud credentials on the server. No API key is shipped here, so the buttons stay offline until a host provides credentials.

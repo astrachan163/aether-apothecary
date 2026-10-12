@@ -14,8 +14,7 @@ import type { AilmentType, Product } from '@/lib/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from "@/hooks/use-toast";
 import { Sparkles, Loader2, Image as ImageIcon, CheckCircle2 } from 'lucide-react';
-import { generateProductDescription } from '@/ai/flows/generate-product-description';
-import { generateProductImages } from '@/ai/flows/generate-product-images';
+import { draftProductDescription } from '@/lib/admin-ai';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -93,12 +92,18 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
     setIsGeneratingDesc(true);
     try {
       const keywords = [...new Set([...ingredients.split(','), ...uses])].join(', ');
-      const result = await generateProductDescription({ name, shortDescription, keywords });
+      const result = await draftProductDescription({ name, shortDescription, keywords });
       if (result.description) {
         form.setValue('description', result.description, { shouldValidate: true });
         toast({
-          title: "Description Generated!",
-          description: "The AI-powered description has been added.",
+          title: "Description drafted",
+          description: "Answered with your key. Review it before you save.",
+        });
+      } else {
+        toast({
+          title: "Draft unavailable",
+          description: result.error || "Could not draft a description.",
+          variant: "destructive",
         });
       }
     } catch (error) {
@@ -128,18 +133,10 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
     setSelectedImageIndex(null); // Reset selection
     form.setValue('imageUrl', '', { shouldValidate: true }); // Clear form value and trigger validation
     try {
-      const result = await generateProductImages({ 
-        name, 
-        description,
-        ...(contextImage && { contextImage }), // Conditionally add contextImage if it exists
+      toast({
+        title: "Image draft unavailable",
+        description: "Image drafting runs on the owner AI function. It is not connected in this build.",
       });
-      if (result.images && result.images.length > 0) {
-        setGeneratedImages(result.images);
-        toast({
-          title: "Images Generated!",
-          description: "Select your favorite image below.",
-        });
-      }
     } catch (error) {
       console.error("Error generating images:", error);
       toast({

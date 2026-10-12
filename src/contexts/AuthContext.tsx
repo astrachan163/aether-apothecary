@@ -1,77 +1,115 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { onAuthStateChanged, signInWithCustomToken, signInWithEmailAndPassword, signOut, type User } from 'firebase/auth';
+import { httpsCallable } from 'firebase/functions';
+import { getFirebase } from '@/lib/firebase';
 
-export type AdminLoginResult = 'ok' | 'invalid' | 'unconfigured' | 'error';
+export type EmailSignInResult = 'ok' | 'invalid' | 'unconfigured' | 'error';
+export type DemoStartResult = 'ok' | 'unconfigured' | 'capped' | 'error';
 
 interface AuthContextType {
   isAdmin: boolean;
-  login: (password: string) => Promise<AdminLoginResult>;
-  logout: () => void;
+  isDemo: boolean;
+  canUseAdmin: boolean;
   isLoading: boolean;
+  authConfigured: boolean;
+  signInWithEmail: (email: string, password: string) => Promise<EmailSignInResult>;
+  startStoreAdminDemo: () => Promise<DemoStartResult>;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+async function readClaims(user: User): Promise<{ admin: boolean; demo: boolean }> {
+  const token = await user.getIdTokenResult();
+  return {
+    admin: token.claims.admin === true,
+    demo: token.claims.demo === true && token.claims.role === 'store-admin',
+  };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isDemo, setIsDemo] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const authConfigured = getFirebase() !== null;
 
   useEffect(() => {
-    try {
-      const storedIsAdmin = localStorage.getItem('isAdminVHE');
-      if (storedIsAdmin === 'true') {
-        setIsAdmin(true);
-      }
-    } catch (error) {
-      console.error('Could not access localStorage:', error);
+    const clients = getFirebase();
+    if (!clients) {
+      setIsLoading(false);
+      return;
     }
-    setIsLoading(false);
+    return onAuthStateChanged(clients.auth, (user) => {
+      if (!user) {
+        setIsAdmin(false);
+        setIsDemo(false);
+        setIsLoading(false);
+        return;
+      }
+      void readClaims(user).then((claims) => {
+        setIsAdmin(claims.admin);
+        setIsDemo(claims.demo);
+        setIsLoading(false);
+      });
+    });
   }, []);
 
-  const login = async (password: string): Promise<AdminLoginResult> => {
+  const signInWithEmail = async (email: string, password: string): Promise<EmailSignInResult> => {
+    const clients = getFirebase();
+    if (!clients) return 'unconfigured';
     try {
-      const response = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-
-      if (response.status === 503) {
-        return 'unconfigured';
-      }
-      if (!response.ok) {
-        return 'invalid';
-      }
-
-      setIsAdmin(true);
-      try {
-        localStorage.setItem('isAdminVHE', 'true');
-      } catch (error) {
-        console.error('Could not access localStorage:', error);
-      }
+      await signInWithEmailAndPassword(clients.auth, email, password);
       return 'ok';
     } catch (error) {
-      console.error('Admin login request failed:', error);
+      const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : '';
+      if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+        return 'invalid';
+      }
+      return 'error';
+    }
+  };
+
+  const startStoreAdminDemo = async (): Promise<DemoStartResult> => {
+    const clients = getFirebase();
+    if (!clients) return 'unconfigured';
+    try {
+      const start = httpsCallable<{ role: string }, { token: string }>(clients.functions, 'startDemoSession');
+      const result = await start({ role: 'store-admin' });
+      await signInWithCustomToken(clients.auth, result.data.token);
+      return 'ok';
+    } catch (error) {
+      const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : '';
+      if (code.includes('resource-exhausted')) return 'capped';
       return 'error';
     }
   };
 
   const logout = () => {
+    const clients = getFirebase();
     setIsAdmin(false);
-    try {
-      localStorage.removeItem('isAdminVHE');
-    } catch (error) {
-      console.error('Could not access localStorage:', error);
-    }
+    setIsDemo(false);
+    if (clients) void signOut(clients.auth);
     router.push('/');
   };
 
   return (
-    <AuthContext.Provider value={{ isAdmin, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{
+        isAdmin,
+        isDemo,
+        canUseAdmin: isAdmin || isDemo,
+        isLoading,
+        authConfigured,
+        signInWithEmail,
+        startStoreAdminDemo,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

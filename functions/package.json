@@ -1,0 +1,13 @@
+{
+  "name": "aether-apothecary-functions",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.3.2",
+    "stripe": "^16.12.0"
+  }
+}

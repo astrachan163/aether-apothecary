@@ -2,9 +2,11 @@ const FDA_DISCLAIMER =
   'These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.';
 
 const legalLinks = [
-  { href: 'https://nonartificialsi.com/privacy', label: 'Privacy' },
-  { href: 'https://nonartificialsi.com/terms', label: 'Terms' },
-  { href: 'https://nonartificialsi.com/accessibility', label: 'Accessibility' },
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/terms', label: 'Terms' },
+  { href: '/accessibility', label: 'Accessibility' },
+  { href: '/ai-key-guide', label: 'AI' },
+  { href: '/credits', label: 'Credits' },
 ];
 
 export function Footer() {
@@ -18,7 +20,7 @@ export function Footer() {
             <a
               key={item.href}
               href={item.href}
-              className="inline-flex min-h-6 items-center text-sm text-foreground underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+              className="inline-flex min-h-11 items-center text-sm text-foreground underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
             >
               {item.label}
             </a>
@@ -29,7 +31,7 @@ export function Footer() {
         </p>
         <p
           id="disclaimer"
-          className="max-w-3xl text-balance text-center text-sm font-bold leading-relaxed text-foreground"
+          className="max-w-3xl rounded-md border-2 border-foreground px-4 py-3 text-balance text-center text-sm font-bold leading-relaxed text-foreground"
         >
           {FDA_DISCLAIMER}
         </p>

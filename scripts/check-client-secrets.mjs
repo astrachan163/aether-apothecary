@@ -15,7 +15,12 @@ const TEXT_EXT = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.css']);
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
 const ASSIGNED_SECRET = /(PASSWORD|SECRET|PRIVATE_KEY|API_KEY|TOKEN)\s*=\s*['"`][^'"`\n]+['"`]/;
 const KEY_SHAPE = /AIza[0-9A-Za-z\-_]{10,}|(?:sk|pk)_(?:live|test)_[0-9A-Za-z]{8,}|whsec_[0-9A-Za-z]{8,}|-----BEGIN (?:RSA |EC )?PRIVATE KEY-----/;
-const PUBLIC_PAID_KEY = /NEXT_PUBLIC_[A-Z0-9_]*(?:KEY|SECRET|TOKEN|PASSWORD)|VITE_[A-Z0-9_]*(?:KEY|SECRET|TOKEN|PASSWORD)/;
+const PUBLIC_PAID_KEY = /\b(?:NEXT_PUBLIC_[A-Z0-9_]*(?:KEY|SECRET|TOKEN|PASSWORD)|VITE_[A-Z0-9_]*(?:KEY|SECRET|TOKEN|PASSWORD))\b/g;
+const PUBLIC_ENV_ALLOW = new Set([
+  'NEXT_PUBLIC_FIREBASE_API_KEY',
+  'NEXT_PUBLIC_FIREBASE_APP_CHECK_SITE_KEY',
+  'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST',
+]);
 
 const failures = [];
 
@@ -80,7 +85,8 @@ function checkSource() {
       if (EMAIL.test(line)) failures.push(`email-in-source: ${where}`);
       if (ASSIGNED_SECRET.test(line)) failures.push(`secret-literal: ${where}`);
       if (KEY_SHAPE.test(line)) failures.push(`key-shaped-literal: ${where}`);
-      if (PUBLIC_PAID_KEY.test(line)) failures.push(`public-key-env: ${where}`);
+      const publicNames = line.match(PUBLIC_PAID_KEY) ?? [];
+      if (publicNames.some((name) => !PUBLIC_ENV_ALLOW.has(name))) failures.push(`public-key-env: ${where}`);
     });
   }
 }

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "userName": "Seraphina Moon",
+    "userAvatarUrl": "/images/community/avatar.webp",
+    "dataAiHint": "woman smiling",
+    "productId": "1",
+    "productName": "Sacred Anointing Oil (Victory)",
+    "story": "Using the Sacred Anointing Oil during my daily meditation has transformed my practice. I feel a deeper connection to my inner self and a profound sense of peace. It's truly a blessing.",
+    "date": "2023-10-15",
+    "published": true,
+    "sample": true
+  },
+  {
+    "id": "2",
+    "userName": "Elias Stone",
+    "userAvatarUrl": "/images/community/avatar.webp",
+    "dataAiHint": "man nature",
+    "productId": "2",
+    "productName": "Calendula Botanical Oil",
+    "story": "I keep the Calendula Botanical Oil by the garden door. I enjoy the herbal scent after a long afternoon outside. It is part of my routine, and I like that it is simple.",
+    "date": "2023-11-02",
+    "published": true,
+    "sample": true
+  },
+  {
+    "id": "3",
+    "userName": "Luna Bloom",
+    "userAvatarUrl": "/images/community/avatar.webp",
+    "dataAiHint": "woman nature",
+    "productId": "3",
+    "productName": "All Natural Herbal Black Soap",
+    "story": "The All Natural Herbal Black Soap has become a staple in my routine. The scent is incredibly calming, and I enjoy how soft my skin feels afterward.",
+    "date": "2023-09-20",
+    "published": true,
+    "sample": true
+  }
+]

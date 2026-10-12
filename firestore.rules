@@ -1,0 +1,83 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.admin == true
+        && request.auth.token.email == "strachan@uab.edu"
+        && request.auth.token.email_verified == true;
+    }
+    function isDemoOwner(uid) {
+      return signedIn()
+        && request.auth.token.demo == true
+        && request.auth.uid == uid
+        && request.auth.uid.matches('demo_.*');
+    }
+    function noClaimFields() {
+      return !request.resource.data.keys().hasAny(['role', 'admin', 'demo', 'claims']);
+    }
+
+    match /catalog/{kind}/items/{id} {
+      allow read: if (request.auth == null && resource.data.published == true) || isAdmin();
+      allow write: if false;
+    }
+
+    match /orders/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /org/{document=**} {
+      allow read, write: if isAdmin();
+    }
+
+    match /demo_seed/{document=**} {
+      allow read: if isAdmin() || (signedIn() && request.auth.token.demo == true);
+      allow write: if isAdmin();
+    }
+
+    match /demo_meta/{document=**} {
+      allow read, write: if false;
+    }
+
+    match /ai_usage/{day} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /sandboxes/{uid} {
+      allow read: if isDemoOwner(uid);
+      allow create: if isDemoOwner(uid)
+        && request.resource.data.keys().hasOnly(['aiCalls', 'expiresAt'])
+        && request.resource.data.aiCalls == 1;
+      allow update: if isDemoOwner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['aiCalls'])
+        && request.resource.data.aiCalls == resource.data.aiCalls + 1
+        && request.resource.data.aiCalls <= 10;
+
+      match /counters/{counterId} {
+        allow read: if isDemoOwner(uid);
+        allow write: if false;
+      }
+
+      match /orders/{id} {
+        allow read: if isDemoOwner(uid);
+        allow write: if false;
+      }
+
+      match /catalog/{kind}/items/{id} {
+        allow read: if isDemoOwner(uid);
+        allow delete: if isDemoOwner(uid);
+        allow create, update: if isDemoOwner(uid)
+          && noClaimFields()
+          && get(/databases/$(database)/documents/sandboxes/$(uid)/counters/docs).data.count < 200
+          && request.resource.data.keys().hasOnly(['id', 'name', 'description', 'shortDescription', 'price', 'imageUrl', 'category', 'ingredients', 'uses', 'sku', 'inventory', 'active', 'published', 'slug', 'traditionalUses', 'spiritualBenefits', 'physicalBenefits', 'story', 'userName', 'productId', 'productName', 'date', 'sample', 'question', 'answer'])
+          && (!('name' in request.resource.data) || (request.resource.data.name is string && request.resource.data.name.size() <= 120))
+          && (!('description' in request.resource.data) || (request.resource.data.description is string && request.resource.data.description.size() <= 2000));
+      }
+    }
+  }
+}
