@@ -24,9 +24,9 @@ body {
     --secondary-foreground: 255 50% 40%;
 
     --muted: 0 0% 88%; /* Slightly darker gray for muted elements */
-    --muted-foreground: 220 10% 45%;
+    --muted-foreground: 220 10% 32%;
 
-    --accent: 150 40% 61.4%; /* #74C69D Muted Teal */
+    --accent: 152 55% 27%; /* #1f6b45, dark enough for white text and for text on gray */
     --accent-foreground: 0 0% 98%; /* Off-white text on accent */
     
     --destructive: 0 84.2% 60.2%;
@@ -34,7 +34,7 @@ body {
 
     --border: 0 0% 85%;
     --input: 0 0% 88%;
-    --ring: 150 40% 61.4%; /* Muted Teal for rings */
+    --ring: 152 55% 27%;
 
     --radius: 0.5rem;
 
@@ -131,4 +131,15 @@ body {
 /* Apply fade-in to major sections or cards if desired */
 .section-fade-in > * {
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

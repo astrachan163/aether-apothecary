@@ -15,14 +15,14 @@ export function MainNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+    <nav aria-label="Primary" className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-medium">
       {navItems.map((item) => (
         <Link
           key={item.href}
           href={item.href}
           className={cn(
-            'transition-colors hover:text-accent',
-            pathname === item.href ? 'text-accent' : 'text-foreground/70'
+            'inline-flex min-h-6 items-center transition-colors hover:text-accent',
+            pathname === item.href ? 'text-accent' : 'text-foreground'
           )}
         >
           {item.label}

@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Leaf } from 'lucide-react';
+import { DisclaimerMark } from '@/components/DisclaimerMark';
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -33,7 +34,7 @@ export function IngredientCard({ ingredient }: IngredientCardProps) {
                 <Leaf className="mr-2 h-5 w-5 text-accent flex-shrink-0" />
                 {ingredient.name}
                 </h3>
-                <p className="text-sm text-foreground/80 leading-relaxed line-clamp-2">{ingredient.description}</p>
+                <p className="text-sm text-foreground leading-relaxed line-clamp-2">{ingredient.description}</p>
             </div>
         </div>
       </AccordionTrigger>
@@ -41,15 +42,15 @@ export function IngredientCard({ ingredient }: IngredientCardProps) {
         <div className="space-y-4">
           <div>
             <h4 className="font-semibold text-md mb-1">Traditional Uses</h4>
-            <p className="text-sm text-muted-foreground">{ingredient.traditionalUses}</p>
+            <p className="text-sm text-muted-foreground">{ingredient.traditionalUses}<DisclaimerMark /></p>
           </div>
           <div>
             <h4 className="font-semibold text-md mb-1">Traditional spiritual use</h4>
-            <p className="text-sm text-muted-foreground">{ingredient.spiritualBenefits}</p>
+            <p className="text-sm text-muted-foreground">{ingredient.spiritualBenefits}<DisclaimerMark /></p>
           </div>
           <div>
             <h4 className="font-semibold text-md mb-1">Traditional physical use</h4>
-            <p className="text-sm text-muted-foreground">{ingredient.physicalBenefits}</p>
+            <p className="text-sm text-muted-foreground">{ingredient.physicalBenefits}<DisclaimerMark /></p>
           </div>
         </div>
       </AccordionContent>

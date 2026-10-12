@@ -28,6 +28,12 @@ const HEALTH_CLAIM = new RegExp(
   'i',
 );
 
+// Standalone words from the herbal compliance gate. They fail even without a second term.
+const BANNED_HEALTH_WORD = new RegExp(
+  '\\b(?:treat(?:s|ed|ing|ment|ments)?|cures?|curing|cured|prevent(?:s|ed|ing|ion|ions)?|heals?|healed|healing|inflammations?|inflammatory|immune|immunity|anxiet(?:y|ies)|anxious|pains?|painful|diseases?|arthritis|infections?|cancers?|insomnia|wounds?|burns?|depression|depressive|remedies|remedy|ailments?)\\b',
+  'i',
+);
+
 const CASE_INSENSITIVE = [
   /Doctor of Medicine|\bM\.D\.|M\.D\. Candidate|four years of medical school|medical school graduate/i,
   /federal licensing|two MSDH-licensed businesses|stood up two licensed|hired after licensing|required full FDA/i,
@@ -82,7 +88,7 @@ for (const file of targets()) {
   const lines = text.split(/\r?\n/);
   lines.forEach((line, index) => {
     const cleaned = scrub(line);
-    const matched = [...CASE_INSENSITIVE, ...CASE_SENSITIVE, HEALTH_CLAIM].some((pattern) => pattern.test(cleaned));
+    const matched = [...CASE_INSENSITIVE, ...CASE_SENSITIVE, HEALTH_CLAIM, BANNED_HEALTH_WORD].some((pattern) => pattern.test(cleaned));
     if (matched) {
       hits.push(`${relative(ROOT, file)}:${index + 1}`);
     }

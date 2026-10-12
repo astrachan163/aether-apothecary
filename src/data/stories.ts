@@ -7,7 +7,7 @@ export const mockStories: CommunityStory[] = [
   {
     id: '1',
     userName: 'Seraphina Moon',
-    userAvatarUrl: 'https://placehold.co/100x100.png',
+    userAvatarUrl: '/images/community/avatar.webp',
     dataAiHint: 'woman smiling',
     productId: '1',
     productName: 'Sacred Anointing Oil (Victory)',
@@ -17,7 +17,7 @@ export const mockStories: CommunityStory[] = [
   {
     id: '2',
     userName: 'Elias Stone',
-    userAvatarUrl: 'https://placehold.co/100x100.png',
+    userAvatarUrl: '/images/community/avatar.webp',
     dataAiHint: 'man nature',
     productId: '2',
     productName: 'Calendula Botanical Oil',
@@ -27,7 +27,7 @@ export const mockStories: CommunityStory[] = [
   {
     id: '3',
     userName: 'Luna Bloom',
-    userAvatarUrl: 'https://placehold.co/100x100.png', // Added placeholder avatar for consistency
+    userAvatarUrl: '/images/community/avatar.webp',
     dataAiHint: 'woman nature', // Added placeholder hint
     productId: '3', // Assuming this relates to product ID '3' (All Natural Herbal Black Soap)
     productName: 'All Natural Herbal Black Soap', // Updated to match
