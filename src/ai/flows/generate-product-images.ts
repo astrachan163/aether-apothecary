@@ -5,7 +5,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z, type Part} from 'genkit';
 import { GenerateProductImagesInputSchema, type GenerateProductImagesInput, type GenerateProductImagesOutput } from '@/ai/schemas/product-images';
 
 
@@ -30,7 +30,7 @@ const generateProductImageFlow = ai.defineFlow(
       - **Description:** ${input.description}
     `;
     
-    const promptParts = [{ text: promptText }];
+    const promptParts: Part[] = [{ text: promptText }];
     if (input.contextImage) {
         promptParts.push({ media: { url: input.contextImage } });
     }
@@ -44,15 +44,15 @@ const generateProductImageFlow = ai.defineFlow(
         },
         });
         
-        if (finishReason === 'BLOCKED' || finishReason === 'SAFETY') {
+        if (finishReason === 'blocked') {
             throw new Error('Image generation was blocked for safety reasons.');
         }
         
-        if (!media || !Array.isArray(media) || media.length === 0 || !media[0].url) {
+        if (!media?.url) {
             throw new Error('Image generation failed to produce a valid media object.');
         }
 
-        return media[0].url;
+        return media.url;
     } catch (e: any) {
         // Re-throw with a more detailed error for debugging
         const specificError = e.message || 'An unknown error occurred during AI generation.';
@@ -64,20 +64,5 @@ const generateProductImageFlow = ai.defineFlow(
 
 
 export async function generateProductImages(input: GenerateProductImagesInput): Promise<GenerateProductImagesOutput> {
-  try {
-    const imageDataUris: string[] = [];
-    for (let i = 0; i < 4; i++) {
-      // Added a log to show progress
-      console.log(`Generating image ${i + 1} of 4...`);
-      const imageDataUri = await generateProductImageFlow(input);
-      imageDataUris.push(imageDataUri);
-    }
-    console.log("Successfully generated all 4 images.");
-    return { images: imageDataUris };
-  } catch (error: any) {
-    // Log the specific error and re-throw a user-friendly one
-    const detailedError = error.message || "An unknown error occurred.";
-    console.error(`[generateProductImages Error] Failed to generate all images: ${detailedError}`);
-    throw new Error(`Failed to generate product images. Reason: ${detailedError}`);
-  }
+  throw new Error('Legacy image generation is unavailable. No Genkit provider is configured.');
 }

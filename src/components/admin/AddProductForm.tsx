@@ -21,7 +21,7 @@ import { Skeleton } from '../ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 
-const ailmentOptions: AilmentType[] = ['spiritual', 'emotional', 'physical', 'mental'];
+const ailmentOptions = ['spiritual', 'emotional', 'physical', 'mental'] as const satisfies readonly AilmentType[];
 
 const productFormSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters.'),

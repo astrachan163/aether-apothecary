@@ -1,25 +1,25 @@
-const DEMO_UID = /^demo_[a-z0-9-]+_[a-f0-9]{16}$/;
+const DEMO_UID = /^demo_store-admin_[a-f0-9]{16}$/;
 
 export function isDemoUid(uid: string): boolean {
-  return uid.startsWith('demo_');
+  return DEMO_UID.test(uid);
 }
 
-export function mayResetAuthUser(uid: string): boolean {
-  return isDemoUid(uid) && uid !== 'admin' && !uid.includes('strachan');
+export function mayResetAuthUser(_uid: string): boolean {
+  return false;
 }
 
-export function mayDeleteFirestorePath(path: string): boolean {
-  const parts = path.split('/').filter(Boolean);
-  if (parts[0] === 'org') return false;
-  if (parts[0] !== 'sandboxes' || !parts[1]) return false;
-  return isDemoUid(parts[1]);
+export function mayDeleteFirestorePath(path: string, root?: { app?: string }, counter?: { app?: string; count?: number }): boolean {
+  const parts = path.split('/');
+  return parts[0] === 'sandboxes' && isDemoUid(parts[1] ?? '') && parts.every(Boolean)
+    && root?.app === 'herbal' && counter?.app === 'herbal'
+    && Number.isInteger(counter.count) && counter.count! >= 0 && counter.count! <= 200;
 }
 
 export function buildDemoUid(role: string, hex: string): string {
   if (!/^[a-f0-9]{16}$/.test(hex)) {
     throw new Error('bad-hex');
   }
-  if (!/^[a-z0-9-]+$/.test(role)) {
+  if (role !== 'store-admin') {
     throw new Error('bad-role');
   }
   const uid = `demo_${role}_${hex}`;

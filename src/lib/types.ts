@@ -44,6 +44,7 @@ export interface CommunityStory {
   productName?: string;
   story: string;
   date: string;
+  sample?: boolean;
 }
 
 // Types for Stripe Integration and Order Management

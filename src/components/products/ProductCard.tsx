@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 import { DisclaimerMark } from '@/components/DisclaimerMark';
+import { productHref } from '@/lib/product-links';
 
 interface ProductCardProps {
   product: Product;
@@ -19,7 +20,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="flex flex-col overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
       <CardHeader className="p-0">
-        <Link href={`/products/${product.id}`} className="block group">
+        <Link href={productHref(product.id)} className="block group">
           <div className="relative w-full h-60">
             <Image
               src={product.imageUrl}
@@ -33,7 +34,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
       <CardContent className="p-6 flex-grow">
         <CardTitle className="text-xl mb-2">
-          <Link href={`/products/${product.id}`} className="hover:text-accent transition-colors">
+          <Link href={productHref(product.id)} className="hover:text-accent transition-colors">
             {product.name}
           </Link>
         </CardTitle>
@@ -54,7 +55,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardContent>
       <CardFooter className="p-6 pt-0">
         <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-          <Link href={`/products/${product.id}`}>
+          <Link href={productHref(product.id)}>
             View Details <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>

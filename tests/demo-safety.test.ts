@@ -9,10 +9,10 @@ describe('demo reset safety', () => {
     expect(mayResetAuthUser('strachan')).toBe(false);
   });
 
-  it('allows only demo sandboxes and demo users', () => {
+  it('requires app markers for the exact Herbal namespace and never authorizes Auth deletion', () => {
     const uid = buildDemoUid('store-admin', 'abcdabcdabcdabcd');
-    expect(mayDeleteFirestorePath(`sandboxes/${uid}/catalog/products/items/1`)).toBe(true);
-    expect(mayResetAuthUser(uid)).toBe(true);
+    expect(mayDeleteFirestorePath(`sandboxes/${uid}/catalog/products/items/1`)).toBe(false);
+    expect(mayResetAuthUser(uid)).toBe(false);
   });
 
   it('stops at the daily and hourly caps', () => {

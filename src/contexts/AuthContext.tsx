@@ -10,6 +10,7 @@ export type EmailSignInResult = 'ok' | 'invalid' | 'unconfigured' | 'error';
 export type DemoStartResult = 'ok' | 'unconfigured' | 'capped' | 'error';
 
 interface AuthContextType {
+  uid: string | null;
   isAdmin: boolean;
   isDemo: boolean;
   canUseAdmin: boolean;
@@ -31,6 +32,7 @@ async function readClaims(user: User): Promise<{ admin: boolean; demo: boolean }
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const [uid, setUid] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isDemo, setIsDemo] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,6 +46,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     return onAuthStateChanged(clients.auth, (user) => {
+      setUid(user?.uid ?? null);
+      setIsLoading(true);
       if (!user) {
         setIsAdmin(false);
         setIsDemo(false);
@@ -51,9 +55,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
       void readClaims(user).then((claims) => {
+        if (clients.auth.currentUser?.uid !== user.uid) return;
         setIsAdmin(claims.admin);
         setIsDemo(claims.demo);
         setIsLoading(false);
+      }).catch(() => {
+        if (clients.auth.currentUser?.uid !== user.uid) return;
+        setIsAdmin(false); setIsDemo(false); setIsLoading(false);
       });
     });
   }, []);
@@ -91,6 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     const clients = getFirebase();
     setIsAdmin(false);
+    setUid(null);
     setIsDemo(false);
     if (clients) void signOut(clients.auth);
     router.push('/');
@@ -99,6 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
+        uid,
         isAdmin,
         isDemo,
         canUseAdmin: isAdmin || isDemo,

@@ -10,11 +10,26 @@ service cloud.firestore {
         && request.auth.token.email == "strachan@uab.edu"
         && request.auth.token.email_verified == true;
     }
+    // Preserve only the recorded live legacy /demo policy. These predicates
+    // never grant access to the Herbal catalog, orders or sandbox roots.
+    function legacyAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    function isDemo() {
+      return request.auth != null && request.auth.token.demo == true;
+    }
+    match /demo/{docPath=**} {
+      allow read: if isDemo() || legacyAdmin();
+      allow create, update: if (isDemo() && request.resource.data.size() <= 40) || legacyAdmin();
+      allow delete: if isDemo() || legacyAdmin();
+    }
     function isDemoOwner(uid) {
       return signedIn()
         && request.auth.token.demo == true
+        && request.auth.token.role == 'store-admin'
         && request.auth.uid == uid
-        && request.auth.uid.matches('demo_.*');
+        && request.auth.uid.matches('demo_store-admin_[a-f0-9]{16}')
+        && get(/databases/$(database)/documents/sandboxes/$(uid)).data.app == 'herbal';
     }
     function noClaimFields() {
       return !request.resource.data.keys().hasAny(['role', 'admin', 'demo', 'claims']);
@@ -50,9 +65,9 @@ service cloud.firestore {
 
     match /sandboxes/{uid} {
       allow read: if isDemoOwner(uid);
-      allow create: if isDemoOwner(uid)
-        && request.resource.data.keys().hasOnly(['aiCalls', 'expiresAt'])
-        && request.resource.data.aiCalls == 1;
+      // The server creates app-marked roots. Retained Auth users cannot
+      // recreate a deleted root after reset.
+      allow create: if false;
       allow update: if isDemoOwner(uid)
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['aiCalls'])
         && request.resource.data.aiCalls == resource.data.aiCalls + 1
@@ -63,7 +78,9 @@ service cloud.firestore {
         allow create: if false;
         allow update: if isDemoOwner(uid)
           && counterId == 'docs'
-          && request.resource.data.keys().hasOnly(['count', 'kind', 'itemId'])
+          && resource.data.app == 'herbal'
+          && request.resource.data.app == 'herbal'
+          && request.resource.data.keys().hasOnly(['app', 'count', 'kind', 'itemId'])
           && request.resource.data.count is int
           && request.resource.data.kind is string
           && request.resource.data.itemId is string

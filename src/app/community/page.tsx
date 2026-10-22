@@ -4,22 +4,20 @@
 import React, { useState, useEffect } from 'react';
 import { StoryList } from '@/components/community/StoryList';
 import { AddStoryForm, type StoryFormData } from '@/components/community/AddStoryForm';
-import type { CommunityStory, Product } from '@/lib/types';
+import type { CommunityStory } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Users } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from "@/hooks/use-toast";
 import { useData } from '@/contexts/DataContext'; // Use DataContext
-import { useAuth } from '@/contexts/AuthContext'; // Use AuthContext
 
 const ALL_PRODUCTS_FILTER_VALUE = "__ALL_PRODUCTS__";
 const NO_PRODUCT_STORY_VALUE = "__NO_PRODUCT_SELECTED__";
 
 
 export default function CommunityPage() {
-  const { stories: allStoriesFromCtx, addStory, removeStory: removeStoryFromCtx, getStories, getProducts } = useData();
-  const { isAdmin } = useAuth(); // Get admin status
+  const { addStory, getStories, getProducts } = useData();
   const { toast } = useToast();
 
   const [filteredStories, setFilteredStories] = useState<CommunityStory[]>([]);
@@ -73,34 +71,15 @@ export default function CommunityPage() {
       productId: productIdForStory,
       productName: productNameForStory,
       date: new Date().toISOString(),
+      sample: true,
     };
 
     addStory(newStory); // Add story via DataContext
     toast({
-      title: "Story Submitted!",
-      description: "Thank you for sharing your experience.",
+      title: 'Story preview added',
+      description: 'This draft stays in memory for this visit. It has not been published.',
     });
     setIsSubmitting(false);
-  };
-
-  // This function is for admin removal on the dashboard, 
-  // The public page won't directly call this now.
-  // Kept for potential future use if remove button was public.
-  const handleRemoveStoryPublic = (storyId: string) => {
-    if (isAdmin) { // Only admin can remove
-      removeStoryFromCtx(storyId);
-      toast({
-        title: "Story Removed",
-        description: "The story has been removed.",
-        variant: "destructive" 
-      });
-    } else {
-       toast({
-        title: "Permission Denied",
-        description: "You do not have permission to remove stories.",
-        variant: "destructive" 
-      });
-    }
   };
 
   return (
@@ -109,11 +88,12 @@ export default function CommunityPage() {
         <Users className="h-16 w-16 text-accent mx-auto mb-4" />
         <h1 className="text-4xl font-bold tracking-tight text-foreground">Shared Journeys</h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Sample story. These notes are examples, not customer reviews.
+          Stories marked as samples are examples, not customer reviews.
         </p>
       </header>
 
       <AddStoryForm products={currentProducts} onStorySubmit={handleStorySubmit} isLoading={isSubmitting} />
+      <p className="mb-6 text-sm text-muted-foreground">Story previews stay in memory for this visit and are not published.</p>
 
       <div className="grid md:grid-cols-2 gap-4 mb-8 p-6 bg-card rounded-lg shadow">
         <Input 

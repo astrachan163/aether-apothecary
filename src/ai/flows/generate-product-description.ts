@@ -42,5 +42,5 @@ const generateProductDescriptionFlow = ai.defineFlow(
 );
 
 export async function generateProductDescription(input: GenerateProductDescriptionInput): Promise<GenerateProductDescriptionOutput> {
-  return generateProductDescriptionFlow(input);
+  throw new Error('Legacy description generation is unavailable. No Genkit provider is configured.');
 }

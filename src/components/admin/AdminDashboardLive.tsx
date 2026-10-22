@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { AI_WARNING, DEMO_AI_LIMIT } from '../../../shared/notices';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AdminStoryManager from '@/components/admin/AdminStoryManager';
 import AdminProductManager from '@/components/admin/AdminProductManager';
+import AdminOrders from '@/components/admin/AdminOrders';
 import { LayoutDashboard, LogOut } from 'lucide-react';
 import { useData } from '@/contexts/DataContext';
 
@@ -44,7 +46,7 @@ export default function AdminDashboardPage() {
             <a href="/admin/settings">Settings</a>
           </Button>
           <Button variant="outline" className="min-h-11" asChild>
-            <a href="/products">Preview storefront with my changes</a>
+            <Link href="/products">Preview storefront with my changes</Link>
           </Button>
           <Button variant="outline" className="min-h-11" onClick={logout}>
             <LogOut className="mr-2 h-4 w-4" /> Logout
@@ -78,6 +80,7 @@ export default function AdminDashboardPage() {
           <AdminStoryManager />
         </TabsContent>
       </Tabs>
+      <AdminOrders />
     </div>
   );
 }

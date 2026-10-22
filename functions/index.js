@@ -9,6 +9,8 @@ const { readFileSync, readdirSync } = require('node:fs');
 const { join } = require('node:path');
 const { validateCatalogItem, assertCheckoutItem, assertAllowlistedPrice } = require('./catalog-item');
 const { commitSandboxItem } = require('./sandbox-write');
+const { HERBAL_APP, resetHerbalSandboxes } = require('./demo-reset');
+const { validatePriceAllowlist, assertMatchingTestPrice } = require('./stripe-config');
 
 setGlobalOptions({ region: 'us-central1', maxInstances: 10 });
 
@@ -16,7 +18,7 @@ const stripeSecret = defineSecret('STRIPE_SECRET_KEY_TEST');
 const webhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET_TEST');
 const geminiSecret = defineSecret('GEMINI_API_KEY');
 
-const PRICE_ALLOWLIST = new Set(JSON.parse(readFileSync(join(__dirname, 'stripe-price-allowlist.json'), 'utf8')));
+const PRICE_CONFIG = JSON.parse(readFileSync(join(__dirname, 'stripe-price-allowlist.json'), 'utf8'));
 const APP_CHECK = { enforceAppCheck: true, consumeAppCheckToken: true };
 const ADMIN_EMAIL = 'strachan@uab.edu';
 const MODEL_OWNER = 'gemini-3.8-flash';
@@ -94,8 +96,8 @@ async function copySeedToSandbox(uid) {
     batch.set(db().doc(`sandboxes/${uid}/orders/${order.id}`), order);
   }
   const expiresAt = admin.firestore.Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000);
-  batch.set(db().doc(`sandboxes/${uid}`), { aiCalls: 0, expiresAt });
-  batch.set(db().doc(`sandboxes/${uid}/counters/docs`), { count: slots.length });
+  batch.set(db().doc(`sandboxes/${uid}`), { app: HERBAL_APP, aiCalls: 0, expiresAt });
+  batch.set(db().doc(`sandboxes/${uid}/counters/docs`), { app: HERBAL_APP, count: slots.length });
   await batch.commit();
 }
 
@@ -113,13 +115,15 @@ exports.startDemoSession = onCall({ enforceAppCheck: true, consumeAppCheckToken:
   const hour = now.toISOString().slice(0, 13);
   await db().runTransaction(async (tx) => {
     const snap = await tx.get(counterRef);
-    const data = snap.exists ? snap.data() : { day, dayCount: 0, clients: {} };
+    const data = snap.exists ? snap.data() : { app: HERBAL_APP, day, dayCount: 0, clients: {} };
+    if (data.app !== HERBAL_APP) throw new HttpsError('failed-precondition', 'The demo counter has no verified app ownership.');
     const dayCount = data.day === day ? data.dayCount : 0;
     if (dayCount >= 300) throw new HttpsError('resource-exhausted', 'Demo cap reached.');
     const client = data.clients?.[clientHash];
     const hourCount = client && client.hour === hour ? client.count : 0;
     if (hourCount >= 5) throw new HttpsError('resource-exhausted', 'Demo cap reached.');
     tx.set(counterRef, {
+      app: HERBAL_APP,
       day,
       dayCount: dayCount + 1,
       clients: { ...(data.clients || {}), [clientHash]: { hour, count: hourCount + 1 } },
@@ -132,32 +136,7 @@ exports.startDemoSession = onCall({ enforceAppCheck: true, consumeAppCheckToken:
   return { token };
 });
 
-exports.resetDemo = onSchedule({ schedule: '0 3 * * *', timeZone: 'America/Chicago' }, async () => {
-  const sandboxes = await db().collection('sandboxes').listDocuments();
-  for (const doc of sandboxes) {
-    const uid = doc.id;
-    if (!uid.startsWith('demo_')) continue;
-    await app().firestore().recursiveDelete(doc);
-  }
-  let pageToken;
-  do {
-    const listed = await app().auth().listUsers(1000, pageToken);
-    for (const user of listed.users) {
-      if (!user.uid.startsWith('demo_')) continue;
-      await app().auth().deleteUser(user.uid);
-    }
-    pageToken = listed.pageToken;
-  } while (pageToken);
-  await db().doc('demo_meta/counters').set({ day: '', dayCount: 0, clients: {} });
-  const seed = loadSeed();
-  for (const [kind, docs] of Object.entries(seed)) {
-    if (!Array.isArray(docs)) continue;
-    for (const doc of docs) {
-      if (!doc.id) continue;
-      await db().doc(`demo_seed/${kind}/items/${doc.id}`).set(doc);
-    }
-  }
-});
+exports.resetDemo = onSchedule({ schedule: '0 3 * * *', timeZone: 'America/Chicago' }, async () => resetHerbalSandboxes(db()));
 
 exports.saveCatalogItem = onCall(APP_CHECK, async (request) => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Sign in required.');
@@ -205,6 +184,15 @@ exports.createCheckoutSession = onCall({ ...APP_CHECK, secrets: [stripeSecret] }
   }
   const items = Array.isArray(request.data?.items) ? request.data.items : [];
   if (items.length === 0) throw new HttpsError('invalid-argument', 'Cart is empty.');
+  let allowlist;
+  try {
+    allowlist = validatePriceAllowlist(PRICE_CONFIG);
+    if (allowlist.size === 0) throw new Error('Checkout off.');
+  } catch {
+    throw new HttpsError('failed-precondition', 'Checkout test-price configuration is incomplete.');
+  }
+  const stripe = new Stripe(key, { apiVersion: '2024-06-20' });
+  const prices = new Map();
   const lineItems = [];
   for (const raw of items) {
     let item;
@@ -219,13 +207,14 @@ exports.createCheckoutSession = onCall({ ...APP_CHECK, secrets: [stripeSecret] }
     }
     let priceId;
     try {
-      priceId = assertAllowlistedPrice(snap.data().stripePriceId, PRICE_ALLOWLIST);
+      priceId = assertAllowlistedPrice(snap.data().stripePriceId, allowlist);
+      if (!prices.has(priceId)) prices.set(priceId, await stripe.prices.retrieve(priceId));
+      assertMatchingTestPrice(prices.get(priceId), priceId, snap.data().price);
     } catch {
-      throw new HttpsError('failed-precondition', 'That product has no allowlisted Stripe test price.');
+      throw new HttpsError('failed-precondition', 'That product has no matching allowlisted Stripe test price.');
     }
     lineItems.push({ quantity: item.qty, price: priceId });
   }
-  const stripe = new Stripe(key, { apiVersion: '2024-06-20' });
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: lineItems,

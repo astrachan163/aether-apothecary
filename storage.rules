@@ -7,6 +7,21 @@ service firebase.storage {
         && request.auth.token.email == "strachan@uab.edu"
         && request.auth.token.email_verified == true;
     }
+    function legacyAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    function isDemo() {
+      return request.auth != null && request.auth.token.demo == true;
+    }
+    // Recorded live legacy path, unchanged access conditions. The live global
+    // admin catch-all is intentionally not copied over strict Herbal roots.
+    match /demo/{uid}/{file=**} {
+      allow read: if legacyAdmin() || (isDemo() && request.auth.uid == uid);
+      allow create, update: if legacyAdmin() || (isDemo() && request.auth.uid == uid
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*'));
+      allow delete: if legacyAdmin() || (isDemo() && request.auth.uid == uid);
+    }
     match /catalog/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin()

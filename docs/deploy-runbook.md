@@ -1,6 +1,6 @@
 # Deploy runbook
 
-Do not run these commands until Cody's PASS and Andrew has finished the settings list below. Never run a bare `firebase deploy`.
+Source review and deployment are separate. Complete the exact decisions in `DEPLOY.md` before enabling backend features. No backend/rules/settings changes are part of this source closeout. Never run a bare `firebase deploy`.
 
 Project: `aether-apothecary`. Hosting site: `aether-apothecary`. Functions runtime: Node 22, region `us-central1`.
 
@@ -10,7 +10,7 @@ Follow `DEPLOY.md`. List functions first, deploy each function by name (`functio
 
 `build:static` writes `out/`. Hosting serves that folder.
 
-Set a Firestore TTL policy on `sandboxes/{uid}/meta` field `expiresAt` in the console. That is a backstop for the 3:00 AM America/Chicago `resetDemo` function.
+The existing 24-hour `expiresAt` is on `sandboxes/{uid}`, not a `meta` document. A TTL policy on the `sandboxes` collection group requires separate assessment: deleting a root through TTL does not recursively delete subcollections or Storage objects. The 3:00 AM America/Chicago reset recursively deletes only app-marked Herbal sandboxes; it leaves all Auth accounts and all rate counters unchanged.
 
 ## Secret Manager names
 
@@ -20,15 +20,17 @@ The functions refuse a Stripe secret that does not start with the test prefix. T
 
 ## Admin claim
 
-Portfolio Bot runs `scripts/grant-admin-claim.mjs` with `ALLOW_ADMIN_CLAIM_WRITE=1` after review. It sets `admin: true` on the existing `strachan@uab.edu` user. It does not create users. The password stays out of this repo.
+Any owner-claim write is a separate identity-permission action. Do not run `scripts/grant-admin-claim.mjs` as part of source work. Source authorization remains restricted to the existing verified owner identity; no claim was changed.
 
 ## Andrew-only settings
 
-- Blaze on `aether-apothecary`, with a budget and the $5 spend cap first.
-- Secret Manager values for the three names above.
+- Billing is already enabled. Confirm applicable runtime budgets/quotas separately; this code does not implement a $5 hard spend cap.
+- Metadata confirms all three Secret Manager names above are absent. Owner-provided existing-account configuration is required; no secret values were read or created.
 - Stripe test keys and a test webhook pointed at `stripeWebhook`.
-- App Check for herbal.nonartificialsi.com, aether-apothecary.web.app, and aether-apothecary.firebaseapp.com.
+- The Firebase WEB app already exists; App Check provider/site configuration does not. Assess existing-domain configuration without creating a new registration or enabling enforcement in this change.
 - AI Logic quotas for the demo model.
 - Public sign-up off. Enable delete off.
 - Key referrer restrictions.
 - Real charges stay off until Andrew turns them on outside this app.
+
+No Genkit provider is configured. Legacy description/image exports fail before generation. Choosing a provider/package or activating those dormant prompts is a separate decision; current callable AI also remains gated on its own missing configuration.

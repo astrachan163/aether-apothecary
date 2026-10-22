@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Quote, Package, Trash2 } from 'lucide-react'; 
+import { productHref } from '@/lib/product-links';
 
 interface StoryCardProps {
   story: CommunityStory;
@@ -46,7 +47,7 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
           </Avatar>
           <div>
             <CardTitle className="text-lg">{story.userName}</CardTitle>
-            <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Sample story</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-foreground">{story.sample === false ? 'Community story' : 'Sample story'}</p>
             <CardDescription className="text-xs text-muted-foreground">
               {formattedDate || 'Date unavailable'}
             </CardDescription>
@@ -75,7 +76,7 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
       </CardContent>
       {story.productId && story.productName && (
         <CardFooter className="pt-0 border-t mt-auto p-4 bg-secondary/30">
-          <Link href={`/products/${story.productId}`} className="text-xs text-accent hover:underline flex items-center">
+          <Link href={productHref(story.productId)} className="text-xs text-accent hover:underline flex items-center">
             <Package className="mr-1.5 h-3 w-3" /> Related to: {story.productName}
           </Link>
         </CardFooter>
