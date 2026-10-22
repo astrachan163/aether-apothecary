@@ -1,25 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useData } from '@/contexts/DataContext';
 import { StoryCard } from '@/components/community/StoryCard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from "@/hooks/use-toast";
 
 export default function AdminStoryManager() {
-  const { stories, removeStory, getStories } = useData();
+  const { canPersist, removeStory, getStories } = useData();
+  const [removing, setRemoving] = useState<string | null>(null);
   const { toast } = useToast();
   const currentStories = getStories();
 
-  const handleRemoveStory = (storyId: string) => {
-    removeStory(storyId);
-    toast({
-      title: "Story Removed",
-      description: "The story has been removed by admin.",
-      variant: "destructive",
-    });
+  const handleRemoveStory = async (storyId: string) => {
+    setRemoving(storyId);
+    try {
+      await removeStory(storyId);
+      toast({ title: 'Story removed', description: 'The story is no longer in this storefront.' });
+    } catch {
+      toast({ title: 'Story was not removed', description: 'The change could not be saved. Please try again.', variant: 'destructive' });
+    } finally { setRemoving(null); }
   };
 
   return (
@@ -28,6 +30,7 @@ export default function AdminStoryManager() {
         <CardTitle className="flex items-center text-2xl">
           <Users className="mr-3 h-7 w-7 text-accent" /> Manage Community Stories
         </CardTitle>
+        {!canPersist && <CardDescription>Sample catalog is read-only.</CardDescription>}
       </CardHeader>
       <CardContent>
         {currentStories.length === 0 ? (
@@ -42,7 +45,8 @@ export default function AdminStoryManager() {
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  onClick={() => handleRemoveStory(story.id)}
+                  onClick={() => void handleRemoveStory(story.id)}
+                  disabled={!canPersist || removing !== null}
                   className="ml-4 text-destructive hover:bg-destructive/10"
                   aria-label="Remove story as admin"
                 >

@@ -19,19 +19,21 @@ import { useToast } from "@/hooks/use-toast";
 
 
 export default function AdminProductManager() {
-  const { products, removeProduct: removeProductFromData, getProducts } = useData();
+  const { canPersist, removeProduct: removeProductFromData, getProducts } = useData();
   const [isAddFormOpen, setIsAddFormOpen] = useState(false);
+  const [removing, setRemoving] = useState<string | null>(null);
   const { toast } = useToast();
 
   const currentProducts = getProducts();
 
-  const handleRemoveProduct = (productId: string) => {
-    removeProductFromData(productId);
-     toast({
-      title: "Product Removed",
-      description: "The product has been removed by admin.",
-      variant: "destructive",
-    });
+  const handleRemoveProduct = async (productId: string) => {
+    setRemoving(productId);
+    try {
+      await removeProductFromData(productId);
+      toast({ title: 'Product removed', description: 'The product is no longer in this storefront.' });
+    } catch {
+      toast({ title: 'Product was not removed', description: 'The change could not be saved. Please try again.', variant: 'destructive' });
+    } finally { setRemoving(null); }
   };
 
   return (
@@ -41,11 +43,11 @@ export default function AdminProductManager() {
             <CardTitle className="flex items-center text-2xl">
             <Package className="mr-3 h-7 w-7 text-accent" /> Manage Products
             </CardTitle>
-            <CardDescription>Add, view, or remove products from the store.</CardDescription>
+            <CardDescription id="product-creation-offline">{canPersist ? 'Manage this connected catalog.' : 'Sample catalog is read-only.'} Adding products is offline in this build.</CardDescription>
         </div>
         <Dialog open={isAddFormOpen} onOpenChange={setIsAddFormOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
+            <Button disabled aria-describedby="product-creation-offline" className="bg-accent hover:bg-accent/90 text-accent-foreground">
                 <PlusCircle className="mr-2 h-5 w-5" /> Add New Product
             </Button>
           </DialogTrigger>
@@ -71,8 +73,9 @@ export default function AdminProductManager() {
                 <Button 
                   variant="destructive" 
                   size="icon" 
-                  onClick={() => handleRemoveProduct(product.id)}
-                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                  onClick={() => void handleRemoveProduct(product.id)}
+                  disabled={!canPersist || removing !== null}
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity z-10"
                   aria-label="Remove product as admin"
                 >
                   <Trash2 className="h-5 w-5" />

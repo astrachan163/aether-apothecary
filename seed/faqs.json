@@ -1,0 +1,8 @@
+[
+  {
+    "id": "shipping",
+    "question": "How does a test order work?",
+    "answer": "Test mode does not create a real charge.",
+    "published": true
+  }
+]

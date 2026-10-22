@@ -14,14 +14,14 @@ import type { AilmentType, Product } from '@/lib/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from "@/hooks/use-toast";
 import { Sparkles, Loader2, Image as ImageIcon, CheckCircle2 } from 'lucide-react';
-import { generateProductDescription } from '@/ai/flows/generate-product-description';
-import { generateProductImages } from '@/ai/flows/generate-product-images';
+import { draftProductDescription } from '@/lib/admin-ai';
+import { protectedCallable } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 
-const ailmentOptions: AilmentType[] = ['spiritual', 'emotional', 'physical', 'mental'];
+const ailmentOptions = ['spiritual', 'emotional', 'physical', 'mental'] as const satisfies readonly AilmentType[];
 
 const productFormSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters.'),
@@ -93,12 +93,18 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
     setIsGeneratingDesc(true);
     try {
       const keywords = [...new Set([...ingredients.split(','), ...uses])].join(', ');
-      const result = await generateProductDescription({ name, shortDescription, keywords });
+      const result = await draftProductDescription({ name, shortDescription, keywords });
       if (result.description) {
         form.setValue('description', result.description, { shouldValidate: true });
         toast({
-          title: "Description Generated!",
-          description: "The AI-powered description has been added.",
+          title: "Description drafted",
+          description: "Answered with your key. Review it before you save.",
+        });
+      } else {
+        toast({
+          title: "Draft unavailable",
+          description: result.error || "Could not draft a description.",
+          variant: "destructive",
         });
       }
     } catch (error) {
@@ -128,18 +134,10 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
     setSelectedImageIndex(null); // Reset selection
     form.setValue('imageUrl', '', { shouldValidate: true }); // Clear form value and trigger validation
     try {
-      const result = await generateProductImages({ 
-        name, 
-        description,
-        ...(contextImage && { contextImage }), // Conditionally add contextImage if it exists
+      toast({
+        title: "Image draft unavailable",
+        description: "Image drafting runs on the owner AI function. It is not connected in this build.",
       });
-      if (result.images && result.images.length > 0) {
-        setGeneratedImages(result.images);
-        toast({
-          title: "Images Generated!",
-          description: "Select your favorite image below.",
-        });
-      }
     } catch (error) {
       console.error("Error generating images:", error);
       toast({
@@ -157,20 +155,40 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
     form.setValue('imageUrl', imageDataUri, { shouldValidate: true });
   };
 
-  const onSubmit = (data: ProductFormData) => {
+  const onSubmit = async (data: ProductFormData) => {
     const newProduct: Product = {
       id: Date.now().toString(),
       name: data.name,
       shortDescription: data.shortDescription,
       description: data.description,
       imageUrl: data.imageUrl,
-      dataAiHint: 'product image', // We can set a generic hint as it's AI generated
+      dataAiHint: 'product image',
       price: data.price,
       category: data.category,
       uses: data.uses,
       ingredients: data.ingredients.split(',').map(s => s.trim()).filter(s => s),
-      sku: data.sku,
+      sku: data.sku || '',
+      inventory: 1,
+      active: true,
     };
+    const save = protectedCallable<{ kind: string; id: string; data: Record<string, unknown> }, { ok: boolean }>('saveCatalogItem');
+    const hostedImage = newProduct.imageUrl.startsWith('/images/') || newProduct.imageUrl.startsWith('https://firebasestorage.googleapis.com/');
+    if (save && hostedImage) {
+      try {
+        await save({
+          kind: 'products',
+          id: newProduct.id,
+          data: { ...newProduct, published: true },
+        });
+      } catch {
+        toast({
+          title: 'Save was rejected',
+          description: 'The catalog rules did not accept this item.',
+          variant: 'destructive',
+        });
+        return;
+      }
+    }
     addProduct(newProduct);
     toast({
         title: "Product Added!",

@@ -2,35 +2,34 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useData } from '@/contexts/DataContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StoryCard } from '@/components/community/StoryCard';
-import { ArrowLeft, CreditCard, Leaf, Sparkles, Users } from 'lucide-react';
+import { ArrowLeft, Leaf, Sparkles, Users } from 'lucide-react';
 import { DisclaimerMark } from '@/components/DisclaimerMark';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { CheckoutActions } from '@/components/checkout/CheckoutActions';
+import { selectedProductId } from '@/lib/product-links';
 
 
-export default function ProductDetailPage() {
+export default function ProductDetailPage({ productId: selection }: { productId?: string | null } = {}) {
   const params = useParams();
-  const { getProducts, getStories } = useData();
-  const productId = typeof params.id === 'string' ? params.id : undefined;
+  const { getProducts, getStories, catalogStatus } = useData();
+  const productId = selectedProductId(selection === undefined ? (typeof params.id === 'string' ? params.id : null) : selection);
   const product = productId ? getProducts().find((item) => item.id === productId) : undefined;
   const relatedStories = product
     ? getStories().filter((story) => story.productId === product.id)
     : [];
 
   if (!product) {
-    notFound();
+    return <div className="container mx-auto px-4 md:px-8 py-8">
+      <h1 className="text-2xl font-semibold">{productId && catalogStatus === 'loading' ? 'Loading product' : 'Product unavailable'}</h1>
+      <p className="my-4">{productId && catalogStatus === 'loading' ? 'Checking the catalog.' : 'This selection is missing or is not available in the current catalog.'}</p>
+      <Link href="/products" className="underline">Back to Products</Link>
+    </div>;
   }
 
   return (
@@ -93,19 +92,7 @@ export default function ProductDetailPage() {
           </Card>
           )}
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="lg" className="mb-4 min-h-11 w-full bg-accent text-accent-foreground">
-                <CreditCard className="mr-2 h-5 w-5" /> Buy Now
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]" aria-describedby="checkout-notice">
-              <DialogHeader>
-                <DialogTitle>Checkout</DialogTitle>
-              </DialogHeader>
-              <p id="checkout-notice">Checkout is not open yet. No order was placed and no charge was made.</p>
-            </DialogContent>
-          </Dialog>
+          <CheckoutActions productId={product.id} name={product.name} />
 
         </div>
       </div>
