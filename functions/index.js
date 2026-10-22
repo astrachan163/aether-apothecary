@@ -189,7 +189,7 @@ exports.saveCatalogItem = onCall(APP_CHECK, async (request) => {
     return { ok: true, root: 'sandbox' };
   }
   if (!isAdmin(token)) throw new HttpsError('permission-denied', 'Admin only.');
-  await db().doc(`catalog/${kind}/items/${id}`).set(sanitized);
+  await db().doc(`catalog/${kind}/items/${id}`).set(sanitized, { merge: true });
   return { ok: true, root: 'catalog' };
 });
 

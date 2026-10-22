@@ -22,32 +22,33 @@ async function commitSandboxItem({ token, projectId, uid, kind, id, data, fetchI
   const current = await fetchImpl(`${base}/sandboxes/${uid}/counters/docs`, { headers });
   if (!current.ok) return current.status;
   const count = readCount(await current.json());
-  if (count === null || count >= 200) return 409;
+  if (count === null) return 409;
+  const itemName = `projects/${projectId}/databases/(default)/documents/sandboxes/${uid}/catalog/${kind}/items/${id}`;
+  const item = await fetchImpl(`https://firestore.googleapis.com/v1/${itemName}`, { headers });
+  if (!item.ok && item.status !== 404) return item.status;
+  const exists = item.ok;
+  if (!exists && count >= 200) return 409;
   const fields = {};
   for (const [key, value] of Object.entries(data)) fields[key] = firestoreValue(value);
+  const writes = [{ update: { name: itemName, fields }, currentDocument: { exists } }];
+  if (!exists) {
+    writes.push({
+      update: {
+        name: `projects/${projectId}/databases/(default)/documents/sandboxes/${uid}/counters/docs`,
+        fields: {
+          count: { integerValue: String(count + 1) },
+          kind: { stringValue: kind },
+          itemId: { stringValue: id },
+        },
+      },
+      updateMask: { fieldPaths: ['count', 'kind', 'itemId'] },
+    });
+  }
   const response = await fetchImpl(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:commit`, {
     method: 'POST',
     headers: { ...headers, 'content-type': 'application/json' },
     body: JSON.stringify({
-      writes: [
-        {
-          update: {
-            name: `projects/${projectId}/databases/(default)/documents/sandboxes/${uid}/catalog/${kind}/items/${id}`,
-            fields,
-          },
-        },
-        {
-          update: {
-            name: `projects/${projectId}/databases/(default)/documents/sandboxes/${uid}/counters/docs`,
-            fields: {
-              count: { integerValue: String(count + 1) },
-              kind: { stringValue: kind },
-              itemId: { stringValue: id },
-            },
-          },
-          updateMask: { fieldPaths: ['count', 'kind', 'itemId'] },
-        },
-      ],
+      writes,
     }),
   });
   return response.status;

@@ -41,11 +41,11 @@ export default function AdminProductManager() {
             <CardTitle className="flex items-center text-2xl">
             <Package className="mr-3 h-7 w-7 text-accent" /> Manage Products
             </CardTitle>
-            <CardDescription>Add, view, or remove products from the store.</CardDescription>
+            <CardDescription id="product-creation-offline">View the sample catalog. Adding products is offline in this build.</CardDescription>
         </div>
         <Dialog open={isAddFormOpen} onOpenChange={setIsAddFormOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
+            <Button disabled aria-describedby="product-creation-offline" className="bg-accent hover:bg-accent/90 text-accent-foreground">
                 <PlusCircle className="mr-2 h-5 w-5" /> Add New Product
             </Button>
           </DialogTrigger>

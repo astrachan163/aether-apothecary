@@ -1,6 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { initializeTestEnvironment, assertFails, assertSucceeds, type RulesTestEnvironment } from '@firebase/rules-unit-testing';
-import { afterAll, beforeAll, describe, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { createMockUserToken } from '@firebase/util';
+import { commitSandboxItem } from '../functions/sandbox-write.js';
+import { validateCatalogItem } from '../functions/catalog-item.js';
 
 const projectId = 'aether-apothecary-rules';
 let env: RulesTestEnvironment;
@@ -18,6 +21,41 @@ afterAll(async () => {
 });
 
 describe('firestore rules', () => {
+  it('saves through the user-token helper without charging updates another slot', async () => {
+    const uid = 'demo_store-admin_abcdef0123456789';
+    const product = {
+      name: 'Oil', shortDescription: 'A short note.', description: 'A longer note about the bottle.',
+      imageUrl: '/images/products/oil.webp', price: 12, category: 'Oils', uses: ['physical'],
+      ingredients: ['Olive'], sku: 'VHE-9', inventory: 3, active: true, published: true,
+    };
+    await env.withSecurityRulesDisabled(async context => {
+      await context.firestore().doc(`sandboxes/${uid}/counters/docs`).set({ count: 199 });
+      await context.firestore().doc(`sandboxes/${uid}/catalog/products/items/1`).set(validateCatalogItem('products', '1', product));
+    });
+    const host = process.env.FIRESTORE_EMULATOR_HOST;
+    if (!host) throw new Error('This regression requires the local Firestore emulator.');
+    const token = createMockUserToken({ sub: uid, demo: true, role: 'store-admin' }, projectId);
+    const fetchImpl = (url: string, init: RequestInit) => {
+      if (!url.startsWith('https://firestore.googleapis.com/v1/')) throw new Error('Unexpected service.');
+      return fetch(url.replace('https://firestore.googleapis.com', `http://${host}`), init);
+    };
+    const save = (id: string, name: string) => commitSandboxItem({
+      token, projectId, uid, kind: 'products', id,
+      data: validateCatalogItem('products', id, { ...product, name }), fetchImpl,
+    });
+    const demo = env.authenticatedContext(uid, { demo: true, role: 'store-admin' }).firestore();
+    const count = async () => (await demo.doc(`sandboxes/${uid}/counters/docs`).get()).data()?.count;
+    expect(await save('1', 'Updated oil')).toBe(200);
+    expect(await count()).toBe(199);
+    expect(await save('2', 'Second oil')).toBe(200);
+    expect(await count()).toBe(200);
+    expect(await save('1', 'Oil at full cap')).toBe(200);
+    expect(await count()).toBe(200);
+    expect((await demo.doc(`sandboxes/${uid}/catalog/products/items/1`).get()).data()?.name).toBe('Oil at full cap');
+    expect(await save('3', 'Over cap')).toBe(409);
+    expect((await demo.doc(`sandboxes/${uid}/catalog/products/items/3`).get()).exists).toBe(false);
+  });
+
   it('lets the public read a published product and nobody write the catalog', async () => {
     await env.withSecurityRulesDisabled(async (context) => {
       await context.firestore().doc('catalog/products/items/1').set({ published: true, name: 'Oil' });
