@@ -17,7 +17,8 @@
     "check:claims": "node scripts/check-claims.mjs",
     "check:emoji": "node scripts/check-emoji.mjs",
     "check:secrets": "node scripts/check-client-secrets.mjs",
-    "check": "npm run check:claims && npm run check:emoji && npm run check:secrets"
+    "check": "npm run check:claims && npm run check:emoji && npm run check:secrets",
+    "check:a11y": "node scripts/check-a11y.mjs"
   },
   "dependencies": {
     "@genkit-ai/google-cloud": "^1.20.0",
@@ -67,11 +68,13 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint-config-next": "15.5.27",
     "genkit-cli": "^1.8.0",
+    "playwright": "1.64.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

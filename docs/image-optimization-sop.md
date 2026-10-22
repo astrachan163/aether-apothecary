@@ -56,4 +56,4 @@ An "Action" in Photoshop records a series of edits that you can then apply to ot
 
 2.  **Using the `next/image` Component:**
     *   In your `ProductCard.tsx` component, the `next/image` component is already set up to handle responsive images and will automatically serve the WebP version to browsers that support it.
-    *   By pre-sizing the images to 480px in height, we're providing a good base size for `next/image` to work with, preventing it from having to process unnecessarily large files.
+    *   By pre-sizing the images to 480px in height, we're providing a good base size for `next/image` so it does not have to process unnecessarily large files.

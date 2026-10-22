@@ -76,7 +76,7 @@ export function AddStoryForm({ products, onStorySubmit, isLoading }: AddStoryFor
               name="story"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Story / Testimonial</FormLabel>
+                  <FormLabel>Your story</FormLabel>
                   <FormControl>
                     <Textarea placeholder="Share your experience..." {...field} rows={5} />
                   </FormControl>

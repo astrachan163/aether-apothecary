@@ -33,7 +33,7 @@ const productFormSchema = z.object({
     z.number().min(0.01, 'Price must be at least 0.01.')
   ),
   category: z.string().min(2, 'Category is required.'),
-  ailments: z.array(z.enum(ailmentOptions)).min(1, 'Select at least one use.'),
+  uses: z.array(z.enum(ailmentOptions)).min(1, 'Select at least one use.'),
   ingredients: z.string().min(3, 'Enter at least one ingredient, comma-separated.'),
   sku: z.string().optional(),
 });
@@ -62,7 +62,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
       imageUrl: '',
       price: '' as any, // Initialize with empty string instead of undefined
       category: '',
-      ailments: [],
+      uses: [],
       ingredients: '',
       sku: '',
     },
@@ -81,7 +81,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
 
 
   const handleGenerateDescription = async () => {
-    const { name, shortDescription, ingredients, ailments } = form.getValues();
+    const { name, shortDescription, ingredients, uses } = form.getValues();
     if (!name || !shortDescription) {
       toast({
         title: "Cannot Generate Description",
@@ -92,7 +92,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
     }
     setIsGeneratingDesc(true);
     try {
-      const keywords = [...new Set([...ingredients.split(','), ...ailments])].join(', ');
+      const keywords = [...new Set([...ingredients.split(','), ...uses])].join(', ');
       const result = await generateProductDescription({ name, shortDescription, keywords });
       if (result.description) {
         form.setValue('description', result.description, { shouldValidate: true });
@@ -167,7 +167,7 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
       dataAiHint: 'product image', // We can set a generic hint as it's AI generated
       price: data.price,
       category: data.category,
-      ailments: data.ailments,
+      uses: data.uses,
       ingredients: data.ingredients.split(',').map(s => s.trim()).filter(s => s),
       sku: data.sku,
     };
@@ -299,14 +299,14 @@ export default function AddProductForm({ onProductAdded }: AddProductFormProps) 
               <FormMessage />
             </FormItem>
         )}/>
-        <FormField control={form.control} name="ailments" render={() => (
+        <FormField control={form.control} name="uses" render={() => (
             <FormItem>
               <div className="mb-2">
                 <FormLabel className="text-base">Traditional use</FormLabel>
                 <FormDescription>Select all that apply.</FormDescription>
               </div>
               {ailmentOptions.map((item) => (
-                <FormField key={item} control={form.control} name="ailments" render={({ field }) => (
+                <FormField key={item} control={form.control} name="uses" render={({ field }) => (
                     <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0 mb-2">
                         <FormControl>
                           <Checkbox checked={field.value?.includes(item)} onCheckedChange={(checked) => (

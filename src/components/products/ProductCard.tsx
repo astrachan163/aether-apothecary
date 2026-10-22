@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
+import { DisclaimerMark } from '@/components/DisclaimerMark';
 
 interface ProductCardProps {
   product: Product;
@@ -38,6 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </CardTitle>
         <CardDescription className="text-sm text-muted-foreground mb-3 h-20 overflow-hidden">
           {product.shortDescription}
+          <DisclaimerMark />
         </CardDescription>
         <div className="mb-3">
           <span className="text-lg font-semibold text-accent">

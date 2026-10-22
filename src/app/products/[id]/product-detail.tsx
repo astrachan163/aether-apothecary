@@ -1,98 +1,36 @@
-'use client'; 
+'use client';
 
-import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound, useParams } from 'next/navigation'; 
+import { notFound, useParams } from 'next/navigation';
 import { useData } from '@/contexts/DataContext';
-import type { Product, CommunityStory } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StoryCard } from '@/components/community/StoryCard';
-import { ArrowLeft, Leaf, Package, Sparkles, Users, CreditCard } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ArrowLeft, CreditCard, Leaf, Sparkles, Users } from 'lucide-react';
+import { DisclaimerMark } from '@/components/DisclaimerMark';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/dialog';
 
 
 export default function ProductDetailPage() {
   const params = useParams();
   const { getProducts, getStories } = useData();
-  const [product, setProduct] = useState<Product | null | undefined>(undefined); 
-  const [relatedStories, setRelatedStories] = useState<CommunityStory[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPaying, setIsPaying] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { toast } = useToast();
-
   const productId = typeof params.id === 'string' ? params.id : undefined;
-
-  useEffect(() => {
-    if (productId) {
-      const products = getProducts();
-      const stories = getStories();
-      const foundProduct = products.find(p => p.id === productId);
-      
-      setProduct(foundProduct || null); 
-      
-      if (foundProduct) {
-        setRelatedStories(stories.filter(story => story.productId === foundProduct.id));
-      } else {
-        setRelatedStories([]);
-      }
-    }
-    setIsLoading(false);
-  }, [productId, getProducts, getStories]);
-
-  const handleSimulatedPayment = () => {
-    if (!product) return;
-    setIsPaying(true);
-    setTimeout(() => {
-      setIsPaying(false);
-      setIsDialogOpen(false);
-      toast({
-        title: "Payment Successful! (Simulation)",
-        description: `Your order for ${product.name} has been placed.`,
-      });
-    }, 2000); // Simulate network delay
-  };
-
-
-  if (isLoading || product === undefined) { 
-    return (
-      <div className="container mx-auto px-4 md:px-8 py-8">
-        <Skeleton className="h-10 w-48 mb-8" />
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          <Skeleton className="w-full aspect-square rounded-lg" />
-          <div>
-            <Skeleton className="h-10 w-3/4 mb-3" />
-            <Skeleton className="h-8 w-1/4 mb-4" />
-            <Skeleton className="h-6 w-1/2 mb-4" />
-            <Skeleton className="h-20 w-full mb-6" />
-            <Skeleton className="h-32 w-full mb-6" />
-            <Skeleton className="h-32 w-full mb-6" />
-            <Skeleton className="h-12 w-full mb-4" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const product = productId ? getProducts().find((item) => item.id === productId) : undefined;
+  const relatedStories = product
+    ? getStories().filter((story) => story.productId === product.id)
+    : [];
 
   if (!product) {
-    notFound(); 
+    notFound();
   }
 
   return (
@@ -123,7 +61,7 @@ export default function ProductDetailPage() {
             {product.sku && <Badge variant="outline">SKU: {product.sku}</Badge>}
           </div>
           
-          <p className="text-foreground/80 leading-relaxed mb-6">{product.description}</p>
+          <p className="text-foreground leading-relaxed mb-6">{product.description}<DisclaimerMark /></p>
 
           <Card className="mb-6 bg-background/50">
             <CardHeader>
@@ -138,16 +76,16 @@ export default function ProductDetailPage() {
             </CardContent>
           </Card>
           
-          {product.ailments.length > 0 && (
+          {product.uses.length > 0 && (
           <Card className="mb-6 bg-background/50">
             <CardHeader>
               <CardTitle className="text-lg flex items-center"><Sparkles className="mr-2 h-5 w-5 text-accent" />Traditional use</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {product.ailments.map(ailment => (
-                  <Badge key={ailment} variant="secondary" className="capitalize text-sm py-1 px-2.5">
-                    {ailment}
+                {product.uses.map(useTag => (
+                  <Badge key={useTag} variant="secondary" className="capitalize text-sm py-1 px-2.5">
+                    {useTag}
                   </Badge>
                 ))}
               </div>
@@ -155,52 +93,17 @@ export default function ProductDetailPage() {
           </Card>
           )}
 
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <Dialog>
             <DialogTrigger asChild>
-              <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground mb-4">
-                <CreditCard className="mr-2 h-5 w-5" /> Buy Now (Simulated)
+              <Button size="lg" className="mb-4 min-h-11 w-full bg-accent text-accent-foreground">
+                <CreditCard className="mr-2 h-5 w-5" /> Buy Now
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]" aria-describedby="checkout-notice">
               <DialogHeader>
-                <DialogTitle>Simulated Checkout</DialogTitle>
-                <DialogDescription>
-                  This is a mock payment form. No real transaction will occur.
-                </DialogDescription>
+                <DialogTitle>Checkout</DialogTitle>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                   <Label className="col-span-4 text-sm font-medium">Product: {product.name}</Label>
-                   <Label className="col-span-4 text-lg font-semibold">{`Price: $${product.price.toFixed(2)}`}</Label>
-                </div>
-                <Separator />
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="mock-card-number" className="text-right col-span-1">
-                    Card Number
-                  </Label>
-                  <Input id="mock-card-number" placeholder="**** **** **** ****" className="col-span-3" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="mock-expiry" className="text-right col-span-1">
-                    Expiry
-                  </Label>
-                  <Input id="mock-expiry" placeholder="MM/YY" className="col-span-3" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="mock-cvc" className="text-right col-span-1">
-                    CVC
-                  </Label>
-                  <Input id="mock-cvc" placeholder="***" className="col-span-3" />
-                </div>
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                    <Button variant="outline" disabled={isPaying}>Cancel</Button>
-                </DialogClose>
-                <Button onClick={handleSimulatedPayment} disabled={isPaying} className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                  {isPaying ? 'Processing...' : `Pay $${product.price.toFixed(2)} (Simulated)`}
-                </Button>
-              </DialogFooter>
+              <p id="checkout-notice">Checkout is not open yet. No order was placed and no charge was made.</p>
             </DialogContent>
           </Dialog>
 

@@ -22,21 +22,23 @@ export default function HomePage() {
 
   return (
     <div className="space-y-16">
-      <section className="relative py-20 md:py-32 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-primary via-secondary to-background">
-        <Image
-          src="/images/products/Banner.PNG"
-          alt="Victorious Herbal Elements background"
-          fill
-          quality={80}
-          className="opacity-20 object-cover"
-          data-ai-hint="hero banner"
-          priority
-        />
-        <div className="container mx-auto px-4 md:px-8 relative z-10 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
+      <section className="overflow-hidden rounded-lg bg-background shadow-lg">
+        <div className="relative h-48 w-full md:h-64">
+          <Image
+            src="/images/products/Banner.PNG"
+            alt="Victorious Herbal Elements background"
+            fill
+            quality={80}
+            className="object-cover"
+            data-ai-hint="hero banner"
+            priority
+          />
+        </div>
+        <div className="bg-background px-4 py-10 text-center md:px-8 md:py-14">
+          <h1 className="mb-6 text-4xl font-bold tracking-tight text-foreground md:text-6xl">
             Discover Nature's Wisdom
           </h1>
-          <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto mb-8">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-foreground md:text-xl">
             Browse the Victorious Herbal Elements sample catalog. Explore herbal oils, soaps, and teas, and read how customers enjoy them.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">

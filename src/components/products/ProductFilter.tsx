@@ -36,9 +36,9 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
 
   const allCategories = Array.from(new Set(products.map(p => p.category)));
 
-  const handleAilmentChange = (ailment: AilmentType, checked: boolean) => {
+  const handleAilmentChange = (useTag: AilmentType, checked: boolean) => {
     setSelectedAilments(prev => 
-      checked ? [...prev, ailment] : prev.filter(a => a !== ailment)
+      checked ? [...prev, useTag] : prev.filter(a => a !== useTag)
     );
   };
   
@@ -54,7 +54,7 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
 
     if (selectedAilments.length > 0) {
       filtered = filtered.filter(p => 
-        selectedAilments.every(sa => p.ailments.includes(sa))
+        selectedAilments.every(sa => p.uses.includes(sa))
       );
     }
 
@@ -103,11 +103,11 @@ export function ProductFilter({ products, onFilterChange }: ProductFilterProps) 
             {ailmentOptions.map(opt => (
               <div key={opt.value} className="flex items-center space-x-2">
                 <Checkbox 
-                  id={`ailment-${opt.value}`} 
+                  id={`use-${opt.value}`} 
                   checked={selectedAilments.includes(opt.value)}
                   onCheckedChange={(checked) => handleAilmentChange(opt.value, !!checked)}
                 />
-                <Label htmlFor={`ailment-${opt.value}`} className="flex items-center font-normal">
+                <Label htmlFor={`use-${opt.value}`} className="flex items-center font-normal">
                   <opt.icon className="mr-1.5 h-4 w-4 text-muted-foreground" />
                   {opt.label}
                 </Label>

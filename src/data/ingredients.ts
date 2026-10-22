@@ -10,7 +10,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used in various cultures for the skin. Ancient Egyptians associated it with longevity.',
     spiritualBenefits: 'Associated with protection and luck. Often used in cleansing rituals to ward off negative energy and evil spirits.',
     physicalBenefits: 'Customers enjoy it for moisturizing the skin. Traditionally used in skin and hair routines.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'aloe vera',
   },
   {
@@ -21,7 +21,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used as a leavening agent in baking and as a household cleaner.',
     spiritualBenefits: 'Used in purification baths and floor washes to cleanse a space of negativity and absorb unwanted energies.',
     physicalBenefits: 'Customers enjoy it in toothpaste for a mild clean. Traditionally used as a kitchen powder.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'baking soda',
   },
   {
@@ -32,7 +32,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A staple in Italian cuisine. Traditionally used in Ayurvedic and Chinese kitchens as a fragrant herb.',
     spiritualBenefits: 'Attracts love, wealth, luck, and protection. It is often used in rituals to create harmony and ward off evil.',
     physicalBenefits: 'Customers enjoy its scent in cooking. Traditionally used as a culinary herb.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'basil',
   },
   {
@@ -43,7 +43,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Commonly used to flavor soups and stews. Traditionally kept in the kitchen and the pantry.',
     spiritualBenefits: 'Burned to induce psychic visions, and placed under a pillow to bring insightful dreams. Used in spells for success and wish-making.',
     physicalBenefits: 'Customers enjoy the aroma in cooking. Traditionally used as a culinary leaf.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'bay leaves',
   },
   {
@@ -54,7 +54,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used for thousands of years in food and personal care across several cultures.',
     spiritualBenefits: 'Believed to offer spiritual protection and strength, and to enhance one\'s connection to the divine.',
     physicalBenefits: 'Customers enjoy the strong, peppery flavor. Traditionally used as a culinary oil.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'black seed',
   },
   {
@@ -65,7 +65,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Varies by blend, but typically includes herbs that have been part of religious and spiritual ceremonies for centuries.',
     spiritualBenefits: 'Specifically consecrated to amplify their inherent spiritual properties, such as protection, purification, love, or prosperity.',
     physicalBenefits: 'The physical benefits depend on the specific herbs included in the blend.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'herbs',
   },
   {
@@ -76,7 +76,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used in whitewash paints and, in this shop, in toothpaste as a mild abrasive.',
     spiritualBenefits: 'Associated with purification and protection. Can be used to create protective circles or as a base for sacred powders.',
     physicalBenefits: 'Customers enjoy it in toothpaste as a mild abrasive. Traditionally used as a household mineral powder.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'mineral',
   },
   {
@@ -87,7 +87,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A common ingredient in Indian and Middle Eastern cuisine. Traditionally used to scent food and drinks.',
     spiritualBenefits: 'Used in love potions and spells to attract passion. Believed to enhance mental clarity and reduce feelings of fatigue.',
     physicalBenefits: 'Customers enjoy the warm, sweet aroma in cooking.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'cardamon',
   },
   {
@@ -98,7 +98,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Base oils like olive, almond, and coconut have been used for millennia for moisturizing skin, hair care, and in massage.',
     spiritualBenefits: 'The choice of carrier oil can add its own subtle energetic properties to an essential oil blend, such as grounding or nourishment.',
     physicalBenefits: 'Customers enjoy carrier oils for moisturizing the skin and for diluting scented oils.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'oil',
   },
   {
@@ -109,7 +109,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used as a thickener in foods and personal-care products.',
     spiritualBenefits: 'No specific spiritual benefits are commonly associated with this ingredient.',
     physicalBenefits: 'Acts as a thickening agent and stabilizer in food and cosmetic products. It is not absorbed by the body.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'plant',
   },
   {
@@ -120,7 +120,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally enjoyed as an evening tea for its apple-like scent.',
     spiritualBenefits: 'Used in magic for money, peace, love, and tranquility. Often used in sleep pillows and purification baths.',
     physicalBenefits: 'Customers enjoy the cup on a quiet evening. Traditionally used in teas and skin rinses.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'chamomile',
   },
   {
@@ -131,7 +131,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally brewed as an evening tea, and sometimes rinsed over the skin.',
     spiritualBenefits: 'Associated with the sun, it brings positive energy. Used in spells for prosperity and is sprinkled around the home for protection.',
     physicalBenefits: 'Customers enjoy the flowers in evening tea. Traditionally used in teas and gentle skin rinses.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'chamomile flowers',
   },
   {
@@ -142,7 +142,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'One of the oldest spices known. Used in ancient Egypt for embalming and traditionally kept for its warming scent.',
     spiritualBenefits: 'Raises spiritual vibrations, and is used in incense and spells to attract money and success.',
     physicalBenefits: 'Customers enjoy the warm spice in food and drink. Traditionally used as a kitchen spice.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'cinnamon',
   },
   {
@@ -153,7 +153,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A key ingredient in spice blends like garam masala and Chinese five-spice. Traditionally kept in the kitchen for its strong aroma.',
     spiritualBenefits: 'Drives away hostile and negative forces, purifies, and is used in spells to stop gossip. Attracts prosperity and friendship.',
     physicalBenefits: 'Customers enjoy the spicy aroma. Traditionally used as a culinary spice.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'clove',
   },
   {
@@ -164,7 +164,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'The ash from dried cocoa pods is a core component of African black soap, providing its distinctive color and cleansing abilities.',
     spiritualBenefits: 'As part of black soap, it is used for spiritual cleansing and removing energetic impurities before ritual work.',
     physicalBenefits: 'Customers enjoy it in black soap for the color and a gentle scrub. Traditionally used in that soap.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'cocoa',
   },
   {
@@ -175,7 +175,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A staple in tropical regions for cooking, skin care, hair care, and massage.',
     spiritualBenefits: 'Associated with purification and protection. Used in blessings and anointing oils to represent the purity of the divine.',
     physicalBenefits: 'Customers enjoy it as a moisturizer for skin and hair. Traditionally used in cooking and personal care.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'coconut oil',
   },
   {
@@ -186,7 +186,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Harvested for thousands of years. People have traditionally bathed in its mineral-rich water.',
     spiritualBenefits: 'Excellent for deep spiritual cleansing and purification. Used in ritual baths to remove heavy psychic debris and for grounding.',
     physicalBenefits: 'Customers enjoy mineral baths for a quiet soak. Traditionally used in bath rituals.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'salt',
   },
   {
@@ -197,7 +197,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used by some Native American communities in personal care, including for the skin.',
     spiritualBenefits: 'Carried to provide inner strength and courage during trying times. Used in rituals to add extra power and protection.',
     physicalBenefits: 'Customers enjoy the flower in teas. Traditionally used as a household herb.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'echinacea',
   },
   {
@@ -208,7 +208,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally brewed into syrups and teas in Europe and North America.',
     spiritualBenefits: 'Associated with protection and prosperity. It is believed to ward off evil and protect against harm.',
     physicalBenefits: 'Customers enjoy the deep color and tart taste in teas and syrups.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'elderberries',
   },
   {
@@ -219,7 +219,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Discovered in Epsom, England. Traditionally used as a soaking salt for baths.',
     spiritualBenefits: 'A primary ingredient in spiritual cleansing baths. Used to wash away negativity, energetic attachments, and feelings of heaviness.',
     physicalBenefits: 'Customers enjoy it in a warm bath. Traditionally used as a bath salt.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'epsom salt',
   },
   {
@@ -230,7 +230,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A common cooking spice, especially in Italian cuisine. Chewed after meals in India to aid digestion and freshen breath.',
     spiritualBenefits: 'Hung in doorways for protection. Carried to give courage and confidence to the meek. Used in purification sachets.',
     physicalBenefits: 'Customers enjoy the sweet, licorice-like seeds after meals. Traditionally used to freshen the mouth and flavor food.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'fennel seed',
   },
   {
@@ -241,7 +241,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'One of the most prized substances of the ancient world, burned as incense in religious ceremonies and used in perfumes and salves.',
     spiritualBenefits: 'Elevates spiritual consciousness and is used for meditation, prayer, and consecration. Believed to drive out negativity and purify a space.',
     physicalBenefits: 'Customers enjoy the resin\'s scent in incense and salves. Traditionally used for fragrance.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'frankincense',
   },
   {
@@ -252,7 +252,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A staple in Asian cuisine for thousands of years. Traditionally used to flavor food and drinks.',
     spiritualBenefits: 'Used in magic to increase the power of spells ("speed things up"). Associated with love, money, success, and power.',
     physicalBenefits: 'Customers enjoy the warming spice in tea and cooking. Traditionally used as a kitchen root.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'ginger',
   },
   {
@@ -263,7 +263,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A byproduct of soap making, it has long been used in cosmetics, food, and pharmaceuticals for its moisturizing properties.',
     spiritualBenefits: 'No specific spiritual benefits are commonly associated with this ingredient.',
     physicalBenefits: 'Acts as a humectant, a substance that allows the skin to retain moisture. It can increase skin hydration, relieve dryness, and refresh the skin\'s surface.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'glycerin',
   },
   {
@@ -274,7 +274,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'This is a modern proprietary blend, but it is based on traditional herbs known for promoting confidence and overcoming obstacles.',
     spiritualBenefits: 'Specifically crafted and blessed to instill a sense of victory, confidence, and personal power. Helps in overcoming challenges.',
     physicalBenefits: 'The physical benefits depend on the specific herbs included in the blend.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'herbal infusion',
   },
   {
@@ -285,7 +285,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A common additive in toothpaste and food products for its abrasive and anti-caking properties.',
     spiritualBenefits: 'No specific spiritual benefits are commonly associated with this ingredient.',
     physicalBenefits: 'Customers enjoy it in toothpaste as a gentle scrub. It is a dehydrated form of silica.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'silica',
   },
   {
@@ -296,7 +296,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Mentioned in the Bible. Traditionally used in purification rituals.',
     spiritualBenefits: 'One of the most powerful purification herbs. Used to cleanse people, objects, and spaces of negativity and to prepare for magical work.',
     physicalBenefits: 'Customers enjoy it as a fragrant herb. Traditionally used in teas and rinses.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'hyssop',
   },
   {
@@ -307,7 +307,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Used by the Romans to scent their baths. A staple in aromatherapy and potpourri for its pleasant and calming fragrance.',
     spiritualBenefits: 'Attracts love and creates a peaceful atmosphere. Used in sleep sachets, purification baths, and spells for happiness.',
     physicalBenefits: 'Customers enjoy the scent in a room or a bath. Traditionally used to scent linens.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'lavender buds',
   },
   {
@@ -318,7 +318,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally brewed as a gentle evening tea for more than 2000 years.',
     spiritualBenefits: 'Used in spells for success and affection. It is associated with new love.',
     physicalBenefits: 'Customers enjoy the lemony tea. Traditionally used as a kitchen herb.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'lemon balm',
   },
   {
@@ -329,7 +329,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A popular flavoring in food and beverages. Traditionally used to freshen the mouth.',
     spiritualBenefits: 'Used in spells for money and prosperity. Placed in the home to clear out negative energy and provide protection.',
     physicalBenefits: 'Customers enjoy the cool taste. Traditionally used as a culinary herb.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'mint',
   },
   {
@@ -340,7 +340,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'The essence of mint has been extracted for centuries to flavor candies and personal-care products.',
     spiritualBenefits: 'The energy of mint is invigorating and purifying, often used to clear the mind and sharpen focus during rituals.',
     physicalBenefits: 'Customers enjoy the cool taste for freshening the mouth.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'mint flavor',
   },
   {
@@ -351,7 +351,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A precious substance in the ancient world, used as incense, perfume, and an embalming agent. Also kept in traditional Chinese households.',
     spiritualBenefits: 'A powerful spiritual cleanser, myrrh enhances meditation and is often used in consecration and protection rituals. It connects with the spirit world.',
     physicalBenefits: 'Customers enjoy the resin in incense and perfume. Traditionally used as a fragrance.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'myrrh',
   },
   {
@@ -362,7 +362,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used in India, where the tree has a long place in household care.',
     spiritualBenefits: 'Considered a sacred tree in India, associated with protection, purification, and warding off evil spirits.',
     physicalBenefits: 'Customers enjoy it in oral-care and skin-care formulas for its bitter, herbal character.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'neem',
   },
   {
@@ -373,7 +373,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A cornerstone of the Mediterranean diet. Used for millennia for cooking, as a lamp fuel, and for skin care.',
     spiritualBenefits: 'A symbol of peace, purity, and victory. Used extensively in religious ceremonies for anointing and blessing.',
     physicalBenefits: 'Customers enjoy it in cooking and on the skin as a moisturizer. Traditionally used in Mediterranean kitchens.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'olive oil',
   },
   {
@@ -384,7 +384,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Eaten worldwide. The peel is traditionally used as a flavoring.',
     spiritualBenefits: 'The bright, uplifting energy of orange is used to attract joy, prosperity, and love. Used in spells for success and good fortune.',
     physicalBenefits: 'Customers enjoy the fruit and peel for their bright scent and flavor. Traditionally used as food.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'orange',
   },
   {
@@ -395,7 +395,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Used in West African cooking and as a primary component in the creation of traditional black soap.',
     spiritualBenefits: 'In the context of black soap, it contributes to the overall purifying and cleansing properties of the final product.',
     physicalBenefits: 'Rich in lauric acid and vitamin E, it is moisturizing for the skin and helps to restore skin elasticity.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'palm oil',
   },
   {
@@ -406,7 +406,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A hybrid mint. Traditionally used for centuries as a flavoring and in teas.',
     spiritualBenefits: 'Used for purification, sleep, and love. Its sharp scent is believed to heighten psychic awareness and clear the mind.',
     physicalBenefits: 'Customers enjoy the cool flavor in tea. Traditionally used to flavor food.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'peppermint',
   },
   {
@@ -417,7 +417,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally chewed or brewed to enjoy after meals.',
     spiritualBenefits: 'Carried to attract money and prosperity. The leaves are used in purification spells.',
     physicalBenefits: 'Customers enjoy the cool cup. Traditionally used as a tea leaf.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'peppermint leaf',
   },
   {
@@ -428,7 +428,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used in aromatherapy for its sharp scent.',
     spiritualBenefits: 'Its strong, purifying scent is used to cleanse spaces and crystals. Anointing the temples is believed to enhance mental clarity.',
     physicalBenefits: 'Customers enjoy the aroma. Traditionally used, diluted, as a scented oil.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'peppermint oil',
   },
   {
@@ -439,7 +439,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'The dried peels of the plantain fruit are burned to create an ash, which is a foundational ingredient for authentic African black soap.',
     spiritualBenefits: 'Contributes to the spiritual cleansing power of black soap, helping to remove energetic grime and prepare for rituals.',
     physicalBenefits: 'Rich in iron, and vitamins A and E. The ash helps to gently exfoliate the skin and improve its tone and texture.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'plantain',
   },
   {
@@ -450,7 +450,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used as a food and in personal care since ancient times.',
     spiritualBenefits: 'Associated with sweetness, prosperity, and love. Used as an offering to deities and in spells to attract positive outcomes.',
     physicalBenefits: 'Customers enjoy the sweetness and the way it feels in skin care. Traditionally used as a pantry staple.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'raw honey',
   },
   {
@@ -461,7 +461,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Used to make rosewater, perfumes, and flavored jams. Rose tea has been used for its calming properties.',
     spiritualBenefits: 'The ultimate symbol of love. Used in spells and potions to attract romance, promote self-love, and enhance divination.',
     physicalBenefits: 'Customers enjoy rose in tea and skin rinses for the scent.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'rose petals',
   },
   {
@@ -472,7 +472,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Brewed into teas and syrups, especially during wartime, as a rich source of vitamin C. Also used to make jams and jellies.',
     spiritualBenefits: 'Carried to attract good luck and used in blessing rituals. It embodies the energy of love and happiness.',
     physicalBenefits: 'Customers enjoy rosehip tea and jam. Traditionally used as a pantry fruit.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'rosehips',
   },
   {
@@ -483,7 +483,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A popular culinary herb. In ancient Greece, students wore rosemary wreaths to improve memory during exams.',
     spiritualBenefits: 'Burned as a cleansing incense to rid a space of negativity. Used for protection, love, and to improve memory and mental powers.',
     physicalBenefits: 'Customers enjoy the piney scent in cooking. Traditionally used as a kitchen herb.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'rosemary',
   },
   {
@@ -494,7 +494,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'The world\'s most expensive spice by weight. Used for millennia as a seasoning, fragrance, and dye.',
     spiritualBenefits: 'Used to aid meditation and increase psychic ability. Associated with happiness, love, and lust. Used in blessing rituals.',
     physicalBenefits: 'Customers enjoy the color and aroma in food. Traditionally used as a rare spice.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'saffron',
   },
   {
@@ -505,7 +505,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A concentrated form of sea moss, traditionally stirred into drinks and cosmetic formulas.',
     spiritualBenefits: 'The concentrated energy of sea moss can be used in potions and ritual drinks for prosperity and protection.',
     physicalBenefits: 'Customers enjoy it in smoothies and skin care. Traditionally used as a pantry gel.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'sea moss',
   },
   {
@@ -516,7 +516,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A dried, powdered form of sea moss used as a thickening agent in foods and as a nutritional supplement.',
     spiritualBenefits: 'Sprinkled in the home or carried in sachets to attract money and good fortune, and for protection during travel.',
     physicalBenefits: 'Customers enjoy it as a thickener in food. Traditionally used in coastal cooking.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'sea moss',
   },
   {
@@ -527,7 +527,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used in Africa as a moisturizer, a cooking oil, and for waterproofing.',
     spiritualBenefits: 'Considered sacred in some African cultures, its use is sometimes associated with protection and purification.',
     physicalBenefits: 'Customers enjoy it as a rich moisturizer for the skin.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'shea butter',
   },
   {
@@ -538,7 +538,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A common element in the earth\'s crust. Certain forms are used in various industrial and consumer products.',
     spiritualBenefits: 'Associated with grounding and stability, connecting one to the energies of the Earth.',
     physicalBenefits: 'A mineral found in the earth. In this shop it is a gentle scrub in personal-care formulas.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'mineral',
   },
   {
@@ -549,7 +549,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Found naturally in some fruits. Used commercially as a sugar substitute and to keep foods moist.',
     spiritualBenefits: 'No specific spiritual benefits are commonly associated with this ingredient.',
     physicalBenefits: 'Customers enjoy it as a sweetener that keeps products moist. Traditionally used as a sugar substitute in foods.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'sweetener',
   },
   {
@@ -560,7 +560,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A milder flavoring than peppermint. Traditionally used in aromatherapy and in the kitchen.',
     spiritualBenefits: 'Associated with love and concentration. Its gentle energy is used for a calm mood.',
     physicalBenefits: 'Customers enjoy the gentle mint scent. Traditionally used to flavor teas.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'spearmint oil',
   },
   {
@@ -571,7 +571,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A modern material used for cookware, surgical instruments, and accessories due to its strength and resistance to rust.',
     spiritualBenefits: 'Energetically neutral and protective. Can be used to represent the element of metal in rituals and for grounding.',
     physicalBenefits: 'A non-porous and hygienic material that does not leach chemicals into food or drink, making it a safe choice for tea strainers.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'stainless steel',
   },
   {
@@ -582,7 +582,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used for over 4,000 years as a spice and a dye.',
     spiritualBenefits: 'Used in purification rituals and to ward off evil. Associated with the sun, it is used in magic for prosperity.',
     physicalBenefits: 'Customers enjoy the color and earthy flavor in food. Traditionally used as a culinary spice.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'turmeric',
   },
   {
@@ -593,7 +593,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally used by some Native American communities as a fragrant woodland plant.',
     spiritualBenefits: 'Associated with protection. Its cool energy is used to cleanse negativity and calm anger.',
     physicalBenefits: 'Customers enjoy the cool scent in personal care. Traditionally used for its minty aroma.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'wintergreen',
   },
   {
@@ -604,7 +604,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'A sugar alcohol traditionally used as a sugar substitute in foods since the 1960s.',
     spiritualBenefits: 'No specific spiritual benefits are commonly associated with this ingredient.',
     physicalBenefits: 'Customers enjoy it as a sweetener in oral-care products. Traditionally used as a sugar substitute.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'xylitol',
   },
   {
@@ -615,7 +615,7 @@ export const ingredients: Ingredient[] = [
     traditionalUses: 'Traditionally carried by travelers and kept in the garden. The old nickname "herba militaris" refers to that history.',
     spiritualBenefits: 'A powerful protective herb. Used to increase courage, enhance psychic powers, and in spells to attract love.',
     physicalBenefits: 'Customers enjoy the feathery herb in the garden and in dried bundles. Traditionally used as a household plant.',
-    imageUrl: 'https://placehold.co/100x100.png',
+    imageUrl: '/images/ingredients/herb.webp',
     dataAiHint: 'yarrow',
   },
 ];

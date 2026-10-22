@@ -46,8 +46,9 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
           </Avatar>
           <div>
             <CardTitle className="text-lg">{story.userName}</CardTitle>
+            <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Sample content</p>
             <CardDescription className="text-xs text-muted-foreground">
-              {formattedDate || 'Loading date...'} {/* Display formatted date or a placeholder */}
+              {formattedDate || 'Date unavailable'}
             </CardDescription>
           </div>
         </div>
@@ -68,7 +69,7 @@ export function StoryCard({ story, onRemove }: StoryCardProps) {
       </CardHeader>
       <CardContent className="flex-grow pt-0">
         <Quote className="h-5 w-5 text-accent mb-2 transform -scale-x-100" />
-        <p className="text-sm text-foreground/90 leading-relaxed italic mb-3 min-h-[60px]">
+        <p className="text-sm text-foreground leading-relaxed italic mb-3 min-h-[60px]">
           {story.story}
         </p>
       </CardContent>

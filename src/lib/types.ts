@@ -15,7 +15,7 @@ export interface Product {
   inventory: number;
   active: boolean;
   ingredients: string[]; 
-  ailments: AilmentType[];
+  uses: AilmentType[];
   sku?: string;
   benefits?: string[];
   usage?: string;
